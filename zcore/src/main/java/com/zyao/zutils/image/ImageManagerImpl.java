@@ -11,7 +11,7 @@ import com.zyao.zutils.image.fresco.FrescoImageLoader;
 /**
  * Class: ImageManagerImpl
  * Description: 图片加载管理工具类
- * Author: zhangyao6
+ * Author: Zyao89
  * Time: 2016/7/18 16:49
  */
 public class ImageManagerImpl implements ImageManager

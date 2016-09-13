@@ -17,11 +17,6 @@ public abstract class BaseActivityPresenter<ViewHandler extends IBaseUIViewHandl
         super(rootViewHandler);
     }
 
-    public BaseActivityPresenter ()
-    {
-        super(null);
-    }
-
     @Override
     protected void initSubPresenter ()
     {

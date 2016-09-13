@@ -1,4 +1,4 @@
-package com.zyao.zcore;
+package com.zyao.zcore.support;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,7 +25,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Created by Zyao89 on 16/1/22.
  */
-public class SupportFragment extends Fragment implements ISupportFragment
+public abstract class SupportFragment extends Fragment implements ISupportFragment
 {
     // LaunchMode
     public static final int STANDARD = 0;
@@ -362,7 +362,7 @@ public class SupportFragment extends Fragment implements ISupportFragment
 
     private void notifyEnterAnimationEnd (final Bundle savedInstanceState)
     {
-        _mActivity.getHandler().post(new Runnable()
+        _mActivity.getInterHandler().post(new Runnable()
         {
             @Override
             public void run ()
@@ -379,7 +379,7 @@ public class SupportFragment extends Fragment implements ISupportFragment
      */
     protected void enqueueAction (Runnable runnable)
     {
-        _mActivity.getHandler().postDelayed(runnable, getEnterAnimDuration());
+        _mActivity.getInterHandler().postDelayed(runnable, getEnterAnimDuration());
     }
 
     /**

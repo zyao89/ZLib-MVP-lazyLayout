@@ -18,7 +18,7 @@ import com.zyao.zutils.image.ICustomImageView;
 /**
  * Class: CustomImageView
  * Description: 自定义ImageView接口
- * Author: zhangyao6
+ * Author: Zyao89
  * Time: 2016/8/17 15:57
  */
 public class FrescoImageView extends SimpleDraweeView implements ICustomImageView

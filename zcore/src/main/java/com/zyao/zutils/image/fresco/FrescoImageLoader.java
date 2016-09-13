@@ -20,7 +20,7 @@ import com.zyao.zutils.image.ImageLoader;
 /**
  * Class: FrescoImageLoader
  * Description: Fresco
- * Author: zhangyao6
+ * Author: Zyao89
  * Time: 2016/8/17 15:49
  */
 public class FrescoImageLoader implements ImageLoader

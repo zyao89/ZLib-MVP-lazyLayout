@@ -6,7 +6,7 @@ import android.support.annotation.DrawableRes;
 /**
  * Interface: ImageLoader
  * Description: 图片加载工具接口
- * Author: zhangyao6
+ * Author: Zyao89
  * Time: 2016/8/17 15:48
  */
 public interface ImageLoader

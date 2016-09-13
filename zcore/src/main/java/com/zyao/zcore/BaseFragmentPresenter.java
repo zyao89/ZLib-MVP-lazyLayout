@@ -17,11 +17,6 @@ public abstract class BaseFragmentPresenter<ViewHandler extends IBaseUIViewHandl
         super(rootViewHandler);
     }
 
-    public BaseFragmentPresenter ()
-    {
-        super(null);
-    }
-
     @Override
     protected void initSubPresenter ()
     {

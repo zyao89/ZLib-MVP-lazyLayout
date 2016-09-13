@@ -2,7 +2,7 @@ package com.zyao.zcore.helper;
 
 import android.view.animation.Animation;
 
-import com.zyao.zcore.SupportFragment;
+import com.zyao.zcore.support.SupportFragment;
 
 /**
  * 转场动画监听器: 主要是为了监听入场动画

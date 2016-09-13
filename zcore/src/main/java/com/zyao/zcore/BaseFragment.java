@@ -6,10 +6,11 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.zyao.zcore.support.SupportFragment;
 
 import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Author: Zyao89
  * Time: 2016/7/21 20:08
  */
-public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler> extends Fragment
+public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler> extends SupportFragment
 {
     protected ViewHandler mViewHandler;
     protected OnFragmentCallback mOnFragmentCallback = null;
@@ -318,6 +319,29 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
     protected abstract void initListener ();
 
     protected abstract void initDefaultData ();
+
+    @Override
+    public boolean onBackPressedSupport ()
+    {
+        if (isExistViewHandler())
+        {
+            if (mViewHandler.onBackPressed())
+            {
+                return true;
+            }
+        }
+        return onBackPressed();
+    }
+
+    /**
+     * 按返回键触发,前提是SupportActivity的onBackPressed()方法能被调用
+     *
+     * @return false则继续向上传递, true则消费掉该事件
+     */
+    protected boolean onBackPressed ()
+    {
+        return false;
+    }
 
     protected void doExit ()
     {

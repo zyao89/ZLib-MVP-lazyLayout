@@ -35,8 +35,9 @@ public interface IBaseRootViewHandler
 
     /**
      * 返回键
+     * @return true-消费， false-不消费
      */
-    void onBackPressed ();
+    boolean onBackPressed ();
 
     /**
      * 屏幕发生改变监听

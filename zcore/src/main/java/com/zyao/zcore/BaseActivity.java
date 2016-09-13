@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 
+import com.zyao.zcore.support.SupportActivity;
 import com.zyao.zutils.Z;
 
 import java.lang.reflect.Constructor;
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Author: Zyao89
  * Time: 2016/7/19 17:09
  */
-public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler> extends AppCompatActivity
+public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler> extends SupportActivity
 {
     protected ViewHandler mViewHandler;
     protected View mRootView;
@@ -79,7 +79,7 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
         {
             throw new IllegalStateException("mViewHandler is null...");
         }
-
+        onNewPresenter(savedInstanceState);
         initPresenter(savedInstanceState);
         if (mSubPresenterLinkedQueue != null)
         {
@@ -111,6 +111,11 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
                 subPresenter.initDefaultData();
             }
         }
+    }
+
+    protected void onNewPresenter (Bundle savedInstanceState)
+    {
+        //do someting
     }
 
     @Override
@@ -265,12 +270,16 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
     }
 
     @Override
-    public void onBackPressed ()
+    public void onBackPressedSupport ()
     {
         if (isExistViewHandler())
         {
-            mViewHandler.onBackPressed();
+            if (mViewHandler.onBackPressed())
+            {
+                return;
+            }
         }
+        super.onBackPressedSupport();
     }
 
     protected <T extends BasePresenter<V>, V extends IBaseUIViewHandler> T createSubPresenter (Class<T> clazz, V rootViewHandler)

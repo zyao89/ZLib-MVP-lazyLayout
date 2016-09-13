@@ -15,6 +15,8 @@ import android.view.Window;
 import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import butterknife.ButterKnife;
+
 /**
  * Class: BaseRootViewHandler
  * Description: RootViewHandler抽象类
@@ -43,6 +45,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
                 return mHandlerCallback != null && mHandlerCallback.handleMessage(msg);
             }
         });
+        ButterKnife.bind(this, mRootView);
     }
 
     @Override
@@ -102,15 +105,19 @@ import java.util.concurrent.ConcurrentLinkedQueue;
     }
 
     @Override
-    public void onBackPressed ()
+    public boolean onBackPressed ()
     {
         if (mSubViewHandlerLinkedQueue != null)
         {
             for (IBaseRootViewHandler subViewHandler : mSubViewHandlerLinkedQueue)
             {
-                subViewHandler.onBackPressed();
+                if (subViewHandler.onBackPressed())
+                {
+                    return true;
+                }
             }
         }
+        return false;
     }
 
     @Override

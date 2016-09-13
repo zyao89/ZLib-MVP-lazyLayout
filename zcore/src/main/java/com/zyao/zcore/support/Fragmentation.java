@@ -1,4 +1,4 @@
-package com.zyao.zcore;
+package com.zyao.zcore.support;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -49,7 +49,7 @@ public class Fragmentation
     public Fragmentation (SupportActivity activity)
     {
         this.mActivity = activity;
-        mHandler = mActivity.getHandler();
+        mHandler = mActivity.getInterHandler();
     }
 
     /**

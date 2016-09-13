@@ -1,4 +1,4 @@
-package com.zyao.zcore;
+package com.zyao.zcore.support;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +14,7 @@ import com.zyao.zcore.anim.FragmentAnimator;
 /**
  * Created by Zyao89 on 16/1/22.
  */
-public class SupportActivity extends AppCompatActivity implements ISupport
+public abstract class SupportActivity extends AppCompatActivity implements ISupport
 {
     boolean mPopMultipleNoAnim = false;
     private Fragmentation mFragmentation;
@@ -23,7 +23,7 @@ public class SupportActivity extends AppCompatActivity implements ISupport
     // 防抖动 是否可以点击
     private boolean mFragmentClickable = true;
 
-    private Handler mHandler;
+    private Handler mInterHandler;
 
     @Override
     protected void onCreate (@Nullable Bundle savedInstanceState)
@@ -44,13 +44,13 @@ public class SupportActivity extends AppCompatActivity implements ISupport
         return mFragmentation;
     }
 
-    Handler getHandler ()
+    Handler getInterHandler ()
     {
-        if (mHandler == null)
+        if (mInterHandler == null)
         {
-            mHandler = new Handler();
+            mInterHandler = new Handler();
         }
-        return mHandler;
+        return mInterHandler;
     }
 
     /**
@@ -91,7 +91,7 @@ public class SupportActivity extends AppCompatActivity implements ISupport
      */
     protected void enqueueAction (Runnable runnable)
     {
-        getHandler().post(runnable);
+        getInterHandler().post(runnable);
     }
 
     /**

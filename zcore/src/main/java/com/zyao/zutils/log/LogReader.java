@@ -74,6 +74,14 @@ public class LogReader extends Thread
 
             String line;
             File file = new File(fileRootPath);
+            if (file.exists() && file.isDirectory())
+            {
+                file.delete();
+            }
+            if (!file.exists() && file.getParentFile() != null)
+            {
+                file.getParentFile().mkdirs();
+            }
             if (file.exists() && isFileSizeOutof10M(file))
             {
                 file.delete();

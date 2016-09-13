@@ -1,4 +1,4 @@
-package com.zyao.zcore;
+package com.zyao.zcore.support;
 
 
 /**
@@ -6,7 +6,6 @@ package com.zyao.zcore;
  */
 public interface ISupport
 {
-
     /**
      * 加载根Fragment, 即Activity内的第一个Fragment 或 Fragment内的第一个子Fragment
      *

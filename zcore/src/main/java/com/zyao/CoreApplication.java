@@ -7,6 +7,8 @@ import android.os.Environment;
 import com.zyao.zutils.Z;
 import com.zyao.zutils.log.LogLevel;
 
+import butterknife.ButterKnife;
+
 
 /**
  * 核心Application类
@@ -31,5 +33,6 @@ public class CoreApplication extends Application
     {
         super.onCreate();
         Z.image().init(this);
+        ButterKnife.setDebug(true);
     }
 }
