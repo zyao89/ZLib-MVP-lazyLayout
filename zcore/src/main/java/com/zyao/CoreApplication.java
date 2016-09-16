@@ -4,6 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
 
+import com.squareup.leakcanary.LeakCanary;
+import com.zyao.zcore2.di.component.ApplicationComponent;
+import com.zyao.zcore2.di.component.DaggerApplicationComponent;
+import com.zyao.zcore2.di.module.ApplicationModule;
 import com.zyao.zutils.Z;
 import com.zyao.zutils.log.LogLevel;
 
@@ -22,7 +26,10 @@ public class CoreApplication extends Application
     protected void attachBaseContext (Context base)
     {
         super.attachBaseContext(base);
-        Z.Ext.init(this);
+
+        //        Z.Ext.init(this);
+        createComponent();
+
         Z.utils().crash().setSdCardPath(CRASH_PATH);
         Z.log().getSettings().logLevel(LogLevel.FULL);
         Z.log().openStreamPrint(LOG_PATH_FILE);
@@ -34,5 +41,13 @@ public class CoreApplication extends Application
         super.onCreate();
         Z.image().init(this);
         ButterKnife.setDebug(true);
+        //初始化内存泄漏检测
+        LeakCanary.install(this);
+    }
+
+    private void createComponent ()
+    {
+        ApplicationComponent component = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
+        Z.Ext.init(component);
     }
 }

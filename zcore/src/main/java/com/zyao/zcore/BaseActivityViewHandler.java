@@ -2,6 +2,8 @@ package com.zyao.zcore;
 
 import android.view.View;
 
+import com.zyao.zcore.inter.IBaseActivityViewHandler;
+
 /**
  * Class: BaseActivityViewHandler
  * Description: BaseActivityViewHandler抽象类

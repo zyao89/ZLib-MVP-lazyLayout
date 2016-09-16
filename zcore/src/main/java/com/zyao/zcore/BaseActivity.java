@@ -1,5 +1,6 @@
 package com.zyao.zcore;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
 
+import com.zyao.zcore.inter.IBaseActivityViewHandler;
+import com.zyao.zcore.inter.IBaseUIViewHandler;
 import com.zyao.zcore.support.SupportActivity;
 import com.zyao.zutils.Z;
 
@@ -21,8 +24,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler> extends SupportActivity
 {
+    protected final String TAG = this.getClass().getSimpleName();
     protected ViewHandler mViewHandler;
     protected View mRootView;
+    protected Context mContext;
     private ConcurrentLinkedQueue<BasePresenter> mSubPresenterLinkedQueue;
 
     @Override
@@ -30,29 +35,38 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
     {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        if (isExistViewHandler() && savedInstanceState == null)
+
+        if (onNewViewHandler(savedInstanceState))
         {
-            mViewHandler.onDestroy();
-            mViewHandler = newViewHandler();
-            createRootView();
-        }
-        else if (isExistViewHandler())
-        {
-            if (mRootView == null)
+            if (isExistViewHandler() && savedInstanceState == null)
             {
+                mViewHandler.onDestroy();
+                mViewHandler = newViewHandler();
                 createRootView();
+            }
+            else if (isExistViewHandler())
+            {
+                if (mRootView == null)
+                {
+                    createRootView();
+                }
+                else
+                {
+                    mViewHandler.onCreate(mRootView);
+                }
+                mViewHandler.resetDefaultState(savedInstanceState);
+            }
+            else if (savedInstanceState != null)
+            {
+                mViewHandler = newViewHandler();
+                createRootView();
+                mViewHandler.resetDefaultState(savedInstanceState);
             }
             else
             {
-                mViewHandler.onCreate(mRootView);
+                mViewHandler = newViewHandler();
+                createRootView();
             }
-            mViewHandler.resetDefaultState(savedInstanceState);
-        }
-        else if (savedInstanceState != null)
-        {
-            mViewHandler = newViewHandler();
-            createRootView();
-            mViewHandler.resetDefaultState(savedInstanceState);
         }
         else
         {
@@ -64,6 +78,33 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
         {
             Z.activityCtrl().addActivity(this);
         }
+
+        mContext = this;
+    }
+
+    @Override
+    public void onBackPressedSupport ()
+    {
+        if (isExistViewHandler())
+        {
+            if (mViewHandler.onBackPressed())
+            {
+                return;
+            }
+        }
+        super.onBackPressedSupport();
+    }
+
+    /**
+     * 是否用新方法创建
+     *
+     * @param savedInstanceState
+     *
+     * @return true-不中断旧方法， false-中断现有方法
+     */
+    protected boolean onNewViewHandler (Bundle savedInstanceState)
+    {
+        return true;
     }
 
     @Override
@@ -113,11 +154,6 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
         }
     }
 
-    protected void onNewPresenter (Bundle savedInstanceState)
-    {
-        //do someting
-    }
-
     @Override
     public void onConfigurationChanged (Configuration newConfig)
     {
@@ -132,6 +168,7 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
     protected void onDestroy ()
     {
         super.onDestroy();
+        onDestroyPresenter();
         Z.activityCtrl().removeActivity(this);
         if (isExistViewHandler())
         {
@@ -145,6 +182,16 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
                 subPresenter.doExit();
             }
         }
+    }
+
+    protected void onNewPresenter (Bundle savedInstanceState)
+    {
+        //do someting
+    }
+
+    protected void onDestroyPresenter ()
+    {
+        //do someting
     }
 
     /**
@@ -267,19 +314,6 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
     private boolean isExistViewHandler ()
     {
         return mViewHandler != null;
-    }
-
-    @Override
-    public void onBackPressedSupport ()
-    {
-        if (isExistViewHandler())
-        {
-            if (mViewHandler.onBackPressed())
-            {
-                return;
-            }
-        }
-        super.onBackPressedSupport();
     }
 
     protected <T extends BasePresenter<V>, V extends IBaseUIViewHandler> T createSubPresenter (Class<T> clazz, V rootViewHandler)

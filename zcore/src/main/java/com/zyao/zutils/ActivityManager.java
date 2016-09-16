@@ -1,6 +1,6 @@
 package com.zyao.zutils;
 
-import com.zyao.zcore.BaseActivity;
+import android.app.Activity;
 
 /**
  * Interface: ActivityManager
@@ -10,19 +10,19 @@ import com.zyao.zcore.BaseActivity;
  */
 public interface ActivityManager
 {
-    void addActivity (BaseActivity activity);
+    void addActivity (Activity activity);
 
-    BaseActivity currentActivity ();
+    Activity currentActivity ();
 
     void removeLastActivity ();
 
-    void removeActivity (BaseActivity activity);
+    void removeActivity (Activity activity);
 
-    void removeActivity (Class<? extends BaseActivity> clazz);
+    void removeActivity (Class<? extends Activity> clazz);
 
-    BaseActivity getActivity (Class<? extends BaseActivity> clazz);
+    Activity getActivity (Class<? extends Activity> clazz);
 
-    boolean containsActivity (BaseActivity activity);
+    boolean containsActivity (Activity activity);
 
     void finishAllActivity ();
 

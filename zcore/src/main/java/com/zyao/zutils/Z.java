@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.zyao.zcore2.di.component.ApplicationComponent;
+import com.zyao.zcore2.di.component.DaggerApplicationComponent;
+import com.zyao.zcore2.di.module.ApplicationModule;
 import com.zyao.zutils.app.ActivityManagerImpl;
 import com.zyao.zutils.app.AppInfoManagerImpl;
 import com.zyao.zutils.common.CommonUtilsManagerImpl;
@@ -49,6 +52,15 @@ public final class Z
             }
         }
         return Ext.app;
+    }
+
+    public static ApplicationComponent appComponent ()
+    {
+        if (Ext.appComponent == null)
+        {
+            Ext.appComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(Z.app())).build();
+        }
+        return Ext.appComponent;
     }
 
     public static TaskController task ()
@@ -105,6 +117,7 @@ public final class Z
     {
         private static boolean debug;
         private static Application app;
+        private static ApplicationComponent appComponent;
         private static TaskController taskController;
         private static ImageManager imageManager;
         private static AppInfoManager appInfoManager;
@@ -132,6 +145,12 @@ public final class Z
             {
                 Ext.app = (Application) context.getApplicationContext();
             }
+        }
+
+        public static void init (@NonNull ApplicationComponent component)
+        {
+            Ext.appComponent = component;
+            Ext.app = component.getApplication();
         }
 
         public static void setDebug (boolean debug)

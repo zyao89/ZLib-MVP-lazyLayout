@@ -1,8 +1,8 @@
 package com.zyao.zutils.app;
 
+import android.app.Activity;
 import android.content.Context;
 
-import com.zyao.zcore.BaseActivity;
 import com.zyao.zutils.ActivityManager;
 import com.zyao.zutils.Z;
 
@@ -19,7 +19,7 @@ public class ActivityManagerImpl implements ActivityManager
     private static final String TAG = "ActivityManagerImpl";
 
     private static volatile ActivityManager instance;
-    private Stack<BaseActivity> mActivityStack;
+    private Stack<Activity> mActivityStack;
 
     private ActivityManagerImpl ()
     {
@@ -45,7 +45,7 @@ public class ActivityManagerImpl implements ActivityManager
     }
 
     @Override
-    public synchronized void addActivity (BaseActivity activity)
+    public synchronized void addActivity (Activity activity)
     {
         if (activity == null)
         {
@@ -55,7 +55,7 @@ public class ActivityManagerImpl implements ActivityManager
     }
 
     @Override
-    public synchronized BaseActivity currentActivity ()
+    public synchronized Activity currentActivity ()
     {
         return mActivityStack.lastElement();
     }
@@ -67,7 +67,7 @@ public class ActivityManagerImpl implements ActivityManager
     }
 
     @Override
-    public synchronized void removeActivity (BaseActivity activity)
+    public synchronized void removeActivity (Activity activity)
     {
         if (activity == null)
         {
@@ -78,13 +78,13 @@ public class ActivityManagerImpl implements ActivityManager
     }
 
     @Override
-    public synchronized void removeActivity (Class<? extends BaseActivity> clazz)
+    public synchronized void removeActivity (Class<? extends Activity> clazz)
     {
         if (null == clazz)
         {
             return;
         }
-        for (BaseActivity activity : mActivityStack)
+        for (Activity activity : mActivityStack)
         {
             if (activity.getClass().equals(clazz))
             {
@@ -94,13 +94,13 @@ public class ActivityManagerImpl implements ActivityManager
     }
 
     @Override
-    public synchronized BaseActivity getActivity (Class<? extends BaseActivity> clazz)
+    public synchronized Activity getActivity (Class<? extends Activity> clazz)
     {
         if (null == clazz)
         {
             return null;
         }
-        for (BaseActivity activity : mActivityStack)
+        for (Activity activity : mActivityStack)
         {
             if (activity.getClass().equals(clazz))
             {
@@ -111,7 +111,7 @@ public class ActivityManagerImpl implements ActivityManager
     }
 
     @Override
-    public synchronized boolean containsActivity (BaseActivity activity)
+    public synchronized boolean containsActivity (Activity activity)
     {
         if (null == activity)
         {

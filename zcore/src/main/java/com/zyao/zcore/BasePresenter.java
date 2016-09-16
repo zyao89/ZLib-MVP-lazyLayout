@@ -2,6 +2,7 @@ package com.zyao.zcore;
 
 import android.support.annotation.Nullable;
 
+import com.zyao.zcore.inter.IBaseUIViewHandler;
 import com.zyao.zutils.TaskController;
 import com.zyao.zutils.Z;
 
@@ -9,14 +10,14 @@ import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Class: BasePresenter
+ * Class: IBasePresenter
  * Description: Presenter的基类
  * Author: Zyao89
  * Time: 2016/7/20 17:07
  */
 /* package */ abstract class BasePresenter<ViewHandler extends IBaseUIViewHandler>
 {
-    private final static String TAG = "BasePresenter";
+    private final static String TAG = "IBasePresenter";
     protected TaskController mHandler;
     protected ViewHandler mViewHandler;
     private ConcurrentLinkedQueue<BasePresenter> mSubPresenterLinkedQueue;

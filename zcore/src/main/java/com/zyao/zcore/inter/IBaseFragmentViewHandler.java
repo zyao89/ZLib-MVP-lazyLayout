@@ -1,4 +1,4 @@
-package com.zyao.zcore;
+package com.zyao.zcore.inter;
 
 import android.app.Activity;
 import android.support.annotation.LayoutRes;

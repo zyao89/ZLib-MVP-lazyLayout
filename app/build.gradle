@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'//butterknife
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 23
@@ -24,4 +24,5 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':zcore')
     apt 'com.jakewharton:butterknife-compiler:8.4.0'//butterknife
+    apt 'com.google.dagger:dagger-compiler:2.6.1'
 }

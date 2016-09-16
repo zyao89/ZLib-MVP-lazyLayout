@@ -1,6 +1,7 @@
 package com.zyao.zcore;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zyao.zcore.inter.IBaseFragmentViewHandler;
+import com.zyao.zcore.inter.IBaseUIViewHandler;
 import com.zyao.zcore.support.SupportFragment;
 
 import java.lang.reflect.Constructor;
@@ -23,8 +26,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler> extends SupportFragment
 {
+    protected final String TAG = this.getClass().getSimpleName();
     protected ViewHandler mViewHandler;
     protected OnFragmentCallback mOnFragmentCallback = null;
+    protected Context mContext;
     private View mRootView;
     private ConcurrentLinkedQueue<BasePresenter> mSubPresenterLinkedQueue;
 
@@ -36,64 +41,32 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
         {
             mViewHandler.onAttach(activity);
         }
+        mContext = activity;
     }
 
     @Override
     public void onCreate (Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (isExistViewHandler() && savedInstanceState == null)
+        if (onNewViewHandler(savedInstanceState))
         {
-            mViewHandler.onDestroy();
-            mViewHandler = newViewHandler();
-        }
-        else if (!isExistViewHandler())
-        {
-            mViewHandler = newViewHandler();
-        }
-        else
-        {
-            mViewHandler.resetDefaultState(savedInstanceState);
-        }
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        if (isExistViewHandler())
-        {
-            final int resourceId = mViewHandler.getResourceId();
-            if (resourceId < 0)
+            if (isExistViewHandler() && savedInstanceState == null)
             {
-                throw new IllegalStateException("resourceId < 0 操作失败，引用不正规...");
+                mViewHandler.onDestroy();
+                mViewHandler = newViewHandler();
             }
-            mRootView = inflater.inflate(mViewHandler.getResourceId(), container, false);
-            if (mRootView == null)
+            else if (!isExistViewHandler())
             {
-                throw new IllegalStateException("mRootView is null...");
+                mViewHandler = newViewHandler();
             }
-            mViewHandler.onCreate(mRootView);
+            else
+            {
+                mViewHandler.resetDefaultState(savedInstanceState);
+            }
         }
         else
         {
-            throw new IllegalStateException("mViewHandler is null...");
-        }
-
-        return mRootView;
-    }
-
-    @Override
-    public void onViewCreated (View view, @Nullable Bundle savedInstanceState)
-    {
-        super.onViewCreated(view, savedInstanceState);
-        if (isExistViewHandler())
-        {
-            mViewHandler.onViewCreated();
-        }
-        else
-        {
-            throw new IllegalStateException("mViewHandler is null...");
+            mViewHandler = newViewHandler();
         }
     }
 
@@ -101,6 +74,7 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
     public void onActivityCreated (Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
+        onNewPresenter(savedInstanceState);
         initPresenter(savedInstanceState);
         if (mSubPresenterLinkedQueue != null)
         {
@@ -147,6 +121,107 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
     }
 
     @Override
+    public void onPause ()
+    {
+        super.onPause();
+        if (isExistViewHandler())
+        {
+            mViewHandler.onPause();
+        }
+    }
+
+    @Override
+    public void onDestroyView ()
+    {
+        super.onDestroyView();
+        if (isExistOnFragmentLifeCallback())
+        {
+            mOnFragmentCallback.onDestroyView();
+        }
+        if (isExistViewHandler())
+        {
+            mViewHandler.onDestroyView();
+        }
+        doExit();
+    }
+
+    @Override
+    public void onDestroy ()
+    {
+        super.onDestroy();
+        onDestroyPresenter();
+        if (isExistViewHandler())
+        {
+            mViewHandler.onDestroy();
+        }
+    }
+
+    @Override
+    public boolean onBackPressedSupport ()
+    {
+        if (isExistViewHandler())
+        {
+            if (mViewHandler.onBackPressed())
+            {
+                return true;
+            }
+        }
+        return onBackPressed();
+    }
+
+    /**
+     * 是否用新方法创建
+     *
+     * @param savedInstanceState
+     *
+     * @return true-不中断旧方法， false-中断现有方法
+     */
+    protected boolean onNewViewHandler (Bundle savedInstanceState)
+    {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        if (isExistViewHandler())
+        {
+            final int resourceId = mViewHandler.getResourceId();
+            if (resourceId < 0)
+            {
+                throw new IllegalStateException("resourceId < 0 操作失败，引用不正规...");
+            }
+            mRootView = inflater.inflate(mViewHandler.getResourceId(), container, false);
+            if (mRootView == null)
+            {
+                throw new IllegalStateException("mRootView is null...");
+            }
+            mViewHandler.onCreate(mRootView);
+        }
+        else
+        {
+            throw new IllegalStateException("mViewHandler is null...");
+        }
+
+        return mRootView;
+    }
+
+    @Override
+    public void onViewCreated (View view, @Nullable Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        if (isExistViewHandler())
+        {
+            mViewHandler.onViewCreated();
+        }
+        else
+        {
+            throw new IllegalStateException("mViewHandler is null...");
+        }
+    }
+
+    @Override
     public void onStart ()
     {
         super.onStart();
@@ -181,16 +256,6 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
     }
 
     @Override
-    public void onPause ()
-    {
-        super.onPause();
-        if (isExistViewHandler())
-        {
-            mViewHandler.onPause();
-        }
-    }
-
-    @Override
     public void onStop ()
     {
         super.onStop();
@@ -200,29 +265,14 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
         }
     }
 
-    @Override
-    public void onDestroyView ()
+    protected void onNewPresenter (Bundle savedInstanceState)
     {
-        super.onDestroyView();
-        if (isExistOnFragmentLifeCallback())
-        {
-            mOnFragmentCallback.onDestroyView();
-        }
-        if (isExistViewHandler())
-        {
-            mViewHandler.onDestroyView();
-        }
-        doExit();
+        //do someting
     }
 
-    @Override
-    public void onDestroy ()
+    protected void onDestroyPresenter ()
     {
-        super.onDestroy();
-        if (isExistViewHandler())
-        {
-            mViewHandler.onDestroy();
-        }
+        //do someting
     }
 
     /**
@@ -319,19 +369,6 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
     protected abstract void initListener ();
 
     protected abstract void initDefaultData ();
-
-    @Override
-    public boolean onBackPressedSupport ()
-    {
-        if (isExistViewHandler())
-        {
-            if (mViewHandler.onBackPressed())
-            {
-                return true;
-            }
-        }
-        return onBackPressed();
-    }
 
     /**
      * 按返回键触发,前提是SupportActivity的onBackPressed()方法能被调用
