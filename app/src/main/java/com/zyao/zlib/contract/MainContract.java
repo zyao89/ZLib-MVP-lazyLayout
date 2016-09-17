@@ -7,7 +7,7 @@
  */
 package com.zyao.zlib.contract;
 
-import com.zyao.zcore.inter.IBaseActivityViewHandler;
+import com.zyao.zcore.view.IBaseActivityViewHandler;
 
 /**
  * interface: MainContract

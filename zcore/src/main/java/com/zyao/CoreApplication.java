@@ -28,7 +28,7 @@ public class CoreApplication extends Application
         super.attachBaseContext(base);
 
         //        Z.Ext.init(this);
-        createComponent();
+        createComponent();//改进使用dagger2
 
         Z.utils().crash().setSdCardPath(CRASH_PATH);
         Z.log().getSettings().logLevel(LogLevel.FULL);
@@ -39,15 +39,22 @@ public class CoreApplication extends Application
     public void onCreate ()
     {
         super.onCreate();
+        //初始化图片加载工具
         Z.image().init(this);
-        ButterKnife.setDebug(true);
+        //ButterKnife
+        ButterKnife.setDebug(false);
         //初始化内存泄漏检测
         LeakCanary.install(this);
     }
 
     private void createComponent ()
     {
-        ApplicationComponent component = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
+        ApplicationComponent component = DaggerApplicationComponent.builder().applicationModule(getApplicationModule()).build();
         Z.Ext.init(component);
+    }
+
+    private ApplicationModule getApplicationModule ()
+    {
+        return new ApplicationModule(this);
     }
 }

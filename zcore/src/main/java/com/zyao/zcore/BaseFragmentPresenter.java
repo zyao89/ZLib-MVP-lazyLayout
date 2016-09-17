@@ -2,7 +2,7 @@ package com.zyao.zcore;
 
 import android.support.annotation.Nullable;
 
-import com.zyao.zcore.inter.IBaseUIViewHandler;
+import com.zyao.zcore.view.IBaseUIViewHandler;
 
 /**
  * Class: BaseFragmentPresenter

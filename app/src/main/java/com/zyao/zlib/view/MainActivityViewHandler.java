@@ -7,10 +7,13 @@
  */
 package com.zyao.zlib.view;
 
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.zyao.zcore.BaseActivityViewHandler;
+import com.zyao.zcore2.base.BaseComponentActivityViewHandler;
 import com.zyao.zlib.R;
 import com.zyao.zlib.contract.MainContract;
 
@@ -24,10 +27,16 @@ import butterknife.BindView;
  * Author: Zyao89
  * Time: 2016/9/13 16:06
  */
-public class MainActivityViewHandler extends BaseActivityViewHandler<RelativeLayout> implements MainContract.IViewHandler
+public class MainActivityViewHandler extends BaseComponentActivityViewHandler<RelativeLayout> implements MainContract.IViewHandler
 {
-    @BindView(R.id.text_zyao)
-    TextView mTextView;
+    @BindView(R.id.drawer)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.tool_bar)
+    Toolbar mToolbar;
+    @BindView(R.id.navigation)
+    NavigationView mNavigationView;
+    //    @BindView(R.id.view_search)
+    //    MaterialSearchView mSearchView;
 
     @Inject
     public MainActivityViewHandler ()
@@ -44,6 +53,25 @@ public class MainActivityViewHandler extends BaseActivityViewHandler<RelativeLay
     @Override
     protected void initViews ()
     {
-        mTextView.setText("1111");
+        setToolbar(mToolbar, "haha");
+    }
+
+    @Override
+    protected void initListeners ()
+    {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick (View v)
+            {
+                setDayNightMode(!isNightMode());
+            }
+        });
+    }
+
+    @Override
+    protected void initDefaultData ()
+    {
+
     }
 }

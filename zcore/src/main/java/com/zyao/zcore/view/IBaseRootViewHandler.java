@@ -1,4 +1,4 @@
-package com.zyao.zcore.inter;
+package com.zyao.zcore.view;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.zyao.zcore.inter;
+package com.zyao.zcore.view;
 
 /**
  * Interface: IBaseUIViewHandler

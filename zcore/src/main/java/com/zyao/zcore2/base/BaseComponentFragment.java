@@ -10,7 +10,7 @@ package com.zyao.zcore2.base;
 import android.os.Bundle;
 
 import com.zyao.zcore.BaseFragment;
-import com.zyao.zcore.inter.IBaseFragmentViewHandler;
+import com.zyao.zcore.view.BaseFragmentViewHandler;
 import com.zyao.zcore2.di.component.ApplicationComponent;
 import com.zyao.zcore2.di.module.FragmentModule;
 import com.zyao.zutils.Z;
@@ -23,7 +23,7 @@ import javax.inject.Inject;
  * Author: Zyao89
  * Time: 2016/9/17 3:05
  */
-public abstract class BaseComponentFragment<ViewHandler extends IBaseFragmentViewHandler, Presenter extends BaseComponentPresenter> extends BaseFragment<ViewHandler>
+public abstract class BaseComponentFragment<ViewHandler extends BaseFragmentViewHandler, Presenter extends BaseComponentPresenter> extends BaseFragment<ViewHandler>
 {
     @Inject
     protected ViewHandler mViewHandler;

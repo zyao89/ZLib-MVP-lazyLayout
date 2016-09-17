@@ -7,7 +7,7 @@
  */
 package com.zyao.zcore2.base;
 
-import com.zyao.zcore.inter.IBaseRootViewHandler;
+import com.zyao.zcore.view.IBaseRootViewHandler;
 import com.zyao.zutils.TaskController;
 import com.zyao.zutils.Z;
 
@@ -19,7 +19,7 @@ import com.zyao.zutils.Z;
  */
 public abstract class BaseComponentPresenter<ViewHandler extends IBaseRootViewHandler>
 {
-    private final static String TAG = "IBasePresenter";
+    protected final String TAG = this.getClass().getSimpleName();
     protected TaskController mHandler;
     protected ViewHandler mViewHandler;
 

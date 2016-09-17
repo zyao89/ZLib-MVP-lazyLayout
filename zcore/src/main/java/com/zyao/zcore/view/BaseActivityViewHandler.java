@@ -1,8 +1,6 @@
-package com.zyao.zcore;
+package com.zyao.zcore.view;
 
 import android.view.View;
-
-import com.zyao.zcore.inter.IBaseActivityViewHandler;
 
 /**
  * Class: BaseActivityViewHandler

@@ -8,9 +8,9 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
 
-import com.zyao.zcore.inter.IBaseActivityViewHandler;
-import com.zyao.zcore.inter.IBaseUIViewHandler;
 import com.zyao.zcore.support.SupportActivity;
+import com.zyao.zcore.view.IBaseActivityViewHandler;
+import com.zyao.zcore.view.IBaseUIViewHandler;
 import com.zyao.zutils.Z;
 
 import java.lang.reflect.Constructor;
@@ -72,6 +72,7 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
         {
             mViewHandler = newViewHandler();
             createRootView();
+            mViewHandler.resetDefaultState(savedInstanceState);//恢复
         }
 
         if (!Z.activityCtrl().containsActivity(this))
@@ -173,7 +174,6 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
         if (isExistViewHandler())
         {
             mViewHandler.onDestroy();
-            mViewHandler = null;
         }
         if (mSubPresenterLinkedQueue != null)
         {
@@ -206,12 +206,13 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
             {
                 throw new IllegalStateException("resourceId < 0 操作失败，引用不正规...");
             }
-            mRootView = getLayoutInflater().inflate(resourceId, null, false);
+            setContentView(resourceId);
+            mRootView = getWindow().getDecorView();
+            //            mRootView = getLayoutInflater().inflate(resourceId, null, false);
             if (mRootView == null)
             {
                 throw new IllegalStateException("mRootView is null...");
             }
-            setContentView(mRootView);
             mViewHandler.onCreate(mRootView);
         }
         else
@@ -293,7 +294,6 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
         if (isExistViewHandler())
         {
             mViewHandler.onDestroy();
-            mViewHandler = null;
         }
         mViewHandler = newViewHandler;
     }

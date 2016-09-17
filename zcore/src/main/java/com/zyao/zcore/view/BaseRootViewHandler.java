@@ -1,4 +1,4 @@
-package com.zyao.zcore;
+package com.zyao.zcore.view;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -12,8 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.Window;
 
-import com.zyao.zcore.inter.IBaseRootViewHandler;
-import com.zyao.zcore.inter.IBaseUIViewHandler;
+import com.zyao.zcore.BaseActivity;
 
 import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -28,6 +27,7 @@ import butterknife.ButterKnife;
  */
 /* package */ abstract class BaseRootViewHandler<ViewType extends View> implements IBaseRootViewHandler
 {
+    protected final String TAG = this.getClass().getSimpleName();
     protected ViewType mRootView;
     protected Context mContext;
     protected Handler mHandler;
@@ -342,6 +342,11 @@ import butterknife.ButterKnife;
         return mSubViewHandlerLinkedQueue != null && mSubViewHandlerLinkedQueue.contains(this);
     }
 
+    /**
+     * mHandler回调
+     *
+     * @param callback
+     */
     protected void setOnHandlerCallback (Handler.Callback callback)
     {
         mHandlerCallback = callback;

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="123">
+        <menu>
+            <item
+                android:id="@+id/drawer_zhihu"
+                android:checkable="true"
+                android:checked="true"
+                android:title="1"
+                />
+            <item
+                android:id="@+id/drawer_wechat"
+                android:checkable="true"
+                android:title="2"
+                />
+            <item
+                android:id="@+id/drawer_gank"
+                android:checkable="true"
+                android:title="3"
+                />
+        </menu>
+    </item>
+    <item android:title="456">
+        <menu>
+            <item
+                android:id="@+id/drawer_like"
+                android:checkable="true"
+                android:title="4"
+                />
+            <item
+                android:id="@+id/drawer_setting"
+                android:checkable="true"
+                android:checked="false"
+                android:title="5"
+                />
+            <item
+                android:id="@+id/drawer_about"
+                android:checkable="true"
+                android:title="6"
+                />
+        </menu>
+    </item>
+</menu>

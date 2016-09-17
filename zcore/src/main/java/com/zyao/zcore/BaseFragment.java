@@ -11,9 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zyao.zcore.inter.IBaseFragmentViewHandler;
-import com.zyao.zcore.inter.IBaseUIViewHandler;
 import com.zyao.zcore.support.SupportFragment;
+import com.zyao.zcore.view.IBaseFragmentViewHandler;
+import com.zyao.zcore.view.IBaseUIViewHandler;
 
 import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -29,6 +29,7 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
     protected final String TAG = this.getClass().getSimpleName();
     protected ViewHandler mViewHandler;
     protected OnFragmentCallback mOnFragmentCallback = null;
+    protected Activity mActivity;
     protected Context mContext;
     private View mRootView;
     private ConcurrentLinkedQueue<BasePresenter> mSubPresenterLinkedQueue;
@@ -41,6 +42,7 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
         {
             mViewHandler.onAttach(activity);
         }
+        mActivity = activity;
         mContext = activity;
     }
 
@@ -50,24 +52,13 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
         super.onCreate(savedInstanceState);
         if (onNewViewHandler(savedInstanceState))
         {
-            if (isExistViewHandler() && savedInstanceState == null)
-            {
-                mViewHandler.onDestroy();
-                mViewHandler = newViewHandler();
-            }
-            else if (!isExistViewHandler())
-            {
-                mViewHandler = newViewHandler();
-            }
-            else
-            {
-                mViewHandler.resetDefaultState(savedInstanceState);
-            }
+            // do nothing
         }
-        else
+        if (isExistViewHandler())
         {
-            mViewHandler = newViewHandler();
+            mViewHandler.onDestroy();
         }
+        mViewHandler = newViewHandler();
     }
 
     @Override
@@ -169,18 +160,6 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
         return onBackPressed();
     }
 
-    /**
-     * 是否用新方法创建
-     *
-     * @param savedInstanceState
-     *
-     * @return true-不中断旧方法， false-中断现有方法
-     */
-    protected boolean onNewViewHandler (Bundle savedInstanceState)
-    {
-        return true;
-    }
-
     @Nullable
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -197,6 +176,7 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
             {
                 throw new IllegalStateException("mRootView is null...");
             }
+            mViewHandler.resetDefaultState(savedInstanceState);//恢复
             mViewHandler.onCreate(mRootView);
         }
         else
@@ -263,6 +243,18 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
         {
             mViewHandler.onStop();
         }
+    }
+
+    /**
+     * 是否用新方法创建
+     *
+     * @param savedInstanceState
+     *
+     * @return true-不中断旧方法， false-中断现有方法
+     */
+    protected boolean onNewViewHandler (Bundle savedInstanceState)
+    {
+        return true;
     }
 
     protected void onNewPresenter (Bundle savedInstanceState)

@@ -1,4 +1,4 @@
-package com.zyao.zcore;
+package com.zyao.zcore.view;
 
 import android.support.annotation.NonNull;
 import android.view.View;

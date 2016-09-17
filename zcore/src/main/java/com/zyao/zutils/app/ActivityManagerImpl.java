@@ -74,7 +74,6 @@ public class ActivityManagerImpl implements ActivityManager
             return;
         }
         mActivityStack.remove(activity);
-        activity.finish();
     }
 
     @Override
