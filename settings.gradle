@@ -1,1 +1,1 @@
-include ':app', ':zcore'
+include ':app', ':zcore', ':extras:fresco lite', ':views:zloading'

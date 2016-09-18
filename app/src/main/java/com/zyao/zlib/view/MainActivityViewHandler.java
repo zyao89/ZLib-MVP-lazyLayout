@@ -13,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.zyao.views.zloading.LoadingView;
+import com.zyao.views.zloading.ZFourLineLoadingView;
+import com.zyao.views.zloading.ZStickLoadingView;
 import com.zyao.zcore2.base.BaseComponentActivityViewHandler;
 import com.zyao.zlib.R;
 import com.zyao.zlib.contract.MainContract;
@@ -35,6 +38,8 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     Toolbar mToolbar;
     @BindView(R.id.navigation)
     NavigationView mNavigationView;
+    @BindView(R.id.loading)
+    LoadingView mZLoadingView;
     //    @BindView(R.id.view_search)
     //    MaterialSearchView mSearchView;
 
@@ -64,7 +69,8 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
             @Override
             public void onClick (View v)
             {
-                setDayNightMode(!isNightMode());
+//                setDayNightMode(!isNightMode());
+                mZLoadingView.setVisibility(mZLoadingView.isShown()?View.GONE:View.VISIBLE);
             }
         });
     }
