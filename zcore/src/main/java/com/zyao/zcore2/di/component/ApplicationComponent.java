@@ -9,6 +9,7 @@ package com.zyao.zcore2.di.component;
 
 import android.app.Application;
 import android.content.Context;
+import android.view.LayoutInflater;
 
 import com.zyao.zcore2.di.ContextLife;
 import com.zyao.zcore2.di.module.ApplicationModule;
@@ -19,7 +20,7 @@ import dagger.Component;
 
 /**
  * Interface: ApplicationComponent
- * Description: TODO 功能描述...
+ * Description: 应用层提供的服务组件
  * Author: Zyao89
  * Time: 2016/9/16 17:27
  */
@@ -28,8 +29,10 @@ import dagger.Component;
 public interface ApplicationComponent
 {
     @ContextLife("application")
-    Application getApplication ();
+    Context getContext ();
 
     @ContextLife("application")
-    Context getContext ();
+    Application getApplication ();
+
+    LayoutInflater getLayoutInflater();
 }
