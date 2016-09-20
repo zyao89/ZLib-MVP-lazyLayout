@@ -8,8 +8,12 @@
 package com.zyao.zcore2.base;
 
 import com.zyao.zcore.view.IBaseRootViewHandler;
+import com.zyao.zcore2.IRxCompositeSubscription;
 import com.zyao.zutils.TaskController;
 import com.zyao.zutils.Z;
+
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Class: BaseComponentPresenter
@@ -17,21 +21,24 @@ import com.zyao.zutils.Z;
  * Author: Zyao89
  * Time: 2016/9/17 2:22
  */
-public abstract class BaseComponentPresenter<ViewHandler extends IBaseRootViewHandler>
+public abstract class BaseComponentPresenter<ViewHandler extends IBaseRootViewHandler> implements IRxCompositeSubscription
 {
     protected final String TAG = this.getClass().getSimpleName();
+    /** RxJava */
+    private final CompositeSubscription mCompositeSubscription = new CompositeSubscription();
     protected TaskController mHandler;
     protected ViewHandler mViewHandler;
 
     /* package */ void attachView (ViewHandler viewHandler)
     {
-        mViewHandler = viewHandler;
+        this.mViewHandler = viewHandler;
         this.mHandler = Z.task();
     }
 
     /* package */ void detachView ()
     {
         doExit();
+        this.mCompositeSubscription.unsubscribe();//rxJava
         this.mViewHandler = null;
     }
 
@@ -56,5 +63,41 @@ public abstract class BaseComponentPresenter<ViewHandler extends IBaseRootViewHa
     protected void doExit ()
     {
 
+    }
+
+    @Override
+    public boolean isUnsubscribed ()
+    {
+        return mCompositeSubscription.isUnsubscribed();
+    }
+
+    @Override
+    public void addSubscription (Subscription s)
+    {
+        mCompositeSubscription.add(s);
+    }
+
+    @Override
+    public void addAllSubscription (Subscription... subscriptions)
+    {
+        mCompositeSubscription.addAll(subscriptions);
+    }
+
+    @Override
+    public void removeSubscription (Subscription s)
+    {
+        mCompositeSubscription.remove(s);
+    }
+
+    @Override
+    public void clearSubscription ()
+    {
+        mCompositeSubscription.clear();
+    }
+
+    @Override
+    public boolean hasSubscriptions ()
+    {
+        return mCompositeSubscription.hasSubscriptions();
     }
 }

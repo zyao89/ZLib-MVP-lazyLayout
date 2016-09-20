@@ -170,7 +170,6 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
     {
         super.onDestroy();
         onDestroyPresenter();
-        Z.activityCtrl().removeActivity(this);
         if (isExistViewHandler())
         {
             mViewHandler.onDestroy();
@@ -182,6 +181,7 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
                 subPresenter.doExit();
             }
         }
+        Z.activityCtrl().removeActivity(this);
     }
 
     protected void onNewPresenter (Bundle savedInstanceState)

@@ -19,11 +19,18 @@ import com.zyao.zcore2.base.BaseComponentActivityViewHandler;
 import com.zyao.zlib.R;
 import com.zyao.zlib.contract.MainContract;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Class: MainActivityViewHandler
@@ -71,7 +78,7 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
             public void onClick (View v)
             {
                 setDayNightMode(!isNightMode());
-//                mZLoadingView.setVisibility(mZLoadingView.isShown()?View.GONE:View.VISIBLE);
+                //                mZLoadingView.setVisibility(mZLoadingView.isShown()?View.GONE:View.VISIBLE);
             }
         });
     }
@@ -79,38 +86,118 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     @Override
     protected void initDefaultData ()
     {
-//        Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>()
-//        {
-//            @Override
-//            public void call (Subscriber<? super String> subscriber)
-//            {
-//                subscriber.onNext("Hello World!!!");
-//                subscriber.onCompleted();
-//            }
-//        });
-//
-//        Subscriber<String> subscriber = new Subscriber<String>()
-//        {
-//
-//            @Override
-//            public void onCompleted ()
-//            {
-//                System.out.println("zzzzzzzz:  onCompleted");
-//            }
-//
-//            @Override
-//            public void onError (Throwable e)
-//            {
-//                System.out.println("zzzzzzzz:  onError: " + e);
-//            }
-//
-//            @Override
-//            public void onNext (String s)
-//            {
-//                System.out.println("zzzzzzzz:  onNext: " + s);
-//            }
-//        };
-//
-//        observable.subscribe(subscriber);
+        //        Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>()
+        //        {
+        //            @Override
+        //            public void call (Subscriber<? super String> subscriber)
+        //            {
+        //                subscriber.onNext("Hello World!!!");
+        //                subscriber.onCompleted();
+        //            }
+        //        });
+
+        //        Subscriber<String> subscriber = new Subscriber<String>()
+        //        {
+        //
+        //            @Override
+        //            public void onCompleted ()
+        //            {
+        //                System.out.println("zzzzzzzz:  onCompleted");
+        //            }
+        //
+        //            @Override
+        //            public void onError (Throwable e)
+        //            {
+        //                System.out.println("zzzzzzzz:  onError: " + e);
+        //            }
+        //
+        //            @Override
+        //            public void onNext (String s)
+        //            {
+        //                System.out.println("zzzzzzzz:  onNext: " + s);
+        //            }
+        //        };
+
+        //        observable.subscribe(subscriber);
+
+        //        Observable.just("123345").map(new Func1<String, String>()
+        //        {
+        //            @Override
+        //            public String call (String s)
+        //            {
+        //                System.out.println("zzzzzzzz: Func1 call: " + s);
+        //                return s + ":  haha";
+        //            }
+        //        }).subscribe(new Action1<String>()
+        //        {
+        //            @Override
+        //            public void call (String s)
+        //            {
+        //                System.out.println("zzzzzzzz: Action1 call: " + s);
+        //            }
+        //        });
+        //
+        //        Observable.from(Arrays.asList("1", "2", "3")).subscribe(new Action1<String>()
+        //        {
+        //            @Override
+        //            public void call (String s)
+        //            {
+        //                System.out.println("zzzzzzzz: Action1 call: " + s);
+        //            }
+        //        });
+
+        Observable.create(new Observable.OnSubscribe<List<String>>()
+        {
+            @Override
+            public void call (Subscriber<? super List<String>> subscriber)
+            {//子线程
+                System.out.println("zzzzzzzz create  call  Thread Name: " + Thread.currentThread().getName());
+                List<String> strings = Arrays.asList("1", "2", "3", "4", "5", "6");
+                subscriber.onNext(strings);
+                subscriber.onCompleted();
+            }
+        }).subscribeOn(Schedulers.io()).flatMap(new Func1<List<String>, Observable<String>>()
+        {
+            @Override
+            public Observable<String> call (List<String> strings)
+            {
+                System.out.println("zzzzzzzz   Thread Name: " + Thread.currentThread().getName());
+                return Observable.from(strings);
+            }
+        }).observeOn(AndroidSchedulers.mainThread())//主线程
+                .map(new Func1<String, String>()
+                {
+                    @Override
+                    public String call (String s)
+                    {
+                        System.out.println("zzzzzzzz   Thread Name: " + Thread.currentThread().getName());
+                        System.out.println("zzzzzzzz: map call: " + s);
+                        return s;
+                    }
+                }).observeOn(Schedulers.io())//主线程
+                .filter(new Func1<String, Boolean>()
+                {
+                    @Override
+                    public Boolean call (String s)
+                    {
+                        return !s.equals("2");
+                    }
+                }).take(3)//过滤结果为3个
+                .doOnNext(new Action1<String>()
+                {
+                    @Override
+                    public void call (String s)
+                    {
+                        System.out.println("zzzzzzzz doOnNext  Thread Name: " + Thread.currentThread().getName());
+                    }
+                }).subscribe(new Action1<String>()
+        {
+            @Override
+            public void call (String s)
+            {
+                System.out.println("zzzzzzzz   Thread Name: " + Thread.currentThread().getName());
+                System.out.println("zzzzzzzz: flatMap call: " + s);
+            }
+        });
     }
 }
