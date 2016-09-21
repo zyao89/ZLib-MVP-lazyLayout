@@ -44,7 +44,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     protected ViewHandler mViewHandler;
     @Inject
     protected Presenter mPresenter;
-    private BaseComponentActivityLifeViewHandler _mViewHandler;
+    private BaseComponentActivityViewHandler _mViewHandler;
     private BaseComponentPresenter<ViewHandler> _Presenter;
 
     @Override
@@ -52,9 +52,9 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     {
         super.onCreate(savedInstanceState);
         initComponent(getApplicationComponent(), getActivityModule());
-        if (mViewHandler instanceof BaseComponentActivityLifeViewHandler)
+        if (mViewHandler instanceof BaseComponentActivityViewHandler)
         {
-            _mViewHandler = (BaseComponentActivityLifeViewHandler) mViewHandler;
+            _mViewHandler = (BaseComponentActivityViewHandler) mViewHandler;
         }
         if (mPresenter instanceof BaseComponentPresenter)
         {

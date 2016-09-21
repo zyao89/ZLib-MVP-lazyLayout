@@ -45,7 +45,7 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
     protected ViewHandler mViewHandler;
     @Inject
     protected Presenter mPresenter;
-    private BaseComponentFragmentLifeViewHandler _mViewHandler;
+    private BaseComponentFragmentViewHandler _mViewHandler;
     private BaseComponentPresenter<ViewHandler> _Presenter;
 
     @Override
@@ -67,9 +67,9 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
 
         initComponent(getApplicationComponent(), getFragmentModule());
 
-        if (mViewHandler instanceof BaseComponentFragmentLifeViewHandler)
+        if (mViewHandler instanceof BaseComponentFragmentViewHandler)
         {
-            _mViewHandler = (BaseComponentFragmentLifeViewHandler) mViewHandler;
+            _mViewHandler = (BaseComponentFragmentViewHandler) mViewHandler;
         }
         if (mPresenter instanceof BaseComponentPresenter)
         {

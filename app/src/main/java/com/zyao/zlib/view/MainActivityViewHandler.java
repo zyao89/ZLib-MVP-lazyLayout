@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.zyao.views.zloading.LoadingView;
-import com.zyao.zcore2.base.BaseComponentActivityLifeViewHandler;
+import com.zyao.zcore2.base.BaseComponentActivityViewHandler;
 import com.zyao.zcore2.helper.RetrofitHelper;
 import com.zyao.zlib.R;
 import com.zyao.zlib.contract.MainContract;
@@ -30,7 +30,7 @@ import butterknife.BindView;
  * Author: Zyao89
  * Time: 2016/9/13 16:06
  */
-public class MainActivityViewHandler extends BaseComponentActivityLifeViewHandler<RelativeLayout> implements MainContract.IViewHandler
+public class MainActivityViewHandler extends BaseComponentActivityViewHandler<RelativeLayout> implements MainContract.IViewHandler
 {
     @BindView(R.id.drawer)
     DrawerLayout mDrawerLayout;

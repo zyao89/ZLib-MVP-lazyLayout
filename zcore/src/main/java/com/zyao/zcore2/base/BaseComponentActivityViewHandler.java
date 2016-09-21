@@ -1,5 +1,5 @@
 /**
- * Title: BaseComponentActivityLifeViewHandler.java
+ * Title: BaseComponentActivityViewHandler.java
  * Package: com.zyao.zcore2.base
  * Description: 本内容来源于Zyao89。
  * Author: Zyao89
@@ -7,17 +7,17 @@
  */
 package com.zyao.zcore2.base;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 /**
- * Class: BaseComponentActivityLifeViewHandler
- * Description: TODO 功能描述...
+ * Class: BaseComponentActivityViewHandler
+ * Description: Activity的ViewHandler基类
  * Author: Zyao89
  * Time: 2016/9/17 14:00
  */
-public abstract class BaseComponentFragmentLifeViewHandler<RootViewType extends View> extends BaseViewHandler<RootViewType> implements IBaseFragmentLifeViewHandler
+public abstract class BaseComponentActivityViewHandler<RootViewType extends View> extends BaseViewHandler<RootViewType> implements IBaseActivityLifeViewHandler
 {
     @Override
     protected void initViews ()
@@ -25,22 +25,18 @@ public abstract class BaseComponentFragmentLifeViewHandler<RootViewType extends 
         //do @BindView()
     }
 
-    @Override
-    public void onAttach (Activity activity)
+    /**
+     * 设置标题栏
+     *
+     * @param toolbar
+     * @param title
+     */
+    protected void setToolbar (Toolbar toolbar, String title)
     {
-        mBaseViewHandlerFactory.onAttach(activity);
-    }
-
-    @Override
-    public void onActivityCreated ()
-    {
-        mBaseViewHandlerFactory.onActivityCreated();
-    }
-
-    @Override
-    public void onDestroyView ()
-    {
-        mBaseViewHandlerFactory.onDestroyView();
+        if (mContext instanceof BaseComponentActivity)
+        {
+            ((BaseComponentActivity) mContext).setToolBar(toolbar, title);
+        }
     }
 
     /**
