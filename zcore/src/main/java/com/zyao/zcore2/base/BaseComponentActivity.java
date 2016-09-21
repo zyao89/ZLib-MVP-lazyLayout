@@ -237,6 +237,48 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
         this.startActivity(intent);
     }
 
+    @Override
+    public void loadRootFragment (BaseComponentFragment toFragment)
+    {
+        if (!isExistViewHandler())
+        {
+            return;
+        }
+        int rootFragmentContainerId = _mViewHandler.getRootFragmentContainerId();
+        if (rootFragmentContainerId > 0)
+        {
+            loadRootFragment(rootFragmentContainerId, toFragment);
+        }
+    }
+
+    @Override
+    public void replaceLoadRootFragment (BaseComponentFragment toFragment, boolean addToBack)
+    {
+        if (!isExistViewHandler())
+        {
+            return;
+        }
+        int rootFragmentContainerId = _mViewHandler.getRootFragmentContainerId();
+        if (rootFragmentContainerId > 0)
+        {
+            replaceLoadRootFragment(rootFragmentContainerId, toFragment, addToBack);
+        }
+    }
+
+    @Override
+    public void loadMultipleRootFragment (int showPosition, BaseComponentFragment... toFragments)
+    {
+        if (!isExistViewHandler())
+        {
+            return;
+        }
+        int rootFragmentContainerId = _mViewHandler.getRootFragmentContainerId();
+        if (rootFragmentContainerId > 0)
+        {
+            loadMultipleRootFragment(rootFragmentContainerId, toFragments);
+        }
+    }
+
     protected <T extends IBasePresenter, V extends IBaseViewHandler> T createSubPresenter (Class<T> clazz, V rootViewHandler)
     {
         return mSubPresenterBasePresenterFactory.createSubPresenter(clazz, rootViewHandler);
@@ -379,4 +421,5 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
      * @param activityModule       activity
      */
     protected abstract void initComponent (ApplicationComponent applicationComponent, ActivityModule activityModule);
+
 }

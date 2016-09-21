@@ -32,6 +32,8 @@ import butterknife.ButterKnife;
     /* package */ BaseViewHandlerFactory mBaseViewHandlerFactory = BaseViewHandlerFactory.create();
     private Handler.Callback mHandlerCallback = null;
     private boolean isAlreadyInitViewHandler = false;
+    /** 中间部分id */
+    private int mRootFragmentContainerId = -1;
 
     @Override
     public void onCreate (@NonNull View rootView)
@@ -232,5 +234,25 @@ import butterknife.ButterKnife;
     protected void setOnHandlerCallback (Handler.Callback callback)
     {
         mHandlerCallback = callback;
+    }
+
+    /**
+     * 获取根FragmentContainerId
+     *
+     * @return id
+     */
+    protected int getRootFragmentContainerId ()
+    {
+        return mRootFragmentContainerId;
+    }
+
+    /**
+     * 设置根FragmentContainerId
+     *
+     * @param containerId
+     */
+    protected void setRootFragmentContainerId (int containerId)
+    {
+        mRootFragmentContainerId = containerId;
     }
 }

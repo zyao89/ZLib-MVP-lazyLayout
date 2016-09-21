@@ -10,8 +10,8 @@ package com.zyao.zcore2.di.module;
 import android.app.Application;
 
 import com.zyao.zcore2.helper.RetrofitHelper;
-import com.zyao.zcore2.rx.rxbus.IRxBus;
 import com.zyao.zcore2.rx.rxbus.RxBus;
+import com.zyao.zcore2.rx.rxbus.RxBusImpl;
 import com.zyao.zutils.CommonUtilsManager;
 import com.zyao.zutils.Z;
 
@@ -41,9 +41,9 @@ public class HelperModule
     }
 
     @Provides
-    IRxBus provideRxBus ()
+    RxBus provideRxBus ()
     {
-        return RxBus.getInstance();
+        return RxBusImpl.getInstance();
     }
 
     @Provides

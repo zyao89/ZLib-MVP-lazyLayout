@@ -51,13 +51,13 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
     @Override
     public void onAttach (Activity activity)
     {
+        mActivity = activity;
+        mContext = activity;
         super.onAttach(activity);
         if (isExistViewHandler())
         {
             _mViewHandler.onAttach(activity);
         }
-        mActivity = activity;
-        mContext = activity;
     }
 
     @Override
@@ -156,12 +156,15 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
             {
                 throw new IllegalStateException("resourceId < 0 操作失败，引用不正规...");
             }
+
             mRootView = inflater.inflate(_mViewHandler.getResourceId(), container, false);
             if (mRootView == null)
             {
                 throw new IllegalStateException("mRootView is null...");
             }
+
             _mViewHandler.onCreate(mRootView);
+
             _mViewHandler.resetDefaultState(savedInstanceState);//恢复
         }
         else
@@ -323,6 +326,7 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
     {
         this.gotoNewActivity(cls);
         getActivity().finish();
+        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     /**
@@ -335,6 +339,7 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
     {
         this.gotoNewActivity(cls, bundle);
         getActivity().finish();
+        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     /**
@@ -348,6 +353,7 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
         Intent intent = new Intent();
         intent.setClass(getActivity(), cls);
         this.startActivity(intent);
+        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     /**
@@ -363,6 +369,49 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
         intent.putExtras(bundle);
         intent.setClass(getActivity(), cls);
         this.startActivity(intent);
+        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public void loadRootFragment (BaseComponentFragment toFragment)
+    {
+        if (!isExistViewHandler())
+        {
+            return;
+        }
+        int rootFragmentContainerId = _mViewHandler.getRootFragmentContainerId();
+        if (rootFragmentContainerId > 0)
+        {
+            loadRootFragment(rootFragmentContainerId, toFragment);
+        }
+    }
+
+    @Override
+    public void replaceLoadRootFragment (BaseComponentFragment toFragment, boolean addToBack)
+    {
+        if (!isExistViewHandler())
+        {
+            return;
+        }
+        int rootFragmentContainerId = _mViewHandler.getRootFragmentContainerId();
+        if (rootFragmentContainerId > 0)
+        {
+            replaceLoadRootFragment(rootFragmentContainerId, toFragment, addToBack);
+        }
+    }
+
+    @Override
+    public void loadMultipleRootFragment (int showPosition, BaseComponentFragment... toFragments)
+    {
+        if (!isExistViewHandler())
+        {
+            return;
+        }
+        int rootFragmentContainerId = _mViewHandler.getRootFragmentContainerId();
+        if (rootFragmentContainerId > 0)
+        {
+            loadMultipleRootFragment(rootFragmentContainerId, toFragments);
+        }
     }
 
     protected void doExit ()

@@ -12,6 +12,8 @@ import android.os.Bundle;
 import com.zyao.zcore2.base.inter.IBasePresenter;
 import com.zyao.zcore2.base.inter.IBaseViewHandler;
 import com.zyao.zcore2.rx.IRxCompositeSubscription;
+import com.zyao.zcore2.rx.rxbus.RxBus;
+import com.zyao.zcore2.rx.rxbus.RxBusImpl;
 import com.zyao.zutils.TaskController;
 import com.zyao.zutils.Z;
 
@@ -32,11 +34,13 @@ public abstract class BaseComponentPresenter<ViewHandler extends IBaseViewHandle
     private final CompositeSubscription mCompositeSubscription = new CompositeSubscription();
     protected TaskController mHandler;
     protected ViewHandler mViewHandler;
+    protected RxBus mRxBus;
 
     /* package */ void attachView (ViewHandler viewHandler)
     {
         this.mViewHandler = viewHandler;
         this.mHandler = Z.task();
+        this.mRxBus = RxBusImpl.getInstance();
     }
 
     /* package */ void detachView ()

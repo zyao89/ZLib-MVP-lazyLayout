@@ -7,6 +7,7 @@
  */
 package com.zyao.zlib.view;
 
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -60,6 +61,16 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     protected void initViews ()
     {
         setToolbar(mToolbar, "haha");
+    }
+
+    @Override
+    public void resetDefaultState (Bundle savedInstanceState)
+    {
+        if (savedInstanceState == null)
+        {
+            setRootFragmentContainerId(123);
+        }
+        super.resetDefaultState(savedInstanceState);
     }
 
     @Override

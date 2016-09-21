@@ -8,57 +8,20 @@
 package com.zyao.zcore2.rx.rxbus;
 
 import rx.Observable;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subjects.Subject;
 
 /**
- * Class: RxBus
- * Description: RxBus
+ * interface: RxBus
+ * Description: RxBus接口
  * Author: Zyao89
- * Time: 2016/9/21 10:09
+ * Time: 2016/9/21 10:05
  */
-public class RxBus implements IRxBus
+public interface RxBus
 {
-    private static volatile IRxBus mInstance;
-    private final Subject<Object, Object> mRxBusObservable = new SerializedSubject<>(PublishSubject.create());
+    void post (Object o);
 
-    private RxBus ()
-    {
+    Observable<Object> toObservable ();
 
-    }
+    <T> Observable<T> toObservable (Class<T> eventType);
 
-    public static IRxBus getInstance ()
-    {
-        if (null == mInstance)
-        {
-            synchronized (RxBus.class)
-            {
-                if (null == mInstance)
-                {
-                    mInstance = new RxBus();
-                }
-            }
-        }
-
-        return mInstance;
-    }
-
-    @Override
-    public void post (Object o)
-    {
-        mRxBusObservable.onNext(o);
-    }
-
-    @Override
-    public Observable<Object> toObservable ()
-    {
-        return mRxBusObservable;
-    }
-
-    @Override
-    public boolean hasObservers ()
-    {
-        return mRxBusObservable.hasObservers();
-    }
+    boolean hasObservers ();
 }
