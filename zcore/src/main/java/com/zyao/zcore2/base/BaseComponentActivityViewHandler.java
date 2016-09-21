@@ -19,7 +19,7 @@ import com.zyao.zcore.view.BaseActivityViewHandler;
  * Author: Zyao89
  * Time: 2016/9/17 14:00
  */
-public abstract class BaseComponentActivityViewHandler<RootViewType extends View> extends BaseActivityViewHandler<RootViewType>
+public abstract class BaseComponentActivityViewHandler<RootViewType extends View> extends BaseActivityViewHandler<RootViewType> implements IBaseViewHandler
 {
     @Override
     protected void initViews ()

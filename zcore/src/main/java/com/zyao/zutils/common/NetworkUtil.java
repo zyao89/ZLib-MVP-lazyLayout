@@ -72,6 +72,16 @@ public class NetworkUtil
         return cm != null && (cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI);
     }
 
+
+    /**
+     * 检查手机网络(4G/3G/2G)是否连接
+     */
+    public boolean isMobile ()
+    {
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm != null && (cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_MOBILE);
+    }
+
     /**
      * 打开网络设置界面
      *

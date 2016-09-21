@@ -18,7 +18,7 @@ import com.zyao.zcore.view.BaseFragmentViewHandler;
  * Author: Zyao89
  * Time: 2016/9/17 14:00
  */
-public abstract class BaseComponentFragmentViewHandler<RootViewType extends View> extends BaseFragmentViewHandler<RootViewType>
+public abstract class BaseComponentFragmentViewHandler<RootViewType extends View> extends BaseFragmentViewHandler<RootViewType> implements IBaseViewHandler
 {
     @Override
     protected void initViews ()

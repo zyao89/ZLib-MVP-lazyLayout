@@ -176,8 +176,8 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
             {
                 throw new IllegalStateException("mRootView is null...");
             }
-            mViewHandler.resetDefaultState(savedInstanceState);//恢复
             mViewHandler.onCreate(mRootView);
+            mViewHandler.resetDefaultState(savedInstanceState);//恢复
         }
         else
         {

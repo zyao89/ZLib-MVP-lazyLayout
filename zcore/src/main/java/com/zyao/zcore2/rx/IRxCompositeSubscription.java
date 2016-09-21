@@ -5,7 +5,7 @@
  * Author: Zyao89
  * Date: 2016/9/20
  */
-package com.zyao.zcore2;
+package com.zyao.zcore2.rx;
 
 import rx.Subscription;
 

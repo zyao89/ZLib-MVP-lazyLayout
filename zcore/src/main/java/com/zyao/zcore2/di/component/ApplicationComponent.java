@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 
 import com.zyao.zcore2.di.ContextLife;
 import com.zyao.zcore2.di.module.ApplicationModule;
+import com.zyao.zcore2.di.module.HelperModule;
+import com.zyao.zcore2.helper.RetrofitHelper;
 
 import javax.inject.Singleton;
 
@@ -25,7 +27,7 @@ import dagger.Component;
  * Time: 2016/9/16 17:27
  */
 @Singleton
-@Component(modules = ApplicationModule.class)
+@Component(modules = {ApplicationModule.class, HelperModule.class})
 public interface ApplicationComponent
 {
     @ContextLife("application")
@@ -33,6 +35,8 @@ public interface ApplicationComponent
 
     @ContextLife("application")
     Application getApplication ();
+
+    RetrofitHelper getRetrofitHelper ();
 
     LayoutInflater getLayoutInflater();
 }

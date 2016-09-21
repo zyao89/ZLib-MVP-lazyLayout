@@ -5,8 +5,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.zyao.zcore2.di.component.ApplicationComponent;
-import com.zyao.zcore2.di.component.DaggerApplicationComponent;
-import com.zyao.zcore2.di.module.ApplicationModule;
 import com.zyao.zutils.app.ActivityManagerImpl;
 import com.zyao.zutils.app.AppInfoManagerImpl;
 import com.zyao.zutils.common.CommonUtilsManagerImpl;
@@ -58,7 +56,7 @@ public final class Z
     {
         if (Ext.appComponent == null)
         {
-            Ext.appComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(Z.app())).build();
+            throw new RuntimeException("please instance AppComponent...");
         }
         return Ext.appComponent;
     }

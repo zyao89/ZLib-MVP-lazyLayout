@@ -16,21 +16,13 @@ import android.widget.RelativeLayout;
 
 import com.zyao.views.zloading.LoadingView;
 import com.zyao.zcore2.base.BaseComponentActivityViewHandler;
+import com.zyao.zcore2.helper.RetrofitHelper;
 import com.zyao.zlib.R;
 import com.zyao.zlib.contract.MainContract;
-
-import java.util.Arrays;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * Class: MainActivityViewHandler
@@ -52,9 +44,10 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     //    MaterialSearchView mSearchView;
 
     @Inject
-    public MainActivityViewHandler (LayoutInflater inflater)
+    public MainActivityViewHandler (LayoutInflater inflater, RetrofitHelper retrofitHelper)
     {
         System.out.println("LayoutInflater: " + inflater);
+        System.out.println("RetrofitHelper: " + retrofitHelper);
     }
 
     @Override
@@ -146,58 +139,60 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
         //            }
         //        });
 
-        Observable.create(new Observable.OnSubscribe<List<String>>()
-        {
-            @Override
-            public void call (Subscriber<? super List<String>> subscriber)
-            {//子线程
-                System.out.println("zzzzzzzz create  call  Thread Name: " + Thread.currentThread().getName());
-                List<String> strings = Arrays.asList("1", "2", "3", "4", "5", "6");
-                subscriber.onNext(strings);
-                subscriber.onCompleted();
-            }
-        }).subscribeOn(Schedulers.io()).flatMap(new Func1<List<String>, Observable<String>>()
-        {
-            @Override
-            public Observable<String> call (List<String> strings)
-            {
-                System.out.println("zzzzzzzz   Thread Name: " + Thread.currentThread().getName());
-                return Observable.from(strings);
-            }
-        }).observeOn(AndroidSchedulers.mainThread())//主线程
-                .map(new Func1<String, String>()
-                {
-                    @Override
-                    public String call (String s)
-                    {
-                        System.out.println("zzzzzzzz   Thread Name: " + Thread.currentThread().getName());
-                        System.out.println("zzzzzzzz: map call: " + s);
-                        return s;
-                    }
-                }).observeOn(Schedulers.io())//主线程
-                .filter(new Func1<String, Boolean>()
-                {
-                    @Override
-                    public Boolean call (String s)
-                    {
-                        return !s.equals("2");
-                    }
-                }).take(3)//过滤结果为3个
-                .doOnNext(new Action1<String>()
-                {
-                    @Override
-                    public void call (String s)
-                    {
-                        System.out.println("zzzzzzzz doOnNext  Thread Name: " + Thread.currentThread().getName());
-                    }
-                }).subscribe(new Action1<String>()
-        {
-            @Override
-            public void call (String s)
-            {
-                System.out.println("zzzzzzzz   Thread Name: " + Thread.currentThread().getName());
-                System.out.println("zzzzzzzz: flatMap call: " + s);
-            }
-        });
+        //        Observable.create(new Observable.OnSubscribe<List<String>>()
+        //        {
+        //            @Override
+        //            public void call (Subscriber<? super List<String>> subscriber)
+        //            {//子线程
+        //                System.out.println("zzzzzzzz create  call  Thread Name: " + Thread.currentThread().getName());
+        //                List<String> strings = Arrays.asList("1", "2", "3", "4", "5", "6");
+        //                subscriber.onNext(strings);
+        //                subscriber.onCompleted();
+        //            }
+        //        }).subscribeOn(Schedulers.io()).flatMap(new Func1<List<String>, Observable<String>>()
+        //        {
+        //            @Override
+        //            public Observable<String> call (List<String> strings)
+        //            {
+        //                System.out.println("zzzzzzzz   Thread Name: " + Thread.currentThread().getName());
+        //                return Observable.from(strings);
+        //            }
+        //        }).observeOn(AndroidSchedulers.mainThread())//主线程
+        //                .map(new Func1<String, String>()
+        //                {
+        //                    @Override
+        //                    public String call (String s)
+        //                    {
+        //                        System.out.println("zzzzzzzz   Thread Name: " + Thread.currentThread().getName());
+        //                        System.out.println("zzzzzzzz: map call: " + s);
+        //                        return s;
+        //                    }
+        //                }).observeOn(Schedulers.io())//主线程
+        //                .filter(new Func1<String, Boolean>()
+        //                {
+        //                    @Override
+        //                    public Boolean call (String s)
+        //                    {
+        //                        return !s.equals("2");
+        //                    }
+        //                }).take(3)//过滤结果为3个
+        //                .doOnNext(new Action1<String>()
+        //                {
+        //                    @Override
+        //                    public void call (String s)
+        //                    {
+        //                        System.out.println("zzzzzzzz doOnNext  Thread Name: " + Thread.currentThread().getName());
+        //                    }
+        //                }).subscribe(new Action1<String>()
+        //        {
+        //            @Override
+        //            public void call (String s)
+        //            {
+        //                System.out.println("zzzzzzzz   Thread Name: " + Thread.currentThread().getName());
+        //                System.out.println("zzzzzzzz: flatMap call: " + s);
+        //            }
+        //        });
+
+
     }
 }

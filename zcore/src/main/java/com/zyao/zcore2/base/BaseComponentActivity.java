@@ -7,14 +7,18 @@
  */
 package com.zyao.zcore2.base;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.zyao.zcore.BaseActivity;
 import com.zyao.zcore.R;
 import com.zyao.zcore.anim.FragmentAnimator;
+import com.zyao.zcore.support.SupportActivity;
 import com.zyao.zcore.view.BaseActivityViewHandler;
 import com.zyao.zcore2.di.component.ApplicationComponent;
 import com.zyao.zcore2.di.module.ActivityModule;
@@ -28,27 +32,223 @@ import javax.inject.Inject;
  * Author: Zyao89
  * Time: 2016/9/16 23:17
  */
-public abstract class BaseComponentActivity<ViewHandler extends BaseActivityViewHandler, Presenter extends BaseComponentPresenter> extends BaseActivity<ViewHandler>
+public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler, Presenter extends IBasePresenter> extends SupportActivity implements ICommonMethod
 {
+    protected final String TAG = this.getClass().getSimpleName();
+    private final BasePresenterFactory mSubPresenterBasePresenterFactory = BasePresenterFactory.create();
+    protected View mRootView;
+    protected Context mContext;
     @Inject
     protected ViewHandler mViewHandler;
-
     @Inject
     protected Presenter mPresenter;
+    private BaseActivityViewHandler _mViewHandler;
+    private BaseComponentPresenter<ViewHandler> _Presenter;
 
     @Override
-    protected boolean onNewViewHandler (Bundle savedInstanceState)
+    protected void onCreate (Bundle savedInstanceState)
     {
+        super.onCreate(savedInstanceState);
         initComponent(getApplicationComponent(), getActivityModule());
-        return false;
+        if (mViewHandler instanceof BaseActivityViewHandler)
+        {
+            _mViewHandler = (BaseActivityViewHandler) mViewHandler;
+        }
+        if (mPresenter instanceof BaseComponentPresenter)
+        {
+            _Presenter = (BaseComponentPresenter<ViewHandler>) mPresenter;
+        }
+
+        createRootView();
+        _mViewHandler.resetDefaultState(savedInstanceState);//恢复
+
+        if (!Z.activityCtrl().containsActivity(this))
+        {
+            Z.activityCtrl().addActivity(this);
+        }
+
+        mContext = this;
     }
 
     @Override
-    protected void onNewPresenter (Bundle savedInstanceState)
+    public FragmentAnimator onCreateFragmentAnimator ()
+    {
+        // 设置默认Fragment动画  默认竖向(和安卓5.0以上的动画相同)
+        return super.onCreateFragmentAnimator();
+        // 设置横向(和安卓4.x动画相同)
+        //        return new DefaultHorizontalAnimator();
+        // 设置自定义动画
+        //        return new FragmentAnimator(enter,exit,popEnter,popExit);
+    }
+
+    @Override
+    public void onBackPressedSupport ()
+    {
+        if (isExistViewHandler())
+        {
+            if (_mViewHandler.onBackPressed())
+            {
+                return;
+            }
+        }
+        super.onBackPressedSupport();
+    }
+
+    /**
+     * 重新创建RootView
+     */
+    private void createRootView ()
+    {
+        if (isExistViewHandler())
+        {
+            final int resourceId = _mViewHandler.getResourceId();
+            if (resourceId < 0)
+            {
+                throw new IllegalStateException("resourceId < 0 操作失败，引用不正规...");
+            }
+            setContentView(resourceId);
+            mRootView = getWindow().getDecorView();
+            //            mRootView = getLayoutInflater().inflate(resourceId, null, false);
+            if (mRootView == null)
+            {
+                throw new IllegalStateException("mRootView is null...");
+            }
+            _mViewHandler.onCreate(mRootView);
+        }
+        else
+        {
+            throw new IllegalStateException("mViewHandler is null...");
+        }
+    }
+
+    @Override
+    protected void onPostCreate (Bundle savedInstanceState)
+    {
+        super.onPostCreate(savedInstanceState);
+
+        if (isExistViewHandler())
+        {
+            _mViewHandler.onViewCreated();
+        }
+        else
+        {
+            throw new IllegalStateException("mViewHandler is null...");
+        }
+        onNewPresenter();
+        initPresenter(savedInstanceState);
+        initListener();
+        initDefaultData();
+    }
+
+    @Override
+    public void onConfigurationChanged (Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        if (isExistViewHandler())
+        {
+            _mViewHandler.onConfigurationChanged(newConfig);
+        }
+    }
+
+    @Override
+    protected void onDestroy ()
+    {
+        super.onDestroy();
+        onDestroyPresenter();
+        if (isExistViewHandler())
+        {
+            _mViewHandler.onDestroy();
+        }
+        Z.activityCtrl().removeActivity(this);
+    }
+
+    /**
+     * 获取RootView
+     *
+     * @return RootView
+     */
+    public View getRootView ()
+    {
+        return mRootView;
+    }
+
+    /**
+     * 获取ViewHandler
+     *
+     * @return
+     */
+    public ViewHandler getViewHandler ()
+    {
+        return mViewHandler;
+    }
+
+    /**
+     * 跳转新的Activity并且关闭当前Activity
+     *
+     * @param cls
+     */
+    @Override
+    public void gotoNewActivityAndFinish (@NonNull Class<?> cls)
+    {
+        this.gotoNewActivity(cls);
+        this.finish();
+    }
+
+    /**
+     * 跳转新的Activity并且关闭当前Activity
+     *
+     * @param cls
+     */
+    @Override
+    public void gotoNewActivityAndFinish (@NonNull Class<?> cls, Bundle bundle)
+    {
+        this.gotoNewActivity(cls, bundle);
+        this.finish();
+    }
+
+    /**
+     * 跳转新的Activity
+     *
+     * @param cls
+     */
+    @Override
+    public void gotoNewActivity (@NonNull Class<?> cls)
+    {
+        Intent intent = new Intent();
+        intent.setClass(this, cls);
+        this.startActivity(intent);
+    }
+
+    /**
+     * 跳转新的Activity
+     *
+     * @param cls
+     * @param bundle
+     */
+    @Override
+    public void gotoNewActivity (@NonNull Class<?> cls, Bundle bundle)
+    {
+        Intent intent = new Intent();
+        intent.putExtras(bundle);
+        intent.setClass(this, cls);
+        this.startActivity(intent);
+    }
+
+    protected <T extends IBasePresenter, V extends IBaseViewHandler> T createSubPresenter (Class<T> clazz, V rootViewHandler)
+    {
+        return mSubPresenterBasePresenterFactory.createSubPresenter(clazz, rootViewHandler);
+    }
+
+    protected <T extends IBasePresenter> T getSubPresenter (Class<T> presenter)
+    {
+        return mSubPresenterBasePresenterFactory.getSubPresenter(presenter);
+    }
+
+    private void onNewPresenter ()
     {
         if (isExistPresenter())
         {
-            mPresenter.attachView(mViewHandler);
+            _Presenter.attachView(mViewHandler);
         }
         else
         {
@@ -56,51 +256,55 @@ public abstract class BaseComponentActivity<ViewHandler extends BaseActivityView
         }
     }
 
-    @Override
-    protected void onDestroyPresenter ()
+    private void onDestroyPresenter ()
     {
         if (isExistPresenter())
         {
-            mPresenter.detachView();
+            _Presenter.detachView();
         }
+        mSubPresenterBasePresenterFactory.onDestroyPresenter();
     }
 
-    @Override
-    protected ViewHandler newViewHandler ()
-    {
-        return this.mViewHandler;
-    }
-
-    @Override
-    protected void initPresenter (Bundle savedInstanceState)
+    private void initPresenter (Bundle savedInstanceState)
     {
         if (isExistPresenter())
         {
-            mPresenter.initData();
+            _Presenter.initDataAndSubPresenterData(savedInstanceState);
         }
+        mSubPresenterBasePresenterFactory.initPresenter(savedInstanceState);
     }
 
-    @Override
-    protected void initListener ()
+    private void initListener ()
     {
         if (isExistPresenter())
         {
-            mPresenter.initListener();
+            _Presenter.initListenerAndSubPresenterListener();
         }
+        mSubPresenterBasePresenterFactory.initListener();
     }
 
-    @Override
-    protected void initDefaultData ()
+    private void initDefaultData ()
     {
         if (isExistPresenter())
         {
-            mPresenter.initDefaultData();
+            _Presenter.initDefaultDataAndSubPresenterDefaultData();
         }
+        mSubPresenterBasePresenterFactory.initDefaultData();
     }
 
-    private boolean isExistPresenter ()
+    /**
+     * 判断ViewHandler是否存在
+     *
+     * @return true-存在， false - 不存在
+     */
+    protected boolean isExistViewHandler ()
     {
-        return mPresenter != null;
+        return mViewHandler != null && _mViewHandler != null;
+    }
+
+    protected boolean isExistPresenter ()
+    {
+        return mPresenter != null && _Presenter != null;
     }
 
     protected ApplicationComponent getApplicationComponent ()
@@ -163,17 +367,6 @@ public abstract class BaseComponentActivity<ViewHandler extends BaseActivityView
     {
         int defaultNightMode = AppCompatDelegate.getDefaultNightMode();
         return defaultNightMode == AppCompatDelegate.MODE_NIGHT_YES;
-    }
-
-    @Override
-    public FragmentAnimator onCreateFragmentAnimator ()
-    {
-        // 设置默认Fragment动画  默认竖向(和安卓5.0以上的动画相同)
-        return super.onCreateFragmentAnimator();
-        // 设置横向(和安卓4.x动画相同)
-        //        return new DefaultHorizontalAnimator();
-        // 设置自定义动画
-        //        return new FragmentAnimator(enter,exit,popEnter,popExit);
     }
 
     /**

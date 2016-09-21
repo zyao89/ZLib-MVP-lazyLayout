@@ -14,7 +14,7 @@ import com.zyao.zcore.view.BaseViewHandler;
 
 /**
  * Class: BaseComponentViewHandler
- * Description: TODO 功能描述...
+ * Description: ViewHandler
  * Author: Zyao89
  * Time: 2016/9/17 14:05
  */

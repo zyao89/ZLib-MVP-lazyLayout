@@ -5,9 +5,11 @@ import android.content.Context;
 import android.os.Environment;
 
 import com.squareup.leakcanary.LeakCanary;
+import com.zyao.config.Configs;
 import com.zyao.zcore2.di.component.ApplicationComponent;
 import com.zyao.zcore2.di.component.DaggerApplicationComponent;
 import com.zyao.zcore2.di.module.ApplicationModule;
+import com.zyao.zcore2.di.module.HelperModule;
 import com.zyao.zutils.Z;
 import com.zyao.zutils.log.LogLevel;
 
@@ -30,9 +32,13 @@ public class CoreApplication extends Application
         //        Z.Ext.init(this);
         createComponent();//改进使用dagger2
 
+        Z.Ext.setDebug(Configs.DEBUG);
+
         Z.utils().crash().setSdCardPath(CRASH_PATH);
-        Z.log().getSettings().logLevel(LogLevel.FULL);
-        Z.log().openStreamPrint(LOG_PATH_FILE);
+
+        Z.log().getSettings().logLevel(Z.isDebug() ? LogLevel.FULL : LogLevel.NONE);
+
+        Z.log().openStreamPrint(Z.isDebug() ? LOG_PATH_FILE : null);
     }
 
     @Override
@@ -49,12 +55,17 @@ public class CoreApplication extends Application
 
     private void createComponent ()
     {
-        ApplicationComponent component = DaggerApplicationComponent.builder().applicationModule(getApplicationModule()).build();
+        ApplicationComponent component = DaggerApplicationComponent.builder().applicationModule(getApplicationModule()).helperModule(getHelperModule()).build();
         Z.Ext.init(component);
     }
 
     private ApplicationModule getApplicationModule ()
     {
         return new ApplicationModule(this);
+    }
+
+    private HelperModule getHelperModule ()
+    {
+        return new HelperModule(this);
     }
 }

@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 /* package */ abstract class BasePresenter<ViewHandler extends IBaseUIViewHandler>
 {
-    private final static String TAG = "IBasePresenter";
+    protected final String TAG = this.getClass().getSimpleName();
     protected TaskController mHandler;
     protected ViewHandler mViewHandler;
     private ConcurrentLinkedQueue<BasePresenter> mSubPresenterLinkedQueue;
