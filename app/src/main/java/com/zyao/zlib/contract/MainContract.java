@@ -20,11 +20,11 @@ public interface MainContract
 {
     interface IViewHandler extends IBaseViewHandler
     {
-
+        void getValue ();
     }
 
     interface IPresenter extends IBasePresenter
     {
-
+        void getName ();
     }
 }

@@ -24,7 +24,7 @@ import rx.subscriptions.CompositeSubscription;
  * Author: Zyao89
  * Time: 2016/9/17 2:22
  */
-public abstract class BaseComponentPresenter<ViewHandler extends IBaseViewHandler> implements IRxCompositeSubscription, IBasePresenter
+public abstract class BaseComponentPresenter<ViewHandler extends IBaseViewHandler> implements IRxCompositeSubscription
 {
     protected final String TAG = this.getClass().getSimpleName();
     private final BasePresenterFactory mSubPresenterBasePresenterFactory = BasePresenterFactory.create();

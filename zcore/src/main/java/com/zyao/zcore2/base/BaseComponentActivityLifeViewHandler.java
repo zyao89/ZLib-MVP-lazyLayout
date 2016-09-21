@@ -11,15 +11,13 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.zyao.zcore2.base.inter.IBaseViewHandler;
-
 /**
  * Class: BaseComponentActivityLifeViewHandler
  * Description: Activity的ViewHandler
  * Author: Zyao89
  * Time: 2016/9/17 14:00
  */
-public abstract class BaseComponentActivityLifeViewHandler<RootViewType extends View> extends BaseViewHandler<RootViewType> implements IBaseActivityLifeViewHandler, IBaseViewHandler
+public abstract class BaseComponentActivityLifeViewHandler<RootViewType extends View> extends BaseViewHandler<RootViewType> implements IBaseActivityLifeViewHandler
 {
     @Override
     protected void initViews ()

@@ -11,15 +11,13 @@ import android.app.Activity;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 
-import com.zyao.zcore2.base.inter.IBaseViewHandler;
-
 /**
  * Class: BaseComponentActivityLifeViewHandler
  * Description: TODO 功能描述...
  * Author: Zyao89
  * Time: 2016/9/17 14:00
  */
-public abstract class BaseComponentFragmentLifeViewHandler<RootViewType extends View> extends BaseViewHandler<RootViewType> implements IBaseFragmentLifeViewHandler, IBaseViewHandler
+public abstract class BaseComponentFragmentLifeViewHandler<RootViewType extends View> extends BaseViewHandler<RootViewType> implements IBaseFragmentLifeViewHandler
 {
     @Override
     protected void initViews ()

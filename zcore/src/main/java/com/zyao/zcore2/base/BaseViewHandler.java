@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
  * Author: Zyao89
  * Time: 2016/7/19 17:36
  */
-/* package */ abstract class BaseViewHandler<ViewType extends View> implements IBaseRootLifeViewHandler, IBaseViewHandler
+/* package */ abstract class BaseViewHandler<ViewType extends View> implements IBaseRootLifeViewHandler
 {
     protected final String TAG = this.getClass().getSimpleName();
     protected ViewType mRootView;

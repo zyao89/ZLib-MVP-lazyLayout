@@ -1,5 +1,5 @@
 /**
- * Title: MainActivityLifeViewHandler.java
+ * Title: MainActivityViewHandler.java
  * Package: com.zyao.zlib
  * Description: 本内容仅Zyao89持有，转载请标注。
  * Author: Zyao89
@@ -25,12 +25,12 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 /**
- * Class: MainActivityLifeViewHandler
+ * Class: MainActivityViewHandler
  * Description: TODO 功能描述...
  * Author: Zyao89
  * Time: 2016/9/13 16:06
  */
-public class MainActivityLifeViewHandler extends BaseComponentActivityLifeViewHandler<RelativeLayout> implements MainContract.IViewHandler
+public class MainActivityViewHandler extends BaseComponentActivityLifeViewHandler<RelativeLayout> implements MainContract.IViewHandler
 {
     @BindView(R.id.drawer)
     DrawerLayout mDrawerLayout;
@@ -44,7 +44,7 @@ public class MainActivityLifeViewHandler extends BaseComponentActivityLifeViewHa
     //    MaterialSearchView mSearchView;
 
     @Inject
-    public MainActivityLifeViewHandler (LayoutInflater inflater, RetrofitHelper retrofitHelper)
+    public MainActivityViewHandler (LayoutInflater inflater, RetrofitHelper retrofitHelper)
     {
         System.out.println("LayoutInflater: " + inflater);
         System.out.println("RetrofitHelper: " + retrofitHelper);
@@ -199,6 +199,12 @@ public class MainActivityLifeViewHandler extends BaseComponentActivityLifeViewHa
         //            }
         //        });
 
+
+    }
+
+    @Override
+    public void getValue ()
+    {
 
     }
 }

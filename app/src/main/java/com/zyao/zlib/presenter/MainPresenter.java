@@ -83,4 +83,10 @@ public class MainPresenter extends BaseComponentPresenter<MainContract.IViewHand
     {
 
     }
+
+    @Override
+    public void getName ()
+    {
+
+    }
 }
