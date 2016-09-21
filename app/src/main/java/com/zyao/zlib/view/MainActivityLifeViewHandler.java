@@ -1,5 +1,5 @@
 /**
- * Title: MainActivityViewHandler.java
+ * Title: MainActivityLifeViewHandler.java
  * Package: com.zyao.zlib
  * Description: 本内容仅Zyao89持有，转载请标注。
  * Author: Zyao89
@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.zyao.views.zloading.LoadingView;
-import com.zyao.zcore2.base.BaseComponentActivityViewHandler;
+import com.zyao.zcore2.base.BaseComponentActivityLifeViewHandler;
 import com.zyao.zcore2.helper.RetrofitHelper;
 import com.zyao.zlib.R;
 import com.zyao.zlib.contract.MainContract;
@@ -25,12 +25,12 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 /**
- * Class: MainActivityViewHandler
+ * Class: MainActivityLifeViewHandler
  * Description: TODO 功能描述...
  * Author: Zyao89
  * Time: 2016/9/13 16:06
  */
-public class MainActivityViewHandler extends BaseComponentActivityViewHandler<RelativeLayout> implements MainContract.IViewHandler
+public class MainActivityLifeViewHandler extends BaseComponentActivityLifeViewHandler<RelativeLayout> implements MainContract.IViewHandler
 {
     @BindView(R.id.drawer)
     DrawerLayout mDrawerLayout;
@@ -44,7 +44,7 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     //    MaterialSearchView mSearchView;
 
     @Inject
-    public MainActivityViewHandler (LayoutInflater inflater, RetrofitHelper retrofitHelper)
+    public MainActivityLifeViewHandler (LayoutInflater inflater, RetrofitHelper retrofitHelper)
     {
         System.out.println("LayoutInflater: " + inflater);
         System.out.println("RetrofitHelper: " + retrofitHelper);
@@ -60,6 +60,12 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     protected void initViews ()
     {
         setToolbar(mToolbar, "haha");
+    }
+
+    @Override
+    protected void initSubViewHandler ()
+    {
+
     }
 
     @Override

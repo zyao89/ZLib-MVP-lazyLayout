@@ -5,7 +5,7 @@
  * Author: Zyao89
  * Date: 2016/9/21
  */
-package com.zyao.zcore2.base;
+package com.zyao.zcore2.base.inter;
 
 /**
  * Interface: IBaseViewHandler

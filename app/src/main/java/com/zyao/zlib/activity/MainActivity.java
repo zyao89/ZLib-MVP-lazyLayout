@@ -5,9 +5,9 @@ import com.zyao.zcore2.di.component.ApplicationComponent;
 import com.zyao.zcore2.di.module.ActivityModule;
 import com.zyao.zlib.component.DaggerMainActivityComponent;
 import com.zyao.zlib.presenter.MainPresenter;
-import com.zyao.zlib.view.MainActivityViewHandler;
+import com.zyao.zlib.view.MainActivityLifeViewHandler;
 
-public class MainActivity extends BaseComponentActivity<MainActivityViewHandler, MainPresenter>
+public class MainActivity extends BaseComponentActivity<MainActivityLifeViewHandler, MainPresenter>
 {
     @Override
     protected void initComponent (ApplicationComponent applicationComponent, ActivityModule activityModule)

@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.zyao.zcore.view.BaseViewHandler;
+import com.zyao.zcore2.base.inter.IBaseViewHandler;
 
 /**
  * Class: BaseComponentViewHandler
@@ -18,7 +19,7 @@ import com.zyao.zcore.view.BaseViewHandler;
  * Author: Zyao89
  * Time: 2016/9/17 14:05
  */
-public class BaseComponentViewHandler<ViewType extends View> extends BaseViewHandler<ViewType>
+public abstract class BaseComponentViewHandler<ViewType extends View> extends BaseViewHandler<ViewType> implements IBaseViewHandler
 {
     public BaseComponentViewHandler (@NonNull ViewType rootView)
     {

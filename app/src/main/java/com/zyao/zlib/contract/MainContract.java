@@ -7,8 +7,8 @@
  */
 package com.zyao.zlib.contract;
 
-import com.zyao.zcore2.base.IBasePresenter;
-import com.zyao.zcore2.base.IBaseViewHandler;
+import com.zyao.zcore2.base.inter.IBasePresenter;
+import com.zyao.zcore2.base.inter.IBaseViewHandler;
 
 /**
  * interface: MainContract

@@ -1,4 +1,4 @@
-package com.zyao.zcore.view;
+package com.zyao.zcore2.base;
 
 import android.support.annotation.LayoutRes;
 
@@ -8,7 +8,7 @@ import android.support.annotation.LayoutRes;
  * Author: Zyao89
  * Time: 2016/7/30 13:44
  */
-public interface IBaseActivityViewHandler extends IBaseRootViewHandler
+interface IBaseActivityLifeViewHandler
 {
     /**
      * 获取主Activity的Layout布局id

@@ -9,6 +9,9 @@ package com.zyao.zcore2.base;
 
 import android.os.Bundle;
 
+import com.zyao.zcore2.base.inter.IBasePresenter;
+import com.zyao.zcore2.base.inter.IBaseViewHandler;
+
 import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentLinkedQueue;
 

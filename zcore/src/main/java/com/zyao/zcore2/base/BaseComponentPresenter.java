@@ -9,6 +9,8 @@ package com.zyao.zcore2.base;
 
 import android.os.Bundle;
 
+import com.zyao.zcore2.base.inter.IBasePresenter;
+import com.zyao.zcore2.base.inter.IBaseViewHandler;
 import com.zyao.zcore2.rx.IRxCompositeSubscription;
 import com.zyao.zutils.TaskController;
 import com.zyao.zutils.Z;

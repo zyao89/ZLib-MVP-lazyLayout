@@ -19,7 +19,8 @@ import android.view.View;
 import com.zyao.zcore.R;
 import com.zyao.zcore.anim.FragmentAnimator;
 import com.zyao.zcore.support.SupportActivity;
-import com.zyao.zcore.view.BaseActivityViewHandler;
+import com.zyao.zcore2.base.inter.IBasePresenter;
+import com.zyao.zcore2.base.inter.IBaseViewHandler;
 import com.zyao.zcore2.di.component.ApplicationComponent;
 import com.zyao.zcore2.di.module.ActivityModule;
 import com.zyao.zutils.Z;
@@ -38,11 +39,12 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     private final BasePresenterFactory mSubPresenterBasePresenterFactory = BasePresenterFactory.create();
     protected View mRootView;
     protected Context mContext;
+
     @Inject
     protected ViewHandler mViewHandler;
     @Inject
     protected Presenter mPresenter;
-    private BaseActivityViewHandler _mViewHandler;
+    private BaseComponentActivityLifeViewHandler _mViewHandler;
     private BaseComponentPresenter<ViewHandler> _Presenter;
 
     @Override
@@ -50,9 +52,9 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     {
         super.onCreate(savedInstanceState);
         initComponent(getApplicationComponent(), getActivityModule());
-        if (mViewHandler instanceof BaseActivityViewHandler)
+        if (mViewHandler instanceof BaseComponentActivityLifeViewHandler)
         {
-            _mViewHandler = (BaseActivityViewHandler) mViewHandler;
+            _mViewHandler = (BaseComponentActivityLifeViewHandler) mViewHandler;
         }
         if (mPresenter instanceof BaseComponentPresenter)
         {
@@ -60,6 +62,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
         }
 
         createRootView();
+
         _mViewHandler.resetDefaultState(savedInstanceState);//恢复
 
         if (!Z.activityCtrl().containsActivity(this))

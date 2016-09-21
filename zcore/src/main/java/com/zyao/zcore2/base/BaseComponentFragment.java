@@ -19,7 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zyao.zcore.support.SupportFragment;
-import com.zyao.zcore.view.BaseFragmentViewHandler;
+import com.zyao.zcore2.base.inter.IBasePresenter;
+import com.zyao.zcore2.base.inter.IBaseViewHandler;
 import com.zyao.zcore2.di.component.ApplicationComponent;
 import com.zyao.zcore2.di.module.FragmentModule;
 import com.zyao.zutils.Z;
@@ -35,15 +36,16 @@ import javax.inject.Inject;
 public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler, Presenter extends IBasePresenter> extends SupportFragment implements ICommonMethod
 {
     protected final String TAG = this.getClass().getSimpleName();
+    private final BasePresenterFactory mSubPresenterBasePresenterFactory = BasePresenterFactory.create();
     protected Activity mActivity;
     protected Context mContext;
+    protected View mRootView;
+
     @Inject
     protected ViewHandler mViewHandler;
     @Inject
     protected Presenter mPresenter;
-    private View mRootView;
-    private BasePresenterFactory mSubPresenterBasePresenterFactory = BasePresenterFactory.create();
-    private BaseFragmentViewHandler _mViewHandler;
+    private BaseComponentFragmentLifeViewHandler _mViewHandler;
     private BaseComponentPresenter<ViewHandler> _Presenter;
 
     @Override
@@ -65,9 +67,9 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
 
         initComponent(getApplicationComponent(), getFragmentModule());
 
-        if (mViewHandler instanceof BaseFragmentViewHandler)
+        if (mViewHandler instanceof BaseComponentFragmentLifeViewHandler)
         {
-            _mViewHandler = (BaseFragmentViewHandler) mViewHandler;
+            _mViewHandler = (BaseComponentFragmentLifeViewHandler) mViewHandler;
         }
         if (mPresenter instanceof BaseComponentPresenter)
         {
