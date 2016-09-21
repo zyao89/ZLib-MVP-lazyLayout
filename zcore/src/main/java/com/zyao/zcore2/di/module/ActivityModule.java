@@ -8,6 +8,8 @@
 package com.zyao.zcore2.di.module;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
 
 import com.zyao.zcore2.di.ActivityScope;
 
@@ -23,11 +25,18 @@ import dagger.Provides;
 @Module
 public class ActivityModule
 {
-    private final Activity activity;
+    private final AppCompatActivity activity;
 
-    public ActivityModule (Activity activity)
+    public ActivityModule (AppCompatActivity activity)
     {
         this.activity = activity;
+    }
+
+    @Provides
+    @ActivityScope
+    AppCompatActivity appCompatActivity ()
+    {
+        return activity;
     }
 
     @Provides
@@ -35,5 +44,12 @@ public class ActivityModule
     Activity activity ()
     {
         return activity;
+    }
+
+    @Provides
+    @ActivityScope
+    Window window ()
+    {
+        return activity.getWindow();
     }
 }

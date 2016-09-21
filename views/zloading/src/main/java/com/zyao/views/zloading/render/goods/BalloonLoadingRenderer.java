@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.DisplayMetrics;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
@@ -202,6 +201,24 @@ public class BalloonLoadingRenderer extends LoadingRenderer
         }
     }
 
+    @Override
+    protected void setAlpha (int alpha)
+    {
+        mPaint.setAlpha(alpha);
+
+    }
+
+    @Override
+    protected void setColorFilter (ColorFilter cf)
+    {
+        mPaint.setColorFilter(cf);
+    }
+
+    @Override
+    protected void reset ()
+    {
+    }
+
     private int adjustProgress (int progress)
     {
         progress = progress / 10 * 10;
@@ -285,24 +302,6 @@ public class BalloonLoadingRenderer extends LoadingRenderer
         //                balloonRect.left + balloonRect.width() * 0.5f, balloonRect.bottom);
 
         return path;
-    }
-
-    @Override
-    protected void setAlpha (int alpha)
-    {
-        mPaint.setAlpha(alpha);
-
-    }
-
-    @Override
-    protected void setColorFilter (ColorFilter cf)
-    {
-        mPaint.setColorFilter(cf);
-    }
-
-    @Override
-    protected void reset ()
-    {
     }
 
     public static class Builder

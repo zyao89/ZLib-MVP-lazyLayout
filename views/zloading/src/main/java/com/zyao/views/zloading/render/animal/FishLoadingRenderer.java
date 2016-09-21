@@ -12,7 +12,6 @@ import android.graphics.PathMeasure;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
-import android.util.DisplayMetrics;
 import android.view.animation.Interpolator;
 
 import com.zyao.views.zloading.DensityUtil;
@@ -21,36 +20,27 @@ import com.zyao.views.zloading.render.LoadingRenderer;
 
 public class FishLoadingRenderer extends LoadingRenderer
 {
-    private Interpolator FISH_INTERPOLATOR = new FishInterpolator();
-
     private static final float DEFAULT_PATH_FULL_LINE_SIZE = 7.0f;
     private static final float DEFAULT_PATH_DOTTED_LINE_SIZE = DEFAULT_PATH_FULL_LINE_SIZE / 2.0f;
     private static final float DEFAULT_RIVER_HEIGHT = DEFAULT_PATH_FULL_LINE_SIZE * 8.5f;
     private static final float DEFAULT_RIVER_WIDTH = DEFAULT_PATH_FULL_LINE_SIZE * 5.5f;
-
     private static final float DEFAULT_FISH_EYE_SIZE = DEFAULT_PATH_FULL_LINE_SIZE * 0.5f;
     private static final float DEFAULT_FISH_WIDTH = DEFAULT_PATH_FULL_LINE_SIZE * 3.0f;
     private static final float DEFAULT_FISH_HEIGHT = DEFAULT_PATH_FULL_LINE_SIZE * 4.5f;
-
     private static final float DEFAULT_WIDTH = 200.0f;
     private static final float DEFAULT_HEIGHT = 150.0f;
     private static final float DEFAULT_RIVER_BANK_WIDTH = DEFAULT_PATH_FULL_LINE_SIZE;
-
     private static final long ANIMATION_DURATION = 800;
     private static final float DOTTED_LINE_WIDTH_COUNT = (8.5f + 5.5f - 2.0f) * 2.0f * 2.0f;
     private static final float DOTTED_LINE_WIDTH_RATE = 1.0f / DOTTED_LINE_WIDTH_COUNT;
-
+    private static final int DEFAULT_COLOR = Color.parseColor("#fffefed6");
     private final float[] FISH_MOVE_POINTS = new float[]{DOTTED_LINE_WIDTH_RATE * 3.0f, DOTTED_LINE_WIDTH_RATE * 6.0f, DOTTED_LINE_WIDTH_RATE * 15f, DOTTED_LINE_WIDTH_RATE * 18f, DOTTED_LINE_WIDTH_RATE * 27.0f, DOTTED_LINE_WIDTH_RATE * 30.0f, DOTTED_LINE_WIDTH_RATE * 39f, DOTTED_LINE_WIDTH_RATE * 42f,};
 
     private final float FISH_MOVE_POINTS_RATE = 1.0f / FISH_MOVE_POINTS.length;
-
-    private static final int DEFAULT_COLOR = Color.parseColor("#fffefed6");
-
     private final Paint mPaint = new Paint();
     private final RectF mTempBounds = new RectF();
-
     private final float[] mFishHeadPos = new float[2];
-
+    private Interpolator FISH_INTERPOLATOR = new FishInterpolator();
     private Path mRiverPath;
     private PathMeasure mRiverMeasure;
 
@@ -136,26 +126,6 @@ public class FishLoadingRenderer extends LoadingRenderer
         canvas.restoreToCount(saveCount);
     }
 
-    private float calculateRotateDegrees (float fishProgress)
-    {
-        if (fishProgress < FISH_MOVE_POINTS_RATE * 2)
-        {
-            return 90;
-        }
-
-        if (fishProgress < FISH_MOVE_POINTS_RATE * 4)
-        {
-            return 180;
-        }
-
-        if (fishProgress < FISH_MOVE_POINTS_RATE * 6)
-        {
-            return 270;
-        }
-
-        return 0.0f;
-    }
-
     @Override
     protected void computeRender (float renderProgress)
     {
@@ -190,6 +160,26 @@ public class FishLoadingRenderer extends LoadingRenderer
     @Override
     protected void reset ()
     {
+    }
+
+    private float calculateRotateDegrees (float fishProgress)
+    {
+        if (fishProgress < FISH_MOVE_POINTS_RATE * 2)
+        {
+            return 90;
+        }
+
+        if (fishProgress < FISH_MOVE_POINTS_RATE * 4)
+        {
+            return 180;
+        }
+
+        if (fishProgress < FISH_MOVE_POINTS_RATE * 6)
+        {
+            return 270;
+        }
+
+        return 0.0f;
     }
 
     private Path createFishEyePath (float fishEyeCenterX, float fishEyeCenterY)
@@ -248,21 +238,6 @@ public class FishLoadingRenderer extends LoadingRenderer
         return mRiverPath;
     }
 
-    private class FishInterpolator implements Interpolator
-    {
-        @Override
-        public float getInterpolation (float input)
-        {
-            int index = ((int) (input / FISH_MOVE_POINTS_RATE));
-            if (index >= FISH_MOVE_POINTS.length)
-            {
-                index = FISH_MOVE_POINTS.length - 1;
-            }
-
-            return FISH_MOVE_POINTS[index];
-        }
-    }
-
     public static class Builder
     {
         private Context mContext;
@@ -276,6 +251,21 @@ public class FishLoadingRenderer extends LoadingRenderer
         {
             FishLoadingRenderer loadingRenderer = new FishLoadingRenderer(mContext);
             return loadingRenderer;
+        }
+    }
+
+    private class FishInterpolator implements Interpolator
+    {
+        @Override
+        public float getInterpolation (float input)
+        {
+            int index = ((int) (input / FISH_MOVE_POINTS_RATE));
+            if (index >= FISH_MOVE_POINTS.length)
+            {
+                index = FISH_MOVE_POINTS.length - 1;
+            }
+
+            return FISH_MOVE_POINTS[index];
         }
     }
 }

@@ -7,9 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
-import android.support.annotation.NonNull;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.view.animation.Interpolator;
 
@@ -38,7 +36,15 @@ public class WhorlLoadingRenderer extends LoadingRenderer
     private final Paint mPaint = new Paint();
     private final RectF mTempBounds = new RectF();
     private final RectF mTempArcBounds = new RectF();
-
+    private int[] mColors;
+    private float mStrokeInset;
+    private float mRotationCount;
+    private float mGroupRotation;
+    private float mEndDegrees;
+    private float mStartDegrees;
+    private float mSwipeDegrees;
+    private float mOriginEndDegrees;
+    private float mOriginStartDegrees;
     private final Animator.AnimatorListener mAnimatorListener = new AnimatorListenerAdapter()
     {
         @Override
@@ -58,20 +64,6 @@ public class WhorlLoadingRenderer extends LoadingRenderer
             mRotationCount = 0;
         }
     };
-
-    private int[] mColors;
-
-    private float mStrokeInset;
-
-    private float mRotationCount;
-    private float mGroupRotation;
-
-    private float mEndDegrees;
-    private float mStartDegrees;
-    private float mSwipeDegrees;
-    private float mOriginEndDegrees;
-    private float mOriginStartDegrees;
-
     private float mStrokeWidth;
     private float mCenterRadius;
 
@@ -125,26 +117,6 @@ public class WhorlLoadingRenderer extends LoadingRenderer
         canvas.restoreToCount(saveCount);
     }
 
-    private RectF createArcBounds (RectF sourceArcBounds, int index)
-    {
-        int intervalWidth = 0;
-
-        for (int i = 0;
-             i < index;
-             i++)
-        {
-            intervalWidth += mStrokeWidth / (i + 1.0f) * 1.5f;
-        }
-
-        int arcBoundsLeft = (int) (sourceArcBounds.left + intervalWidth);
-        int arcBoundsTop = (int) (sourceArcBounds.top + intervalWidth);
-        int arcBoundsRight = (int) (sourceArcBounds.right - intervalWidth);
-        int arcBoundsBottom = (int) (sourceArcBounds.bottom - intervalWidth);
-        mTempArcBounds.set(arcBoundsLeft, arcBoundsTop, arcBoundsRight, arcBoundsBottom);
-
-        return mTempArcBounds;
-    }
-
     @Override
     protected void computeRender (float renderProgress)
     {
@@ -188,6 +160,24 @@ public class WhorlLoadingRenderer extends LoadingRenderer
     protected void reset ()
     {
         resetOriginals();
+    }
+
+    private RectF createArcBounds (RectF sourceArcBounds, int index)
+    {
+        int intervalWidth = 0;
+
+        for (int i = 0; i < index; i++)
+        {
+            intervalWidth += mStrokeWidth / (i + 1.0f) * 1.5f;
+        }
+
+        int arcBoundsLeft = (int) (sourceArcBounds.left + intervalWidth);
+        int arcBoundsTop = (int) (sourceArcBounds.top + intervalWidth);
+        int arcBoundsRight = (int) (sourceArcBounds.right - intervalWidth);
+        int arcBoundsBottom = (int) (sourceArcBounds.bottom - intervalWidth);
+        mTempArcBounds.set(arcBoundsLeft, arcBoundsTop, arcBoundsRight, arcBoundsBottom);
+
+        return mTempArcBounds;
     }
 
     private void initStrokeInset (float width, float height)

@@ -9,9 +9,6 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.support.v7.widget.ViewUtils;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -34,12 +31,30 @@ public class CircleBroodLoadingRenderer extends LoadingRenderer
     private final Interpolator DECELERATE_INTERPOLATOR05 = new DecelerateInterpolator(0.5f);
     private final Interpolator DECELERATE_INTERPOLATOR08 = new DecelerateInterpolator(0.8f);
     private final Interpolator DECELERATE_INTERPOLATOR10 = new DecelerateInterpolator(1.0f);
-
+    private final float OVAL_BEZIER_FACTOR = 0.55152f;
+    private final float DEFAULT_WIDTH = 200.0f;
+    private final float DEFAULT_HEIGHT = 150.0f;
+    private final float MAX_MATHER_OVAL_SIZE = 19;
+    private final float MIN_CHILD_OVAL_RADIUS = 5;
+    private final float MAX_MATHER_SHAPE_CHANGE_FACTOR = 0.8452f;
+    private final int DEFAULT_OVAL_COLOR = Color.parseColor("#FFBE1C23");
+    private final int DEFAULT_OVAL_DEEP_COLOR = Color.parseColor("#FFB21721");
+    private final int DEFAULT_BACKGROUND_COLOR = Color.parseColor("#FFE3C172");
+    private final int DEFAULT_BACKGROUND_DEEP_COLOR = Color.parseColor("#FFE2B552");
+    private final long ANIMATION_DURATION = 4111;
+    private final Paint mPaint = new Paint();
+    private final RectF mCurrentBounds = new RectF();
+    private final Path mMotherOvalPath = new Path();
+    private final Path mMotherMovePath = new Path();
+    private final Path mChildMovePath = new Path();
+    private final float[] mMotherPosition = new float[2];
+    private final float[] mChildPosition = new float[2];
+    private final PathMeasure mMotherMovePathMeasure = new PathMeasure();
+    private final PathMeasure mChildMovePathMeasure = new PathMeasure();
     private float STAGE_MOTHER_FORWARD_TOP_LEFT = 0.34f;
     private float STAGE_MOTHER_BACKWARD_TOP_LEFT = 0.5f;
     private float STAGE_MOTHER_FORWARD_BOTTOM_LEFT = 0.65f;
     private float STAGE_MOTHER_BACKWARD_BOTTOM_LEFT = 0.833f;
-
     private float STAGE_CHILD_DELAY = 0.1f;
     private float STAGE_CHILD_PRE_FORWARD_TOP_LEFT = 0.26f;
     private float STAGE_CHILD_FORWARD_TOP_LEFT = 0.34f;
@@ -47,33 +62,6 @@ public class CircleBroodLoadingRenderer extends LoadingRenderer
     private float STAGE_CHILD_BACKWARD_TOP_LEFT = 0.5f;
     private float STAGE_CHILD_FORWARD_BOTTOM_LEFT = 0.7f;
     private float STAGE_CHILD_BACKWARD_BOTTOM_LEFT = 0.9f;
-
-    private final float OVAL_BEZIER_FACTOR = 0.55152f;
-
-    private final float DEFAULT_WIDTH = 200.0f;
-    private final float DEFAULT_HEIGHT = 150.0f;
-    private final float MAX_MATHER_OVAL_SIZE = 19;
-    private final float MIN_CHILD_OVAL_RADIUS = 5;
-    private final float MAX_MATHER_SHAPE_CHANGE_FACTOR = 0.8452f;
-
-    private final int DEFAULT_OVAL_COLOR = Color.parseColor("#FFBE1C23");
-    private final int DEFAULT_OVAL_DEEP_COLOR = Color.parseColor("#FFB21721");
-    private final int DEFAULT_BACKGROUND_COLOR = Color.parseColor("#FFE3C172");
-    private final int DEFAULT_BACKGROUND_DEEP_COLOR = Color.parseColor("#FFE2B552");
-
-    private final long ANIMATION_DURATION = 4111;
-
-    private final Paint mPaint = new Paint();
-    private final RectF mCurrentBounds = new RectF();
-    private final Path mMotherOvalPath = new Path();
-    private final Path mMotherMovePath = new Path();
-    private final Path mChildMovePath = new Path();
-
-    private final float[] mMotherPosition = new float[2];
-    private final float[] mChildPosition = new float[2];
-    private final PathMeasure mMotherMovePathMeasure = new PathMeasure();
-    private final PathMeasure mChildMovePathMeasure = new PathMeasure();
-
     private float mChildOvalRadius;
     private float mBasicChildOvalRadius;
     private float mMaxMotherOvalSize;
@@ -181,6 +169,60 @@ public class CircleBroodLoadingRenderer extends LoadingRenderer
         //    canvas.drawLine(mMotherPosition[0], mMotherPosition[1], mChildPosition[0], mChildPosition[1], mPaint);
     }
 
+    @Override
+    protected void computeRender (float renderProgress)
+    {
+        if (mCurrentBounds.isEmpty())
+        {
+            return;
+        }
+
+        if (mMotherMovePath.isEmpty())
+        {
+            mMotherMovePath.set(createMotherMovePath());
+            mMotherMovePathMeasure.setPath(mMotherMovePath, false);
+
+            mChildMovePath.set(createChildMovePath());
+            mChildMovePathMeasure.setPath(mChildMovePath, false);
+        }
+
+        //mother oval
+        float motherMoveProgress = MOTHER_MOVE_INTERPOLATOR.getInterpolation(renderProgress);
+        mMotherMovePathMeasure.getPosTan(getCurrentMotherMoveLength(motherMoveProgress), mMotherPosition, null);
+        mMotherOvalHalfWidth = mMaxMotherOvalSize;
+        mMotherOvalHalfHeight = mMaxMotherOvalSize * getMotherShapeFactor(motherMoveProgress);
+
+        //child Oval
+        float childMoveProgress = CHILD_MOVE_INTERPOLATOR.getInterpolation(renderProgress);
+        mChildMovePathMeasure.getPosTan(getCurrentChildMoveLength(childMoveProgress), mChildPosition, null);
+        setupChildParams(childMoveProgress);
+
+        mRotateDegrees = (int) (Math.toDegrees(Math.atan((mMotherPosition[1] - mChildPosition[1]) / (mMotherPosition[0] - mChildPosition[0]))));
+
+        mRevealCircleRadius = getCurrentRevealCircleRadius(renderProgress);
+        mCurrentOvalColor = getCurrentOvalColor(renderProgress);
+        mCurrentBackgroundColor = getCurrentBackgroundColor(renderProgress);
+    }
+
+    @Override
+    protected void setAlpha (int alpha)
+    {
+        mPaint.setAlpha(alpha);
+
+    }
+
+    @Override
+    protected void setColorFilter (ColorFilter cf)
+    {
+        mPaint.setColorFilter(cf);
+
+    }
+
+    @Override
+    protected void reset ()
+    {
+    }
+
     private Path createMotherPath ()
     {
         mMotherOvalPath.reset();
@@ -247,41 +289,6 @@ public class CircleBroodLoadingRenderer extends LoadingRenderer
         }
 
         return path;
-    }
-
-    @Override
-    protected void computeRender (float renderProgress)
-    {
-        if (mCurrentBounds.isEmpty())
-        {
-            return;
-        }
-
-        if (mMotherMovePath.isEmpty())
-        {
-            mMotherMovePath.set(createMotherMovePath());
-            mMotherMovePathMeasure.setPath(mMotherMovePath, false);
-
-            mChildMovePath.set(createChildMovePath());
-            mChildMovePathMeasure.setPath(mChildMovePath, false);
-        }
-
-        //mother oval
-        float motherMoveProgress = MOTHER_MOVE_INTERPOLATOR.getInterpolation(renderProgress);
-        mMotherMovePathMeasure.getPosTan(getCurrentMotherMoveLength(motherMoveProgress), mMotherPosition, null);
-        mMotherOvalHalfWidth = mMaxMotherOvalSize;
-        mMotherOvalHalfHeight = mMaxMotherOvalSize * getMotherShapeFactor(motherMoveProgress);
-
-        //child Oval
-        float childMoveProgress = CHILD_MOVE_INTERPOLATOR.getInterpolation(renderProgress);
-        mChildMovePathMeasure.getPosTan(getCurrentChildMoveLength(childMoveProgress), mChildPosition, null);
-        setupChildParams(childMoveProgress);
-
-        mRotateDegrees = (int) (Math.toDegrees(Math.atan((mMotherPosition[1] - mChildPosition[1]) / (mMotherPosition[0] - mChildPosition[0]))));
-
-        mRevealCircleRadius = getCurrentRevealCircleRadius(renderProgress);
-        mCurrentOvalColor = getCurrentOvalColor(renderProgress);
-        mCurrentBackgroundColor = getCurrentBackgroundColor(renderProgress);
     }
 
     private void setupChildParams (float input)
@@ -641,23 +648,20 @@ public class CircleBroodLoadingRenderer extends LoadingRenderer
         return pathMeasure.getLength();
     }
 
-    @Override
-    protected void setAlpha (int alpha)
+    public static class Builder
     {
-        mPaint.setAlpha(alpha);
+        private Context mContext;
 
-    }
+        public Builder (Context mContext)
+        {
+            this.mContext = mContext;
+        }
 
-    @Override
-    protected void setColorFilter (ColorFilter cf)
-    {
-        mPaint.setColorFilter(cf);
-
-    }
-
-    @Override
-    protected void reset ()
-    {
+        public CircleBroodLoadingRenderer build ()
+        {
+            CircleBroodLoadingRenderer loadingRenderer = new CircleBroodLoadingRenderer(mContext);
+            return loadingRenderer;
+        }
     }
 
     private class MotherMoveInterpolator implements Interpolator
@@ -734,22 +738,6 @@ public class CircleBroodLoadingRenderer extends LoadingRenderer
             }
 
             return result;
-        }
-    }
-
-    public static class Builder
-    {
-        private Context mContext;
-
-        public Builder (Context mContext)
-        {
-            this.mContext = mContext;
-        }
-
-        public CircleBroodLoadingRenderer build ()
-        {
-            CircleBroodLoadingRenderer loadingRenderer = new CircleBroodLoadingRenderer(mContext);
-            return loadingRenderer;
         }
     }
 }

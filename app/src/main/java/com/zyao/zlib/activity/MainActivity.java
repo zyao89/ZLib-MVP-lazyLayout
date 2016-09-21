@@ -1,11 +1,6 @@
 package com.zyao.zlib.activity;
 
-import com.zyao.zcore2.base.BaseComponentActivity;
-import com.zyao.zcore2.di.component.ApplicationComponent;
-import com.zyao.zcore2.di.module.ActivityModule;
 import com.zyao.zlib.component.DaggerMainActivityComponent;
-import com.zyao.zlib.presenter.MainPresenter;
-import com.zyao.zlib.view.MainActivityViewHandler;
 
 public class MainActivity extends BaseComponentActivity<MainActivityViewHandler, MainPresenter>
 {

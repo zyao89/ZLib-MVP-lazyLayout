@@ -7,6 +7,7 @@
  */
 package com.zyao.zlib.view;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -45,10 +46,11 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     //    MaterialSearchView mSearchView;
 
     @Inject
-    public MainActivityViewHandler (LayoutInflater inflater, RetrofitHelper retrofitHelper)
+    public MainActivityViewHandler (LayoutInflater inflater, RetrofitHelper retrofitHelper, Activity activity)
     {
         System.out.println("LayoutInflater: " + inflater);
         System.out.println("RetrofitHelper: " + retrofitHelper);
+        System.out.println("Activity: " + activity);
     }
 
     @Override
@@ -76,7 +78,9 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     @Override
     protected void initSubViewHandler ()
     {
+        SubComponentViewHandler subViewHandler = createSubViewHandler(SubComponentViewHandler.class, mRootView);
 
+        System.out.println("subViewHandler: " + subViewHandler);
     }
 
     @Override

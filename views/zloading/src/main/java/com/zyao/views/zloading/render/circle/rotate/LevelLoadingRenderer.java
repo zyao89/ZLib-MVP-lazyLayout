@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.Size;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -44,7 +43,17 @@ public class LevelLoadingRenderer extends LoadingRenderer
 
     private final Paint mPaint = new Paint();
     private final RectF mTempBounds = new RectF();
-
+    @Size(3)
+    private int[] mLevelColors;
+    @Size(3)
+    private float[] mLevelSwipeDegrees;
+    private float mStrokeInset;
+    private float mRotationCount;
+    private float mGroupRotation;
+    private float mEndDegrees;
+    private float mStartDegrees;
+    private float mOriginEndDegrees;
+    private float mOriginStartDegrees;
     private final Animator.AnimatorListener mAnimatorListener = new AnimatorListenerAdapter()
     {
         @Override
@@ -64,22 +73,6 @@ public class LevelLoadingRenderer extends LoadingRenderer
             mRotationCount = 0;
         }
     };
-
-    @Size(3)
-    private int[] mLevelColors;
-    @Size(3)
-    private float[] mLevelSwipeDegrees;
-
-    private float mStrokeInset;
-
-    private float mRotationCount;
-    private float mGroupRotation;
-
-    private float mEndDegrees;
-    private float mStartDegrees;
-    private float mOriginEndDegrees;
-    private float mOriginStartDegrees;
-
     private float mStrokeWidth;
     private float mCenterRadius;
 

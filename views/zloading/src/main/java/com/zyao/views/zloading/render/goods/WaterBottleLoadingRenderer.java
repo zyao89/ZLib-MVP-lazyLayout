@@ -9,15 +9,14 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.util.DisplayMetrics;
 import android.view.animation.Interpolator;
+
+import com.zyao.views.zloading.DensityUtil;
+import com.zyao.views.zloading.render.LoadingRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import com.zyao.views.zloading.DensityUtil;
-import com.zyao.views.zloading.render.LoadingRenderer;
 
 public class WaterBottleLoadingRenderer extends LoadingRenderer
 {
@@ -189,6 +188,25 @@ public class WaterBottleLoadingRenderer extends LoadingRenderer
         mPaint.getTextBounds(LOADING_TEXT, 0, LOADING_TEXT.length(), mLoadingBounds);
     }
 
+    @Override
+    protected void setAlpha (int alpha)
+    {
+        mPaint.setAlpha(alpha);
+
+    }
+
+    @Override
+    protected void setColorFilter (ColorFilter cf)
+    {
+        mPaint.setColorFilter(cf);
+
+    }
+
+    @Override
+    protected void reset ()
+    {
+    }
+
     private Path createBottlePath (RectF bottleRect)
     {
         float bottleneckWidth = bottleRect.width() * 0.3f;
@@ -291,23 +309,20 @@ public class WaterBottleLoadingRenderer extends LoadingRenderer
         return (float) (Math.sqrt(Math.pow(bottleRadius, 2.0f) - Math.pow(coordinateX, 2.0f)) - waterDropRadius);
     }
 
-    @Override
-    protected void setAlpha (int alpha)
+    public static class Builder
     {
-        mPaint.setAlpha(alpha);
+        private Context mContext;
 
-    }
+        public Builder (Context mContext)
+        {
+            this.mContext = mContext;
+        }
 
-    @Override
-    protected void setColorFilter (ColorFilter cf)
-    {
-        mPaint.setColorFilter(cf);
-
-    }
-
-    @Override
-    protected void reset ()
-    {
+        public WaterBottleLoadingRenderer build ()
+        {
+            WaterBottleLoadingRenderer loadingRenderer = new WaterBottleLoadingRenderer(mContext);
+            return loadingRenderer;
+        }
     }
 
     private class WaterDropHolder
@@ -323,21 +338,5 @@ public class WaterBottleLoadingRenderer extends LoadingRenderer
         public float mDuration;
 
         public boolean mNeedDraw;
-    }
-
-    public static class Builder
-    {
-        private Context mContext;
-
-        public Builder (Context mContext)
-        {
-            this.mContext = mContext;
-        }
-
-        public WaterBottleLoadingRenderer build ()
-        {
-            WaterBottleLoadingRenderer loadingRenderer = new WaterBottleLoadingRenderer(mContext);
-            return loadingRenderer;
-        }
     }
 }

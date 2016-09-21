@@ -23,7 +23,7 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-    repositories{
+    repositories {
         flatDir {
             dirs 'libs'
         }

@@ -13,33 +13,32 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.util.DisplayMetrics;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
+import com.zyao.views.zloading.DensityUtil;
+import com.zyao.views.zloading.render.LoadingRenderer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.zyao.views.zloading.DensityUtil;
-import com.zyao.views.zloading.render.LoadingRenderer;
-
 public class DayNightLoadingRenderer extends LoadingRenderer
 {
+    public static final float STAR_RISE_PROGRESS_OFFSET = 0.2f;
+    public static final float STAR_DECREASE_PROGRESS_OFFSET = 0.8f;
+    public static final float STAR_FLASH_PROGRESS_PERCENTAGE = 0.2f;
     private static final Interpolator MATERIAL_INTERPOLATOR = new FastOutSlowInInterpolator();
     private static final Interpolator LINEAR_INTERPOLATOR = new LinearInterpolator();
     private static final Interpolator DECELERATE_INTERPOLATOR = new DecelerateInterpolator();
     private static final Interpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
     private static final Interpolator FASTOUTLINEARIN_INTERPOLATOR = new FastOutLinearInInterpolator();
-
     private static final Interpolator[] INTERPOLATORS = new Interpolator[]{LINEAR_INTERPOLATOR, DECELERATE_INTERPOLATOR, ACCELERATE_INTERPOLATOR, FASTOUTLINEARIN_INTERPOLATOR, MATERIAL_INTERPOLATOR};
-
     private static final int MAX_ALPHA = 255;
     private static final int DEGREE_360 = 360;
     private static final int MAX_SUN_RAY_COUNT = 12;
-
     private static final float DEFAULT_WIDTH = 200.0f;
     private static final float DEFAULT_HEIGHT = 150.0f;
     private static final float DEFAULT_STROKE_WIDTH = 2.5f;
@@ -47,11 +46,6 @@ public class DayNightLoadingRenderer extends LoadingRenderer
     private static final float DEFAULT_STAR_RADIUS = 2.5f;
     private static final float DEFAULT_SUN_RAY_LENGTH = 10.0f;
     private static final float DEFAULT_SUN_RAY_OFFSET = 3.0f;
-
-    public static final float STAR_RISE_PROGRESS_OFFSET = 0.2f;
-    public static final float STAR_DECREASE_PROGRESS_OFFSET = 0.8f;
-    public static final float STAR_FLASH_PROGRESS_PERCENTAGE = 0.2f;
-
     private static final float MAX_SUN_ROTATE_DEGREE = DEGREE_360 / 3.0f;
     private static final float MAX_MOON_ROTATE_DEGREE = DEGREE_360 / 6.0f;
     private static final float SUN_RAY_INTERVAL_DEGREE = DEGREE_360 / 3.0f / 55;
@@ -351,30 +345,6 @@ public class DayNightLoadingRenderer extends LoadingRenderer
         return path;
     }
 
-    private class StarHolder
-    {
-        public int mAlpha;
-        public PointF mCurrentPoint;
-
-        public final PointF mPoint;
-        public final float mFlashOffset;
-        public final Interpolator mInterpolator;
-
-        public StarHolder (PointF point)
-        {
-            this(1.0f, point);
-        }
-
-        public StarHolder (float flashOffset, PointF mPoint)
-        {
-            this.mAlpha = MAX_ALPHA;
-            this.mCurrentPoint = new PointF();
-            this.mPoint = mPoint;
-            this.mFlashOffset = flashOffset;
-            this.mInterpolator = INTERPOLATORS[mRandom.nextInt(INTERPOLATORS.length)];
-        }
-    }
-
     public static class Builder
     {
         private Context mContext;
@@ -388,6 +358,29 @@ public class DayNightLoadingRenderer extends LoadingRenderer
         {
             DayNightLoadingRenderer loadingRenderer = new DayNightLoadingRenderer(mContext);
             return loadingRenderer;
+        }
+    }
+
+    private class StarHolder
+    {
+        public final PointF mPoint;
+        public final float mFlashOffset;
+        public final Interpolator mInterpolator;
+        public int mAlpha;
+        public PointF mCurrentPoint;
+
+        public StarHolder (PointF point)
+        {
+            this(1.0f, point);
+        }
+
+        public StarHolder (float flashOffset, PointF mPoint)
+        {
+            this.mAlpha = MAX_ALPHA;
+            this.mCurrentPoint = new PointF();
+            this.mPoint = mPoint;
+            this.mFlashOffset = flashOffset;
+            this.mInterpolator = INTERPOLATORS[mRandom.nextInt(INTERPOLATORS.length)];
         }
     }
 }

@@ -8,6 +8,8 @@
 package com.zyao.zcore2.di.component;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
 
 import com.zyao.zcore2.di.ActivityScope;
 import com.zyao.zcore2.di.module.ActivityModule;
@@ -24,5 +26,9 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
 public interface ActivityComponent
 {
-    Activity getActivity (); // Expose the activity to sub-graphs.
+    AppCompatActivity getAppCompatActivity (); // Expose the activity to sub-graphs.
+
+    Activity getActivity ();
+
+    Window getWindow ();
 }

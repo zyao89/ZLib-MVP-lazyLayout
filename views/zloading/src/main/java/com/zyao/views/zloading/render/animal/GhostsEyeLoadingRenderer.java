@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.DisplayMetrics;
 import android.view.animation.Interpolator;
 
 import com.zyao.views.zloading.DensityUtil;
@@ -17,39 +16,29 @@ import com.zyao.views.zloading.render.LoadingRenderer;
 
 public class GhostsEyeLoadingRenderer extends LoadingRenderer
 {
-    private Interpolator EYE_BALL_INTERPOLATOR = new EyeBallInterpolator();
-    private Interpolator EYE_CIRCLE_INTERPOLATOR = new EyeCircleInterpolator();
-
     private static final float DEFAULT_WIDTH = 200.0f;
     private static final float DEFAULT_HEIGHT = 176.0f;
     private static final float DEFAULT_EYE_EDGE_WIDTH = 5.0f;
-
     private static final float DEFAULT_EYE_BALL_HEIGHT = 9.0f;
     private static final float DEFAULT_EYE_BALL_WIDTH = 11.0f;
-
     private static final float DEFAULT_EYE_CIRCLE_INTERVAL = 8.0f;
     private static final float DEFAULT_EYE_BALL_OFFSET_Y = 2.0f;
     private static final float DEFAULT_ABOVE_RADIAN_EYE_CIRCLE_OFFSET = 6.0f;
     private static final float DEFAULT_EYE_CIRCLE_RADIUS = 21.0f;
     private static final float DEFAULT_MAX_EYE_JUMP_DISTANCE = 11.0f;
-
     private static final float LEFT_EYE_CIRCLE$BALL_START_JUMP_UP_OFFSET = 0.0f;
     private static final float RIGHT_EYE_CIRCLE$BALL_START_JUMP_UP_OFFSET = 0.067f;
-
     private static final float LEFT_EYE_BALL_END_JUMP_OFFSET = 0.4f;
     private static final float LEFT_EYE_CIRCLE_END_JUMP_OFFSET = 0.533f;
     private static final float RIGHT_EYE_BALL_END_JUMP_OFFSET = 0.467f;
     private static final float RIGHT_EYE_CIRCLE_END_JUMP_OFFSET = 0.60f;
-
     private static final int DEGREE_180 = 180;
-
     private static final long ANIMATION_DURATION = 2333;
-
     private static final int DEFAULT_COLOR = Color.parseColor("#ff484852");
-
     private final Paint mPaint = new Paint();
     private final RectF mTempBounds = new RectF();
-
+    private Interpolator EYE_BALL_INTERPOLATOR = new EyeBallInterpolator();
+    private Interpolator EYE_CIRCLE_INTERPOLATOR = new EyeCircleInterpolator();
     private float mEyeInterval;
     private float mEyeCircleRadius;
     private float mMaxEyeJumptDistance;
@@ -229,6 +218,22 @@ public class GhostsEyeLoadingRenderer extends LoadingRenderer
         return path;
     }
 
+    public static class Builder
+    {
+        private Context mContext;
+
+        public Builder (Context mContext)
+        {
+            this.mContext = mContext;
+        }
+
+        public GhostsEyeLoadingRenderer build ()
+        {
+            GhostsEyeLoadingRenderer loadingRenderer = new GhostsEyeLoadingRenderer(mContext);
+            return loadingRenderer;
+        }
+    }
+
     private class EyeCircleInterpolator implements Interpolator
     {
 
@@ -269,22 +274,6 @@ public class GhostsEyeLoadingRenderer extends LoadingRenderer
             {
                 return 1.0f - (input - 0.333333f) * 1.5f;
             }
-        }
-    }
-
-    public static class Builder
-    {
-        private Context mContext;
-
-        public Builder (Context mContext)
-        {
-            this.mContext = mContext;
-        }
-
-        public GhostsEyeLoadingRenderer build ()
-        {
-            GhostsEyeLoadingRenderer loadingRenderer = new GhostsEyeLoadingRenderer(mContext);
-            return loadingRenderer;
         }
     }
 }

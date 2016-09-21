@@ -8,8 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -320,10 +318,9 @@ public class DanceLoadingRenderer extends LoadingRenderer
         mArcColor = halfAlphaColor(mColor);
     }
 
-    private void setRotation (float rotation)
+    private float getDanceBallRadius ()
     {
-        mRotation = rotation;
-
+        return mDanceBallRadius;
     }
 
     private void setDanceBallRadius (float danceBallRadius)
@@ -332,14 +329,15 @@ public class DanceLoadingRenderer extends LoadingRenderer
 
     }
 
-    private float getDanceBallRadius ()
-    {
-        return mDanceBallRadius;
-    }
-
     private float getRotation ()
     {
         return mRotation;
+    }
+
+    private void setRotation (float rotation)
+    {
+        mRotation = rotation;
+
     }
 
     private void setInsets (int width, int height)

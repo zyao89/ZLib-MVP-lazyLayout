@@ -12,7 +12,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 
-import com.zyao.zcore.view.IBaseRootViewHandler;
 import com.zyao.zcore2.base.inter.IBaseViewHandler;
 
 import java.lang.reflect.Constructor;
@@ -44,9 +43,9 @@ final class BaseViewHandlerFactory
         {
             for (IBaseViewHandler subViewHandler : mSubViewHandlerLinkedQueue)
             {
-                if (subViewHandler instanceof IBaseRootViewHandler)
+                if (subViewHandler instanceof IBaseRootLifeViewHandler)
                 {
-                    ((IBaseRootViewHandler) subViewHandler).onStart();
+                    ((IBaseRootLifeViewHandler) subViewHandler).onStart();
                 }
             }
         }
@@ -58,9 +57,9 @@ final class BaseViewHandlerFactory
         {
             for (IBaseViewHandler subViewHandler : mSubViewHandlerLinkedQueue)
             {
-                if (subViewHandler instanceof IBaseRootViewHandler)
+                if (subViewHandler instanceof IBaseRootLifeViewHandler)
                 {
-                    ((IBaseRootViewHandler) subViewHandler).onStop();
+                    ((IBaseRootLifeViewHandler) subViewHandler).onStop();
                 }
             }
         }
@@ -72,9 +71,9 @@ final class BaseViewHandlerFactory
         {
             for (IBaseViewHandler subViewHandler : mSubViewHandlerLinkedQueue)
             {
-                if (subViewHandler instanceof IBaseRootViewHandler)
+                if (subViewHandler instanceof IBaseRootLifeViewHandler)
                 {
-                    ((IBaseRootViewHandler) subViewHandler).onPause();
+                    ((IBaseRootLifeViewHandler) subViewHandler).onPause();
                 }
             }
         }
@@ -86,9 +85,9 @@ final class BaseViewHandlerFactory
         {
             for (IBaseViewHandler subViewHandler : mSubViewHandlerLinkedQueue)
             {
-                if (subViewHandler instanceof IBaseRootViewHandler)
+                if (subViewHandler instanceof IBaseRootLifeViewHandler)
                 {
-                    ((IBaseRootViewHandler) subViewHandler).onResume();
+                    ((IBaseRootLifeViewHandler) subViewHandler).onResume();
                 }
             }
         }
@@ -100,9 +99,9 @@ final class BaseViewHandlerFactory
         {
             for (IBaseViewHandler subViewHandler : mSubViewHandlerLinkedQueue)
             {
-                if (subViewHandler instanceof IBaseRootViewHandler)
+                if (subViewHandler instanceof IBaseRootLifeViewHandler)
                 {
-                    if (((IBaseRootViewHandler) subViewHandler).onBackPressed())
+                    if (((IBaseRootLifeViewHandler) subViewHandler).onBackPressed())
                     {
                         return true;
                     }
@@ -118,9 +117,9 @@ final class BaseViewHandlerFactory
         {
             for (IBaseViewHandler subViewHandler : mSubViewHandlerLinkedQueue)
             {
-                if (subViewHandler instanceof IBaseRootViewHandler)
+                if (subViewHandler instanceof IBaseRootLifeViewHandler)
                 {
-                    ((IBaseRootViewHandler) subViewHandler).onConfigurationChanged(newConfig);
+                    ((IBaseRootLifeViewHandler) subViewHandler).onConfigurationChanged(newConfig);
                 }
             }
         }
@@ -132,9 +131,9 @@ final class BaseViewHandlerFactory
         {
             for (IBaseViewHandler subViewHandler : mSubViewHandlerLinkedQueue)
             {
-                if (subViewHandler instanceof IBaseRootViewHandler)
+                if (subViewHandler instanceof IBaseRootLifeViewHandler)
                 {
-                    ((IBaseRootViewHandler) subViewHandler).onDestroy();
+                    ((IBaseRootLifeViewHandler) subViewHandler).onDestroy();
                 }
             }
             mSubViewHandlerLinkedQueue.clear();
@@ -148,9 +147,9 @@ final class BaseViewHandlerFactory
         {
             for (IBaseViewHandler subViewHandler : mSubViewHandlerLinkedQueue)
             {
-                if (subViewHandler instanceof IBaseRootViewHandler)
+                if (subViewHandler instanceof IBaseRootLifeViewHandler)
                 {
-                    ((IBaseRootViewHandler) subViewHandler).resetDefaultState(savedInstanceState);
+                    ((IBaseRootLifeViewHandler) subViewHandler).resetDefaultState(savedInstanceState);
                 }
             }
         }
@@ -162,9 +161,9 @@ final class BaseViewHandlerFactory
         {
             for (IBaseViewHandler subViewHandler : mSubViewHandlerLinkedQueue)
             {
-                if (subViewHandler instanceof IBaseRootViewHandler)
+                if (subViewHandler instanceof IBaseRootLifeViewHandler)
                 {
-                    ((IBaseRootViewHandler) subViewHandler).onViewCreated();
+                    ((IBaseRootLifeViewHandler) subViewHandler).onViewCreated();
                 }
             }
         }
@@ -183,10 +182,11 @@ final class BaseViewHandlerFactory
     {
         try
         {
-            Constructor<T> constructor = clazz.getDeclaredConstructor(rootView.getClass());
+            Constructor<T> constructor = clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
-            T t = constructor.newInstance(rootView);
+            T t = constructor.newInstance();
             addSubViewHandler(t);
+            onCreate(rootView);
             return t;
         }
         catch (Exception e)
@@ -195,8 +195,9 @@ final class BaseViewHandlerFactory
             {
                 Constructor<T> constructor = (Constructor<T>) clazz.getConstructors()[0];
                 constructor.setAccessible(true);
-                T t = constructor.newInstance(rootView);
+                T t = constructor.newInstance();
                 addSubViewHandler(t);
+                onCreate(rootView);
                 return t;
             }
             catch (Exception e1)
@@ -234,6 +235,20 @@ final class BaseViewHandlerFactory
         if (!mSubViewHandlerLinkedQueue.contains(baseViewHandler))
         {
             mSubViewHandlerLinkedQueue.add(baseViewHandler);
+        }
+    }
+
+    private <V extends View> void onCreate (V view)
+    {
+        if (mSubViewHandlerLinkedQueue != null)
+        {
+            for (IBaseViewHandler subViewHandler : mSubViewHandlerLinkedQueue)
+            {
+                if (subViewHandler instanceof IBaseRootLifeViewHandler)
+                {
+                    ((IBaseRootLifeViewHandler) subViewHandler).onCreate(view);
+                }
+            }
         }
     }
 

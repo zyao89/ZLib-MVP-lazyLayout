@@ -6,10 +6,7 @@ import android.os.Environment;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.zyao.config.Configs;
-import com.zyao.zcore2.di.component.ApplicationComponent;
 import com.zyao.zcore2.di.component.DaggerApplicationComponent;
-import com.zyao.zcore2.di.module.ApplicationModule;
-import com.zyao.zcore2.di.module.HelperModule;
 import com.zyao.zutils.Z;
 import com.zyao.zutils.log.LogLevel;
 

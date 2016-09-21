@@ -18,11 +18,14 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.util.DisplayMetrics;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+
+import com.zyao.views.zloading.DensityUtil;
+import com.zyao.views.zloading.R;
+import com.zyao.views.zloading.render.LoadingRenderer;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -30,21 +33,59 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.zyao.views.zloading.DensityUtil;
-import com.zyao.views.zloading.R;
-import com.zyao.views.zloading.render.LoadingRenderer;
-
 public class ElectricFanLoadingRenderer extends LoadingRenderer
 {
+    public static final int MODE_NORMAL = 0;
+    public static final int MODE_LEAF_COUNT = 1;
     private static final Interpolator LINEAR_INTERPOLATOR = new LinearInterpolator();
     private static final Interpolator MATERIAL_INTERPOLATOR = new FastOutSlowInInterpolator();
     private static final Interpolator DECELERATE_INTERPOLATOR = new DecelerateInterpolator();
     private static final Interpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
     private static final Interpolator FASTOUTLINEARIN_INTERPOLATOR = new FastOutLinearInInterpolator();
-
     private static final Interpolator[] INTERPOLATORS = new Interpolator[]{LINEAR_INTERPOLATOR, DECELERATE_INTERPOLATOR, ACCELERATE_INTERPOLATOR, FASTOUTLINEARIN_INTERPOLATOR, MATERIAL_INTERPOLATOR};
     private static final List<LeafHolder> mLeafHolders = new ArrayList<>();
     private static final Random mRandom = new Random();
+    private static final String PERCENTAGE_100 = "100%";
+    private static final long ANIMATION_DURATION = 7333;
+    private static final int LEAF_COUNT = 28;
+    private static final int DEGREE_180 = 180;
+    private static final int DEGREE_360 = 360;
+    private static final int FULL_GROUP_ROTATION = (int) (5.25f * DEGREE_360);
+    private static final int DEFAULT_PROGRESS_COLOR = 0xfffca72e;
+    private static final int DEFAULT_PROGRESS_BGCOLOR = 0xfffcd49f;
+    private static final int DEFAULT_ELECTRIC_FAN_BGCOLOR = 0xfffccc59;
+    private static final int DEFAULT_ELECTRIC_FAN_OUTLINE_COLOR = Color.WHITE;
+    private static final float DEFAULT_WIDTH = 182.0f;
+    private static final float DEFAULT_HEIGHT = 65.0f;
+    private static final float DEFAULT_TEXT_SIZE = 11.0f;
+    private static final float DEFAULT_STROKE_WIDTH = 2.0f;
+    private static final float DEFAULT_STROKE_INTERVAL = .2f;
+    private static final float DEFAULT_CENTER_RADIUS = 16.0f;
+    private static final float DEFAULT_PROGRESS_CENTER_RADIUS = 11.0f;
+    private static final float DEFAULT_LEAF_FLY_DURATION_FACTOR = 0.1f;
+    private static final float LEAF_CREATE_DURATION_INTERVAL = 1.0f / LEAF_COUNT;
+    private static final float DECELERATE_DURATION_PERCENTAGE = 0.4f;
+    private static final float ACCELERATE_DURATION_PERCENTAGE = 0.6f;
+    private final Paint mPaint = new Paint();
+    private final RectF mTempBounds = new RectF();
+    private final RectF mCurrentProgressBounds = new RectF();
+    private float mTextSize;
+    private float mStrokeXInset;
+    private float mStrokeYInset;
+    private float mProgressCenterRadius;
+    private float mScale;
+    private float mRotation;
+    private float mProgress;
+    private float mNextLeafCreateThreshold;
+    private int mProgressColor;
+    private int mProgressBgColor;
+    private int mElectricFanBgColor;
+    private int mElectricFanOutlineColor;
+    private float mStrokeWidth;
+    private float mCenterRadius;
+    @MODE
+    private int mMode;
+    private int mCurrentLeafCount;
     private final Animator.AnimatorListener mAnimatorListener = new AnimatorListenerAdapter()
     {
         @Override
@@ -54,75 +95,9 @@ public class ElectricFanLoadingRenderer extends LoadingRenderer
             reset();
         }
     };
-
-    public static final int MODE_NORMAL = 0;
-    public static final int MODE_LEAF_COUNT = 1;
-
-    @IntDef({MODE_NORMAL, MODE_LEAF_COUNT})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface MODE
-    {
-    }
-
-    private static final String PERCENTAGE_100 = "100%";
-
-    private static final long ANIMATION_DURATION = 7333;
-
-    private static final int LEAF_COUNT = 28;
-    private static final int DEGREE_180 = 180;
-    private static final int DEGREE_360 = 360;
-    private static final int FULL_GROUP_ROTATION = (int) (5.25f * DEGREE_360);
-
-    private static final int DEFAULT_PROGRESS_COLOR = 0xfffca72e;
-    private static final int DEFAULT_PROGRESS_BGCOLOR = 0xfffcd49f;
-    private static final int DEFAULT_ELECTRIC_FAN_BGCOLOR = 0xfffccc59;
-    private static final int DEFAULT_ELECTRIC_FAN_OUTLINE_COLOR = Color.WHITE;
-
-    private static final float DEFAULT_WIDTH = 182.0f;
-    private static final float DEFAULT_HEIGHT = 65.0f;
-    private static final float DEFAULT_TEXT_SIZE = 11.0f;
-    private static final float DEFAULT_STROKE_WIDTH = 2.0f;
-    private static final float DEFAULT_STROKE_INTERVAL = .2f;
-    private static final float DEFAULT_CENTER_RADIUS = 16.0f;
-    private static final float DEFAULT_PROGRESS_CENTER_RADIUS = 11.0f;
-
-    private static final float DEFAULT_LEAF_FLY_DURATION_FACTOR = 0.1f;
-
-    private static final float LEAF_CREATE_DURATION_INTERVAL = 1.0f / LEAF_COUNT;
-    private static final float DECELERATE_DURATION_PERCENTAGE = 0.4f;
-    private static final float ACCELERATE_DURATION_PERCENTAGE = 0.6f;
-
-    private final Paint mPaint = new Paint();
-    private final RectF mTempBounds = new RectF();
-    private final RectF mCurrentProgressBounds = new RectF();
-
-    private float mTextSize;
-    private float mStrokeXInset;
-    private float mStrokeYInset;
-    private float mProgressCenterRadius;
-
-    private float mScale;
-    private float mRotation;
-    private float mProgress;
-
-    private float mNextLeafCreateThreshold;
-
-    private int mProgressColor;
-    private int mProgressBgColor;
-    private int mElectricFanBgColor;
-    private int mElectricFanOutlineColor;
-
-    private float mStrokeWidth;
-    private float mCenterRadius;
-
-    @MODE
-    private int mMode;
-    private int mCurrentLeafCount;
-
     private Drawable mLeafDrawable;
     private Drawable mLoadingDrawable;
     private Drawable mElectricFanDrawable;
-
     private ElectricFanLoadingRenderer (Context context)
     {
         super(context);
@@ -253,6 +228,42 @@ public class ElectricFanLoadingRenderer extends LoadingRenderer
         canvas.restoreToCount(saveCount);
     }
 
+    @Override
+    protected void computeRender (float renderProgress)
+    {
+        if (renderProgress < DECELERATE_DURATION_PERCENTAGE)
+        {
+            mProgress = DECELERATE_INTERPOLATOR.getInterpolation(renderProgress / DECELERATE_DURATION_PERCENTAGE) * DECELERATE_DURATION_PERCENTAGE;
+        }
+        else
+        {
+            mProgress = ACCELERATE_INTERPOLATOR.getInterpolation((renderProgress - DECELERATE_DURATION_PERCENTAGE) / ACCELERATE_DURATION_PERCENTAGE) * ACCELERATE_DURATION_PERCENTAGE + DECELERATE_DURATION_PERCENTAGE;
+        }
+    }
+
+    @Override
+    protected void setAlpha (int alpha)
+    {
+        mPaint.setAlpha(alpha);
+
+    }
+
+    @Override
+    protected void setColorFilter (ColorFilter cf)
+    {
+        mPaint.setColorFilter(cf);
+
+    }
+
+    @Override
+    protected void reset ()
+    {
+        mScale = 1.0f;
+        mCurrentLeafCount = 0;
+        mNextLeafCreateThreshold = 0.0f;
+        mLeafHolders.clear();
+    }
+
     private Path createProgressPath (float progress, float circleRadius, RectF progressRect)
     {
         RectF arcProgressRect = new RectF(progressRect.left, progressRect.top, progressRect.left + circleRadius * 2, progressRect.bottom);
@@ -299,42 +310,6 @@ public class ElectricFanLoadingRenderer extends LoadingRenderer
         }
 
         return path;
-    }
-
-    @Override
-    protected void computeRender (float renderProgress)
-    {
-        if (renderProgress < DECELERATE_DURATION_PERCENTAGE)
-        {
-            mProgress = DECELERATE_INTERPOLATOR.getInterpolation(renderProgress / DECELERATE_DURATION_PERCENTAGE) * DECELERATE_DURATION_PERCENTAGE;
-        }
-        else
-        {
-            mProgress = ACCELERATE_INTERPOLATOR.getInterpolation((renderProgress - DECELERATE_DURATION_PERCENTAGE) / ACCELERATE_DURATION_PERCENTAGE) * ACCELERATE_DURATION_PERCENTAGE + DECELERATE_DURATION_PERCENTAGE;
-        }
-    }
-
-    @Override
-    protected void setAlpha (int alpha)
-    {
-        mPaint.setAlpha(alpha);
-
-    }
-
-    @Override
-    protected void setColorFilter (ColorFilter cf)
-    {
-        mPaint.setColorFilter(cf);
-
-    }
-
-    @Override
-    protected void reset ()
-    {
-        mScale = 1.0f;
-        mCurrentLeafCount = 0;
-        mNextLeafCreateThreshold = 0.0f;
-        mLeafHolders.clear();
     }
 
     protected void setInsets (int width, int height)
@@ -416,6 +391,28 @@ public class ElectricFanLoadingRenderer extends LoadingRenderer
         return point;
     }
 
+    @IntDef({MODE_NORMAL, MODE_LEAF_COUNT})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface MODE
+    {
+    }
+
+    public static class Builder
+    {
+        private Context mContext;
+
+        public Builder (Context mContext)
+        {
+            this.mContext = mContext;
+        }
+
+        public ElectricFanLoadingRenderer build ()
+        {
+            ElectricFanLoadingRenderer loadingRenderer = new ElectricFanLoadingRenderer(mContext);
+            return loadingRenderer;
+        }
+    }
+
     private class BezierEvaluator implements TypeEvaluator<PointF>
     {
 
@@ -486,21 +483,5 @@ public class ElectricFanLoadingRenderer extends LoadingRenderer
         public float mLeafRotation = 0.0f;
 
         public float mMaxRotation = mRandom.nextInt(120);
-    }
-
-    public static class Builder
-    {
-        private Context mContext;
-
-        public Builder (Context mContext)
-        {
-            this.mContext = mContext;
-        }
-
-        public ElectricFanLoadingRenderer build ()
-        {
-            ElectricFanLoadingRenderer loadingRenderer = new ElectricFanLoadingRenderer(mContext);
-            return loadingRenderer;
-        }
     }
 }

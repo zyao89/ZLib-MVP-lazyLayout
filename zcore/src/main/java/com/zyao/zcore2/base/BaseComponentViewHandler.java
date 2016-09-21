@@ -7,7 +7,6 @@
  */
 package com.zyao.zcore2.base;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.zyao.zcore2.base.inter.IBaseViewHandler;
@@ -20,11 +19,6 @@ import com.zyao.zcore2.base.inter.IBaseViewHandler;
  */
 public abstract class BaseComponentViewHandler<ViewType extends View> extends BaseViewHandler<ViewType> implements IBaseViewHandler
 {
-    public BaseComponentViewHandler (@NonNull ViewType rootView)
-    {
-        onCreate(rootView);
-    }
-
     @Override
     protected void initViews ()
     {
