@@ -166,6 +166,8 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
             _mViewHandler.onCreate(mRootView);
 
             _mViewHandler.resetDefaultState(savedInstanceState);//恢复
+
+            this.onCreateRootFragment(savedInstanceState);
         }
         else
         {
@@ -231,6 +233,16 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
         {
             _mViewHandler.onStop();
         }
+    }
+
+    /**
+     * 创建RootFragment
+     *
+     * @param savedInstanceState
+     */
+    protected void onCreateRootFragment (Bundle savedInstanceState)
+    {
+
     }
 
     private void onNewPresenter ()
@@ -433,7 +445,7 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
      * 初始化组件
      *
      * @param applicationComponent appComponent
-     * @param activityModule       activity
+     * @param fragmentModule       fragmentModule
      */
-    protected abstract void initComponent (ApplicationComponent applicationComponent, FragmentModule activityModule);
+    protected abstract void initComponent (ApplicationComponent applicationComponent, FragmentModule fragmentModule);
 }

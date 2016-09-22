@@ -12,11 +12,9 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.zyao.views.zloading.LoadingView;
 import com.zyao.zcore2.base.BaseComponentActivityViewHandler;
 import com.zyao.zcore2.helper.RetrofitHelper;
 import com.zyao.zlib.R;
@@ -40,15 +38,12 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     Toolbar mToolbar;
     @BindView(R.id.navigation)
     NavigationView mNavigationView;
-    @BindView(R.id.loading)
-    LoadingView mZLoadingView;
     //    @BindView(R.id.view_search)
     //    MaterialSearchView mSearchView;
 
     @Inject
-    public MainActivityViewHandler (LayoutInflater inflater, RetrofitHelper retrofitHelper, Activity activity)
+    public MainActivityViewHandler (RetrofitHelper retrofitHelper, Activity activity)
     {
-        System.out.println("LayoutInflater: " + inflater);
         System.out.println("RetrofitHelper: " + retrofitHelper);
         System.out.println("Activity: " + activity);
     }
@@ -70,7 +65,7 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     {
         if (savedInstanceState == null)
         {
-            setRootFragmentContainerId(123);
+            setRootFragmentContainerId(R.id.fl_main_content);
         }
         super.resetDefaultState(savedInstanceState);
     }

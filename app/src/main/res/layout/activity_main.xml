@@ -30,13 +30,6 @@
                                     android:layout_height="wrap_content" />-->
             </FrameLayout>
 
-            <com.zyao.views.zloading.LoadingView
-                android:id="@+id/loading"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#ff9c0000"
-                app:loading_renderer="SwapLoadingRenderer" />
-
             <FrameLayout
                 android:id="@+id/fl_main_content"
                 android:layout_width="match_parent"

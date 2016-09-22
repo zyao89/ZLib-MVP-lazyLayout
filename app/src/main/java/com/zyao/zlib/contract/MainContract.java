@@ -27,4 +27,14 @@ public interface MainContract
     {
         void getName ();
     }
+
+    interface IFragmentViewHandler extends IBaseViewHandler
+    {
+        void getValue ();
+    }
+
+    interface IFragmentPresenter extends IBasePresenter
+    {
+        void getName ();
+    }
 }

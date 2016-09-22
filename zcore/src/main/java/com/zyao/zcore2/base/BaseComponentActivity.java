@@ -61,9 +61,11 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
             _Presenter = (BaseComponentPresenter<ViewHandler>) mPresenter;
         }
 
-        createRootView();
+        this.createRootView();
 
         _mViewHandler.resetDefaultState(savedInstanceState);//恢复
+
+        this.onCreateRootFragment(savedInstanceState);
 
         if (!Z.activityCtrl().containsActivity(this))
         {
@@ -95,6 +97,16 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
             }
         }
         super.onBackPressedSupport();
+    }
+
+    /**
+     * 创建RootFragment
+     *
+     * @param savedInstanceState
+     */
+    protected void onCreateRootFragment (Bundle savedInstanceState)
+    {
+
     }
 
     /**

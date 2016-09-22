@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.zyao.zcore2.di.component.ApplicationComponent;
 import com.zyao.zutils.app.ActivityManagerImpl;
 import com.zyao.zutils.app.AppInfoManagerImpl;
 import com.zyao.zutils.common.CommonUtilsManagerImpl;

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -241,6 +242,7 @@ import butterknife.ButterKnife;
      *
      * @return id
      */
+    @IdRes
     protected int getRootFragmentContainerId ()
     {
         return mRootFragmentContainerId;
@@ -251,7 +253,7 @@ import butterknife.ButterKnife;
      *
      * @param containerId
      */
-    protected void setRootFragmentContainerId (int containerId)
+    protected void setRootFragmentContainerId (@IdRes int containerId)
     {
         mRootFragmentContainerId = containerId;
     }

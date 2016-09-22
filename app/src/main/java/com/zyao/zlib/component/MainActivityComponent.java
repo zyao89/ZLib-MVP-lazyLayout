@@ -8,6 +8,10 @@
 package com.zyao.zlib.component;
 
 import com.zyao.zcore2.di.ActivityScope;
+import com.zyao.zcore2.di.component.ActivityComponent;
+import com.zyao.zcore2.di.component.ApplicationComponent;
+import com.zyao.zcore2.di.module.ActivityModule;
+import com.zyao.zlib.activity.MainActivity;
 
 import dagger.Component;
 
