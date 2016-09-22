@@ -30,7 +30,7 @@ public class SwapLoadingRenderer extends LoadingRenderer
 
     private static final long ANIMATION_DURATION = 2500;
 
-    private static final int DEFAULT_CIRCLE_COUNT = 5;
+    private static final int DEFAULT_CIRCLE_COUNT = 6;
 
     private static final float DEFAULT_BALL_RADIUS = 7.5f;
     private static final float DEFAULT_WIDTH = 15.0f * 11;
