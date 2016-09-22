@@ -5,7 +5,7 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="F:\adt-bundle-windows-x86_64\android-studio2.0\gradle\gradle-2.10" />
+        <option name="gradleHome" value="D:\android-studio\gradle\gradle-2.14.1" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -17,17 +17,7 @@
             <option value="$PROJECT_DIR$/zcore" />
           </set>
         </option>
-        <option name="myModules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/extras" />
-            <option value="$PROJECT_DIR$/extras/fresco lite" />
-            <option value="$PROJECT_DIR$/views" />
-            <option value="$PROJECT_DIR$/views/zloading" />
-            <option value="$PROJECT_DIR$/zcore" />
-          </set>
-        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
