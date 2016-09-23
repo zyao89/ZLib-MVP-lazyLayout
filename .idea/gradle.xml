@@ -16,17 +16,7 @@
             <option value="$PROJECT_DIR$/zcore" />
           </set>
         </option>
-        <option name="myModules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/extras" />
-            <option value="$PROJECT_DIR$/extras/fresco lite" />
-            <option value="$PROJECT_DIR$/views" />
-            <option value="$PROJECT_DIR$/views/zloading" />
-            <option value="$PROJECT_DIR$/zcore" />
-          </set>
-        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
