@@ -7,6 +7,9 @@
  */
 package com.zyao.zlib.fragment;
 
+import android.os.Build;
+import android.os.Bundle;
+
 import com.zyao.zcore2.base.BaseComponentFragment;
 import com.zyao.zcore2.di.component.ApplicationComponent;
 import com.zyao.zcore2.di.module.FragmentModule;
@@ -29,6 +32,4 @@ public class MainFragment extends BaseComponentFragment<MainFragmentViewHandler,
         System.out.println("mViewHandler: " + mViewHandler);
         System.out.println("mPresenter: " + mPresenter);
     }
-
-
 }

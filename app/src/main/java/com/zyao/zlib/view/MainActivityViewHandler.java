@@ -9,20 +9,14 @@ package com.zyao.zlib.view;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.RelativeLayout;
+import android.support.design.widget.CoordinatorLayout;
 
-import com.zyao.zcore2.base.BaseComponentActivityViewHandler;
+import com.zyao.zcore2.base.extra.BaseTitleBarComponentActivityViewHandler;
 import com.zyao.zcore2.helper.RetrofitHelper;
 import com.zyao.zlib.R;
 import com.zyao.zlib.contract.MainContract;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
 
 /**
  * Class: MainActivityViewHandler
@@ -30,14 +24,14 @@ import butterknife.BindView;
  * Author: Zyao89
  * Time: 2016/9/13 16:06
  */
-public class MainActivityViewHandler extends BaseComponentActivityViewHandler<RelativeLayout> implements MainContract.IViewHandler
+public class MainActivityViewHandler extends BaseTitleBarComponentActivityViewHandler<CoordinatorLayout> implements MainContract.IViewHandler
 {
-    @BindView(R.id.drawer)
-    DrawerLayout mDrawerLayout;
-    @BindView(R.id.tool_bar)
-    Toolbar mToolbar;
-    @BindView(R.id.navigation)
-    NavigationView mNavigationView;
+//    @BindView(R.id.drawer)
+//    DrawerLayout mDrawerLayout;
+//    @BindView(R.id.tool_bar)
+//    Toolbar mToolbar;
+//    @BindView(R.id.navigation)
+//    NavigationView mNavigationView;
     //    @BindView(R.id.view_search)
     //    MaterialSearchView mSearchView;
 
@@ -51,13 +45,7 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     @Override
     public int getResourceId ()
     {
-        return R.layout.activity_main;
-    }
-
-    @Override
-    protected void initViews ()
-    {
-        setToolbar(mToolbar, "haha");
+        return R.layout.fragment_main2;
     }
 
     @Override
@@ -65,7 +53,7 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     {
         if (savedInstanceState == null)
         {
-            setRootFragmentContainerId(R.id.fl_main_content);
+//            setRootFragmentContainerId(R.id.fl_main_content);
         }
         super.resetDefaultState(savedInstanceState);
     }
@@ -81,15 +69,15 @@ public class MainActivityViewHandler extends BaseComponentActivityViewHandler<Re
     @Override
     protected void initListeners ()
     {
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick (View v)
-            {
-                setDayNightMode(!isNightMode());
-                //                mZLoadingView.setVisibility(mZLoadingView.isShown()?View.GONE:View.VISIBLE);
-            }
-        });
+//        mToolbar.setNavigationOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick (View v)
+//            {
+//                setDayNightMode(!isNightMode());
+//                //                mZLoadingView.setVisibility(mZLoadingView.isShown()?View.GONE:View.VISIBLE);
+//            }
+//        });
     }
 
     @Override

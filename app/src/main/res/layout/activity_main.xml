@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content">
 
                 <include
-                    layout="@layout/view_toolbar"/>
+                    layout="@layout/z_title_bar"/>
 
                 <!--                <com.miguelcatalan.materialsearchview.MaterialSearchView
                                     android:id="@+id/view_search"

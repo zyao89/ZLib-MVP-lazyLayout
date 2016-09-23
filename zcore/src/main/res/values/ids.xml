@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="hierarchy"
-          type="id"></item>
+          type="id"/>
     <item name="isexpand"
-          type="id"></item>
+          type="id"/>
 </resources>

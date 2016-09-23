@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout
+    android:id="@+id/z_title_app_bar_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/title_bar_collapsing_height"
+    android:fitsSystemWindows="true"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/collapsing_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        app:contentScrim="?attr/colorPrimaryDark"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+        <FrameLayout
+            android:id="@+id/z_title_app_bar_banner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
+
+            <!--ImageView可替换成任意视图控件-->
+            <ImageView
+                android:id="@+id/z_title_app_bar_banner_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:scaleType="centerCrop"
+                android:contentDescription="@null"/>
+        </FrameLayout>
+
+        <android.support.v7.widget.Toolbar android:id="@+id/z_title_bar"
+                                           xmlns:android="http://schemas.android.com/apk/res/android"
+                                           xmlns:app="http://schemas.android.com/apk/res-auto"
+                                           android:layout_width="match_parent"
+                                           android:layout_height="?attr/actionBarSize"
+                                           android:minHeight="?attr/actionBarSize"
+                                           android:title="@string/app_name"
+                                           app:layout_collapseMode="pin"
+                                           app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                                           app:titleTextColor="@android:color/white"/>
+
+    </android.support.design.widget.CollapsingToolbarLayout>
+</android.support.design.widget.AppBarLayout>

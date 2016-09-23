@@ -31,11 +31,19 @@ public abstract class BaseComponentActivityViewHandler<RootViewType extends View
      * @param toolbar
      * @param title
      */
-    protected void setToolbar (Toolbar toolbar, String title)
+    protected void setToolbar (Toolbar toolbar, String title, boolean isShowHome)
     {
         if (mContext instanceof BaseComponentActivity)
         {
-            ((BaseComponentActivity) mContext).setToolBar(toolbar, title);
+            ((BaseComponentActivity) mContext).setToolBar(toolbar, title, isShowHome);
+        }
+    }
+
+    protected void setToolbar (Toolbar toolbar, boolean isShowHome)
+    {
+        if (mContext instanceof BaseComponentActivity)
+        {
+            ((BaseComponentActivity) mContext).setToolBar(toolbar, null, isShowHome);
         }
     }
 

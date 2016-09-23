@@ -7,6 +7,7 @@
  */
 package com.zyao.zlib.view;
 
+import android.support.design.widget.CoordinatorLayout;
 import android.widget.LinearLayout;
 
 import com.zyao.views.zloading.LoadingView;
@@ -24,20 +25,20 @@ import butterknife.BindView;
  * Author: Zyao89
  * Time: 2016/9/22 10:19
  */
-public class MainFragmentViewHandler extends BaseComponentFragmentViewHandler<LinearLayout> implements MainContract.IFragmentViewHandler
+public class MainFragmentViewHandler extends BaseComponentFragmentViewHandler<CoordinatorLayout> implements MainContract.IFragmentViewHandler
 {
-    @BindView(R.id.loading)
-    LoadingView mZLoadingView;
+//    @BindView(R.id.loading)
+//    LoadingView mZLoadingView;
 
     @Inject
-    public MainFragmentViewHandler ()
+    MainFragmentViewHandler ()
     {
     }
 
     @Override
     public int getResourceId ()
     {
-        return R.layout.fragment_main;
+        return R.layout.fragment_main2;
     }
 
     @Override

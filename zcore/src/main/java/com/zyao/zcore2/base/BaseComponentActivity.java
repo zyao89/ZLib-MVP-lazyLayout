@@ -503,7 +503,13 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
             {
                 Intent intent = new Intent();
                 intent.setClass(mContext, targetClass);
-                startActivityForResult(intent, requestCode, bundle);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                {
+                    startActivityForResult(intent, requestCode, bundle);
+                }else {
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, requestCode);
+                }
             }
         });
     }
@@ -517,7 +523,13 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
             public void onAnimationEnd ()
             {
                 intent.setClass(mContext, targetClass);
-                startActivityForResult(intent, requestCode, bundle);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                {
+                    startActivityForResult(intent, requestCode, bundle);
+                }else {
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, requestCode);
+                }
             }
         });
     }
@@ -531,7 +543,13 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
             public void onAnimationEnd ()
             {
                 intent.setClass(mContext, targetClass);
-                startActivityForResult(intent, requestCode, bundle);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                {
+                    startActivityForResult(intent, requestCode, bundle);
+                }else {
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, requestCode);
+                }
             }
         });
     }
@@ -545,7 +563,13 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
             public void onAnimationEnd ()
             {
                 intent.setClass(mContext, targetClass);
-                startActivityForResult(intent, requestCode, bundle);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                {
+                    startActivityForResult(intent, requestCode, bundle);
+                }else {
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, requestCode);
+                }
             }
         });
     }
@@ -559,7 +583,13 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
             public void onAnimationEnd ()
             {
                 intent.setClass(mContext, targetClass);
-                startActivityForResult(intent, requestCode, bundle);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                {
+                    startActivityForResult(intent, requestCode, bundle);
+                }else {
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, requestCode);
+                }
             }
         });
     }
@@ -695,12 +725,18 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
      * @param toolbar
      * @param title
      */
-    protected void setToolBar (Toolbar toolbar, String title)
+    protected void setToolBar (Toolbar toolbar, String title, boolean isShowHome)
     {
-        toolbar.setTitle(title);
+        if (title != null)
+        {
+            toolbar.setTitle(title);
+        }
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(isShowHome);
+            getSupportActionBar().setDisplayShowHomeEnabled(isShowHome);
+        }
         toolbar.setNavigationOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -709,6 +745,15 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
                 onBackPressedSupport();
             }
         });
+    }
+
+    protected void setToolBarLeftIconShowOrHide (boolean isShow)
+    {
+        if (getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(isShow);
+            getSupportActionBar().setDisplayShowHomeEnabled(isShow);
+        }
     }
 
     /**
