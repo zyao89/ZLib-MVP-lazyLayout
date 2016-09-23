@@ -53,7 +53,7 @@ import butterknife.ButterKnife;
     }
 
     @Override
-    public void onViewCreated ()
+    public final void onViewCreated ()
     {
         initViewHandler(mRootView);
         initListeners();
@@ -145,17 +145,17 @@ import butterknife.ButterKnife;
         return mRootView.isShown();
     }
 
-    protected ViewType getRootView ()
+    protected final ViewType getRootView ()
     {
         return mRootView;
     }
 
-    protected View findViewById (int resId)
+    protected final View findViewById (int resId)
     {
         return mRootView.findViewById(resId);
     }
 
-    protected Context getContext ()
+    protected final Context getContext ()
     {
         if (mContext != null)
         {
@@ -164,7 +164,7 @@ import butterknife.ButterKnife;
         throw new IllegalStateException("mContext is null!!!");
     }
 
-    protected FragmentManager getFragmentManager ()
+    protected final FragmentManager getFragmentManager ()
     {
         if (getContext() instanceof BaseActivity)
         {
@@ -173,7 +173,7 @@ import butterknife.ButterKnife;
         return null;
     }
 
-    protected Window getWindow ()
+    protected final Window getWindow ()
     {
         if (getContext() instanceof BaseActivity)
         {
@@ -182,7 +182,7 @@ import butterknife.ButterKnife;
         return null;
     }
 
-    protected Resources getResources ()
+    protected final Resources getResources ()
     {
         if (getContext() instanceof BaseActivity)
         {
@@ -217,12 +217,12 @@ import butterknife.ButterKnife;
      *
      * @return
      */
-    protected <T extends IBaseViewHandler, V extends View> T createSubViewHandler (Class<T> clazz, V rootView)
+    protected final <T extends IBaseViewHandler, V extends View> T createSubViewHandler (Class<T> clazz, V rootView)
     {
         return mBaseViewHandlerFactory.createSubViewHandler(clazz, rootView);
     }
 
-    protected <T extends IBaseViewHandler> T getSubViewHandler (Class<T> iOutViewHandler)
+    protected final <T extends IBaseViewHandler> T getSubViewHandler (Class<T> iOutViewHandler)
     {
         return mBaseViewHandlerFactory.getSubViewHandler(iOutViewHandler);
     }
@@ -232,7 +232,7 @@ import butterknife.ButterKnife;
      *
      * @param callback
      */
-    protected void setOnHandlerCallback (Handler.Callback callback)
+    protected final void setOnHandlerCallback (Handler.Callback callback)
     {
         mHandlerCallback = callback;
     }
@@ -243,7 +243,7 @@ import butterknife.ButterKnife;
      * @return id
      */
     @IdRes
-    protected int getRootFragmentContainerId ()
+    protected final int getRootFragmentContainerId ()
     {
         return mRootFragmentContainerId;
     }
@@ -253,7 +253,7 @@ import butterknife.ButterKnife;
      *
      * @param containerId
      */
-    protected void setRootFragmentContainerId (@IdRes int containerId)
+    protected final void setRootFragmentContainerId (@IdRes int containerId)
     {
         mRootFragmentContainerId = containerId;
     }

@@ -24,6 +24,7 @@ import com.zyao.zcore2.base.inter.IBaseViewHandler;
 import com.zyao.zcore2.di.component.ApplicationComponent;
 import com.zyao.zcore2.di.module.FragmentModule;
 import com.zyao.zutils.Z;
+import com.zyao.zutils.anim.CircularAnimUtilsImpl;
 
 import javax.inject.Inject;
 
@@ -354,6 +355,14 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
         getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
+    @Override
+    public void gotoNewActivityAndFinish (@NonNull Class<?> cls, Intent intent)
+    {
+        this.gotoNewActivity(cls, intent);
+        getActivity().finish();
+        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
     /**
      * 跳转新的Activity
      *
@@ -366,6 +375,27 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
         intent.setClass(getActivity(), cls);
         this.startActivity(intent);
         getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public void gotoNewActivity (@NonNull Class<?> cls, Intent intent)
+    {
+        intent.setClass(getActivity(), cls);
+        this.startActivity(intent);
+    }
+
+    @Override
+    public void gotoNewActivityForResult (@NonNull Class<?> cls, Intent intent, int requestCode)
+    {
+        intent.setClass(getActivity(), cls);
+        this.startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public void gotoNewActivityForResult (@NonNull Class<?> cls, Intent intent, Bundle bundle, int requestCode)
+    {
+        intent.setClass(getActivity(), cls);
+        this.startActivityForResult(intent, requestCode, bundle);
     }
 
     /**
@@ -382,6 +412,255 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
         intent.setClass(getActivity(), cls);
         this.startActivity(intent);
         getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Intent intent)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, intent);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Intent intent)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, intent);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, targetClass);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass)
+    {
+        Z.animUtils().fullActivityGoAndFinish(getActivity(), triggerView, targetClass);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, int colorOrImageRes)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, colorOrImageRes, targetClass);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, int colorOrImageRes)
+    {
+        Z.animUtils().fullActivityGoAndFinish(getActivity(), triggerView, colorOrImageRes, targetClass);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, int colorOrImageRes, long durationMills)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, colorOrImageRes, targetClass, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, int colorOrImageRes, long durationMills)
+    {
+        Z.animUtils().fullActivityGoAndFinish(getActivity(), triggerView, colorOrImageRes, targetClass, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, long durationMills)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, targetClass, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, long durationMills)
+    {
+        Z.animUtils().fullActivityGoAndFinish(getActivity(), triggerView, targetClass, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, targetClass, intent);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, Intent intent)
+    {
+        Z.animUtils().fullActivityGoAndFinish(getActivity(), triggerView, targetClass, intent);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, int colorOrImageRes)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, colorOrImageRes, targetClass, intent);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, Intent intent, int colorOrImageRes)
+    {
+        Z.animUtils().fullActivityGoAndFinish(getActivity(), triggerView, colorOrImageRes, targetClass, intent);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, long durationMills)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, targetClass, intent, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, Intent intent, long durationMills)
+    {
+        Z.animUtils().fullActivityGoAndFinish(getActivity(), triggerView, targetClass, intent, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, int colorOrImageRes, long durationMills)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, colorOrImageRes, targetClass, intent, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, Intent intent, int colorOrImageRes, long durationMills)
+    {
+        Z.animUtils().fullActivityGoAndFinish(getActivity(), triggerView, colorOrImageRes, targetClass, intent, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (@NonNull View triggerView, @NonNull final Class<?> targetClass, final int requestCode)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, new CircularAnimUtilsImpl.OnAnimationEndListener()
+        {
+            @Override
+            public void onAnimationEnd ()
+            {
+                Intent intent = new Intent(mContext, targetClass);
+                startActivityForResult(intent, requestCode);
+            }
+        });
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (@NonNull View triggerView, @NonNull final Class<?> targetClass, @NonNull final Intent intent, final int requestCode)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, new CircularAnimUtilsImpl.OnAnimationEndListener()
+        {
+            @Override
+            public void onAnimationEnd ()
+            {
+                intent.setClass(mContext, targetClass);
+                startActivityForResult(intent, requestCode);
+            }
+        });
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull final Class<?> targetClass, final Intent intent, final int requestCode, int colorOrImageRes)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, colorOrImageRes, new CircularAnimUtilsImpl.OnAnimationEndListener()
+        {
+            @Override
+            public void onAnimationEnd ()
+            {
+                intent.setClass(mContext, targetClass);
+                startActivityForResult(intent, requestCode);
+            }
+        });
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull final Class<?> targetClass, final Intent intent, final int requestCode, long durationMills)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, durationMills, new CircularAnimUtilsImpl.OnAnimationEndListener()
+        {
+            @Override
+            public void onAnimationEnd ()
+            {
+                intent.setClass(mContext, targetClass);
+                startActivityForResult(intent, requestCode);
+            }
+        });
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull final Class<?> targetClass, final Intent intent, final int requestCode, int colorOrImageRes, long durationMills)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, colorOrImageRes, durationMills, new CircularAnimUtilsImpl.OnAnimationEndListener()
+        {
+            @Override
+            public void onAnimationEnd ()
+            {
+                intent.setClass(mContext, targetClass);
+                startActivityForResult(intent, requestCode);
+            }
+        });
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull final Class<?> targetClass, final Bundle bundle, final int requestCode)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, new CircularAnimUtilsImpl.OnAnimationEndListener()
+        {
+            @Override
+            public void onAnimationEnd ()
+            {
+                Intent intent = new Intent();
+                intent.setClass(mContext, targetClass);
+                startActivityForResult(intent, requestCode, bundle);
+            }
+        });
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull final Class<?> targetClass, final Intent intent, final Bundle bundle, final int requestCode)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, new CircularAnimUtilsImpl.OnAnimationEndListener()
+        {
+            @Override
+            public void onAnimationEnd ()
+            {
+                intent.setClass(mContext, targetClass);
+                startActivityForResult(intent, requestCode, bundle);
+            }
+        });
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull final Class<?> targetClass, final Intent intent, final Bundle bundle, final int requestCode, int colorOrImageRes)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, colorOrImageRes, new CircularAnimUtilsImpl.OnAnimationEndListener()
+        {
+            @Override
+            public void onAnimationEnd ()
+            {
+                intent.setClass(mContext, targetClass);
+                startActivityForResult(intent, requestCode, bundle);
+            }
+        });
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull final Class<?> targetClass, final Intent intent, final Bundle bundle, final int requestCode, long durationMills)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, durationMills, new CircularAnimUtilsImpl.OnAnimationEndListener()
+        {
+            @Override
+            public void onAnimationEnd ()
+            {
+                intent.setClass(mContext, targetClass);
+                startActivityForResult(intent, requestCode, bundle);
+            }
+        });
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull final Class<?> targetClass, final Intent intent, final Bundle bundle, final int requestCode, int colorOrImageRes, long durationMills)
+    {
+        Z.animUtils().fullActivityGo(getActivity(), triggerView, colorOrImageRes, durationMills, new CircularAnimUtilsImpl.OnAnimationEndListener()
+        {
+            @Override
+            public void onAnimationEnd ()
+            {
+                intent.setClass(mContext, targetClass);
+                startActivityForResult(intent, requestCode, bundle);
+            }
+        });
     }
 
     @Override

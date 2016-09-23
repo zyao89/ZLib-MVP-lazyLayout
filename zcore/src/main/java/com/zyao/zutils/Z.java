@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.zyao.zcore2.di.component.ApplicationComponent;
+import com.zyao.zutils.anim.CircularAnimUtilsImpl;
 import com.zyao.zutils.app.ActivityManagerImpl;
 import com.zyao.zutils.app.AppInfoManagerImpl;
 import com.zyao.zutils.common.CommonUtilsManagerImpl;
@@ -111,6 +112,15 @@ public final class Z
         return Ext.commonUtilsManager;
     }
 
+    public static CircularAnimUtils animUtils ()
+    {
+        if (Ext.circularAnimUtils == null)
+        {
+            CircularAnimUtilsImpl.registerInstance();
+        }
+        return Ext.circularAnimUtils;
+    }
+
     public static class Ext
     {
         private static boolean debug;
@@ -122,6 +132,7 @@ public final class Z
         private static LoggerManager loggerManager;
         private static ActivityManager activityManager;
         private static CommonUtilsManager commonUtilsManager;
+        private static CircularAnimUtils circularAnimUtils;
 
         static
         {
@@ -187,6 +198,11 @@ public final class Z
         public static void setCommonUtilsManager (@NonNull CommonUtilsManager commonUtilsManager)
         {
             Ext.commonUtilsManager = commonUtilsManager;
+        }
+
+        public static void setCircularAnimUtils (CircularAnimUtils circularAnimUtils)
+        {
+            Ext.circularAnimUtils = circularAnimUtils;
         }
     }
 
