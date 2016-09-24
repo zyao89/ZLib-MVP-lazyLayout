@@ -10,10 +10,14 @@ package com.zyao.zcore2.base.extra;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -21,6 +25,7 @@ import android.widget.ImageView;
 
 import com.zyao.zcore.R;
 import com.zyao.zcore2.base.BaseComponentActivityViewHandler;
+import com.zyao.zutils.Z;
 
 /**
  * Class: BaseTitleBarComponentActivityViewHandler
@@ -34,6 +39,8 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
     private AppBarLayout mAppBarLayout;
     private FrameLayout mAppBarBannerLayout;
     private ImageView mAppBarBannerImageView;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
+    private FloatingActionButton mFloatingActionButton;
 
     @Override
     protected void initViews ()
@@ -118,6 +125,44 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
         }
     }
 
+    private void initAppCollapsingToolbar ()
+    {
+        if (mAppBarLayout == null)
+        {
+            return;
+        }
+        View view = findViewById(R.id.z_title_collapsing_toolbar);
+        if (view == null)
+        {
+            mCollapsingToolbarLayout = null;
+            return;
+        }
+        if (view instanceof CollapsingToolbarLayout)
+        {
+            mCollapsingToolbarLayout = (CollapsingToolbarLayout) view;
+        }
+    }
+
+    private void initAppBarFloatingActionButton ()
+    {
+        if (mAppBarLayout == null)
+        {
+            return;
+        }
+        View view = findViewById(R.id.z_title_app_bar_banner_fab);
+        if (view == null)
+        {
+            mFloatingActionButton = null;
+            return;
+        }
+        if (view instanceof FloatingActionButton)
+        {
+            mFloatingActionButton = (FloatingActionButton) view;
+        }
+        if (mFloatingActionButton == null)return;
+        mFloatingActionButton.setVisibility(View.GONE);
+    }
+
     @Override
     protected void setToolbar (@Nullable Toolbar titleBar, boolean isShowHome)
     {
@@ -125,6 +170,23 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
         initAppBarLayout();
         initAppBarBannerLayout();
         initAppBarBannerImageView();
+        initAppCollapsingToolbar();
+        initAppBarFloatingActionButton();
+    }
+
+    @Override
+    protected void setToolbar (Toolbar titleBar, String title, boolean isShowHome)
+    {
+        super.setToolbar(titleBar, title, isShowHome);
+        initAppBarLayout();
+        initAppBarBannerLayout();
+        initAppBarBannerImageView();
+        initAppCollapsingToolbar();
+        if (mCollapsingToolbarLayout != null)
+        {
+            mCollapsingToolbarLayout.setTitle(title);
+        }
+        initAppBarFloatingActionButton();
     }
 
     protected Toolbar getTitleBar ()
@@ -141,6 +203,10 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
         {
             mAppBarLayout.setVisibility(View.GONE);
         }
+        else if (mCollapsingToolbarLayout != null)
+        {
+            mCollapsingToolbarLayout.setVisibility(View.GONE);
+        }
         else if (mTitleBar != null)
         {
             mTitleBar.setVisibility(View.GONE);
@@ -156,6 +222,10 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
         {
             mAppBarLayout.setVisibility(View.VISIBLE);
         }
+        else if (mCollapsingToolbarLayout != null)
+        {
+            mCollapsingToolbarLayout.setVisibility(View.VISIBLE);
+        }
         else if (mTitleBar != null)
         {
             mTitleBar.setVisibility(View.VISIBLE);
@@ -164,7 +234,11 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
 
     protected void setTitleBarText (String titleBarText)
     {
-        if (mTitleBar != null)
+        if (mCollapsingToolbarLayout != null)
+        {
+            mCollapsingToolbarLayout.setTitle(titleBarText);
+        }
+        else if (mTitleBar != null)
         {
             mTitleBar.setTitle(titleBarText);
         }
@@ -172,7 +246,12 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
 
     protected void setTitleBarText (@StringRes int resId)
     {
-        if (mTitleBar != null)
+        if (mCollapsingToolbarLayout != null)
+        {
+            String string = mContext.getString(resId);
+            mCollapsingToolbarLayout.setTitle(string);
+        }
+        else if (mTitleBar != null)
         {
             mTitleBar.setTitle(resId);
         }
@@ -212,6 +291,22 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
             return;
         }
         mAppBarBannerLayout.removeAllViews();
+        mAppBarBannerImageView = null;
         mAppBarBannerLayout.addView(view);
+    }
+
+    /**
+     * 初始化设置FAB
+     * @param imageResId 图片
+     * @param backgroundResId 背景色
+     * @param rippleColor 点击颜色
+     */
+    protected void setFloatingActionButtonStyle(@DrawableRes int imageResId, int backgroundResId, @ColorInt int rippleColor)
+    {
+        if (mFloatingActionButton == null)return;
+        mFloatingActionButton.setVisibility(View.VISIBLE);
+        mFloatingActionButton.setImageResource(imageResId);//图片
+        mFloatingActionButton.setBackgroundResource(backgroundResId);//背景色
+        mFloatingActionButton.setRippleColor(rippleColor);//点击颜色
     }
 }

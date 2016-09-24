@@ -9,39 +9,43 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
     <android.support.design.widget.CollapsingToolbarLayout
-        android:id="@+id/collapsing_toolbar"
+        android:id="@+id/z_title_collapsing_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         app:contentScrim="?attr/colorPrimaryDark"
+        app:expandedTitleMarginEnd="64dp"
+        app:expandedTitleMarginStart="48dp"
         app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
         <FrameLayout
             android:id="@+id/z_title_app_bar_banner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            app:layout_collapseMode="parallax"
+            app:layout_collapseParallaxMultiplier="0.7">
 
             <!--ImageView可替换成任意视图控件-->
             <ImageView
                 android:id="@+id/z_title_app_bar_banner_imageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
+                android:contentDescription="@null"
                 android:scaleType="centerCrop"
-                android:contentDescription="@null"/>
+                android:visibility="visible"/>
         </FrameLayout>
 
-        <android.support.v7.widget.Toolbar android:id="@+id/z_title_bar"
-                                           xmlns:android="http://schemas.android.com/apk/res/android"
-                                           xmlns:app="http://schemas.android.com/apk/res-auto"
-                                           android:layout_width="match_parent"
-                                           android:layout_height="?attr/actionBarSize"
-                                           android:minHeight="?attr/actionBarSize"
-                                           android:title="@string/app_name"
-                                           app:layout_collapseMode="pin"
-                                           app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                                           app:titleTextColor="@android:color/white"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/z_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:title="@string/app_name"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@android:color/white"/>
 
     </android.support.design.widget.CollapsingToolbarLayout>
+
 </android.support.design.widget.AppBarLayout>

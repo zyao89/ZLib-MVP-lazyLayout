@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/z_title_app_bar_layout"
+        layout="@layout/z_title_bar_tab_layout"/>
+
+    <FrameLayout
+        android:id="@+id/z_lazy_design_contents_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/z_lazy_design_contents_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/z_title_app_bar_banner_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="#64b5f6"
+        app:backgroundTintMode="multiply"
+        app:borderWidth="0dp"
+        app:elevation="10dp"
+        app:fabSize="normal"
+        app:layout_anchor="@id/z_title_app_bar_layout"
+        app:layout_anchorGravity="bottom|end|right"
+        app:pressedTranslationZ="20dp"
+        app:rippleColor="#1976d2"/>
+
+</android.support.design.widget.CoordinatorLayout>

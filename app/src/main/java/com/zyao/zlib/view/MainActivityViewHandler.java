@@ -36,7 +36,7 @@ public class MainActivityViewHandler extends BaseTitleBarComponentActivityViewHa
     //    MaterialSearchView mSearchView;
 
     @Inject
-    public MainActivityViewHandler (RetrofitHelper retrofitHelper, Activity activity)
+    MainActivityViewHandler (RetrofitHelper retrofitHelper, Activity activity)
     {
         System.out.println("RetrofitHelper: " + retrofitHelper);
         System.out.println("Activity: " + activity);
@@ -45,7 +45,7 @@ public class MainActivityViewHandler extends BaseTitleBarComponentActivityViewHa
     @Override
     public int getResourceId ()
     {
-        return R.layout.fragment_main2;
+        return R.layout.fragment_main;
     }
 
     @Override

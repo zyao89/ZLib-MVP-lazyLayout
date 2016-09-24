@@ -13,7 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.Window;
 
-import com.zyao.zcore.BaseActivity;
+import com.zyao.zcore.support.SupportActivity;
 import com.zyao.zcore2.base.inter.IBaseViewHandler;
 
 import butterknife.ButterKnife;
@@ -49,7 +49,6 @@ import butterknife.ButterKnife;
                 return mHandlerCallback != null && mHandlerCallback.handleMessage(msg);
             }
         });
-        ButterKnife.bind(this, mRootView);
     }
 
     @Override
@@ -111,6 +110,7 @@ import butterknife.ButterKnife;
     /* package */ void initViewHandler (ViewType rootView)
     {
         initViews();
+        ButterKnife.bind(this, rootView);
         initSubViewHandler();
         mBaseViewHandlerFactory.onViewCreated();
         isAlreadyInitViewHandler = true;
@@ -166,25 +166,25 @@ import butterknife.ButterKnife;
 
     protected final FragmentManager getFragmentManager ()
     {
-        if (getContext() instanceof BaseActivity)
+        if (getContext() instanceof SupportActivity)
         {
-            return ((BaseActivity) getContext()).getSupportFragmentManager();
+            return ((SupportActivity) getContext()).getSupportFragmentManager();
         }
         return null;
     }
 
     protected final Window getWindow ()
     {
-        if (getContext() instanceof BaseActivity)
+        if (getContext() instanceof SupportActivity)
         {
-            return ((BaseActivity) getContext()).getWindow();
+            return ((SupportActivity) getContext()).getWindow();
         }
         return null;
     }
 
     protected final Resources getResources ()
     {
-        if (getContext() instanceof BaseActivity)
+        if (getContext() instanceof SupportActivity)
         {
             return getContext().getResources();
         }

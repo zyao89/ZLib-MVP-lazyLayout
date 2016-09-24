@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="height_status_bar">0dp</dimen>
-    <dimen name="title_bar_collapsing_height">224dp</dimen>
+    <dimen name="fab_margin">0dp</dimen>
+    <dimen name="title_bar_collapsing_height">256dp</dimen>
 </resources>
