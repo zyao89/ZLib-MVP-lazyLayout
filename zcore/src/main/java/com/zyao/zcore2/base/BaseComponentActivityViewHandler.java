@@ -52,7 +52,7 @@ public abstract class BaseComponentActivityViewHandler<RootViewType extends View
      *
      * @param isNight true-夜，false-白
      */
-    protected void setDayNightMode (boolean isNight)
+    protected final void setDayNightMode (boolean isNight)
     {
         if (getContext() instanceof BaseComponentActivity)
         {
@@ -65,7 +65,7 @@ public abstract class BaseComponentActivityViewHandler<RootViewType extends View
      *
      * @return true-Y, false-N
      */
-    protected boolean isNightMode ()
+    protected final boolean isNightMode ()
     {
         int defaultNightMode = AppCompatDelegate.getDefaultNightMode();
         return defaultNightMode == AppCompatDelegate.MODE_NIGHT_YES;

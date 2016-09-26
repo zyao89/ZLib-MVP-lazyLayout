@@ -96,48 +96,48 @@ public class MainActivityViewHandler_2 extends BaseLazyCoordinatorComponentActiv
     @Override
     protected void initDefaultData ()
     {
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-//        mRecyclerView.setHasFixedSize(true);
-//
-//        final ArrayList<String> strings = new ArrayList<>();
-//        for (int i = 1; i < 33; i++) {
-//            String name = "Mom say click text will see a poem  " + i + " :) ";
-//            strings.add(name);
-//        }
-//
-//        mRecyclerView.setAdapter(new RecyclerView.Adapter() {
-//            @Override
-//            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//                int dp16 = Z.utils().density().dip2px(16);
-//                TextView textView = new TextView(mContext);
-//                textView.setPadding(dp16, dp16, dp16, dp16);
-//
-//                return new RecyclerView.ViewHolder(textView) {
-//                    @Override
-//                    public String toString() {
-//                        return super.toString();
-//                    }
-//                };
-//            }
-//
-//            @Override
-//            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-//                TextView textView = (TextView) holder.itemView;
-//                textView.setText(strings.get(position));
-//
-//                textView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Toast.makeText(mContext, "string: ", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public int getItemCount() {
-//                return strings.size();
-//            }
-//        });
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mRecyclerView.setHasFixedSize(true);
+
+        final ArrayList<String> strings = new ArrayList<>();
+        for (int i = 1; i < 33; i++) {
+            String name = "Mom say click text will see a poem  " + i + " :) ";
+            strings.add(name);
+        }
+
+        mRecyclerView.setAdapter(new RecyclerView.Adapter() {
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                int dp16 = Z.utils().density().dip2px(16);
+                TextView textView = new TextView(mContext);
+                textView.setPadding(dp16, dp16, dp16, dp16);
+
+                return new RecyclerView.ViewHolder(textView) {
+                    @Override
+                    public String toString() {
+                        return super.toString();
+                    }
+                };
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                TextView textView = (TextView) holder.itemView;
+                textView.setText(strings.get(position));
+
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(mContext, "string: ", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public int getItemCount() {
+                return strings.size();
+            }
+        });
     }
 
     @Override

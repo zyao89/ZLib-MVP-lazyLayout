@@ -189,7 +189,7 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
         initAppBarFloatingActionButton();
     }
 
-    protected Toolbar getTitleBar ()
+    protected final Toolbar getTitleBar ()
     {
         return mTitleBar;
     }
