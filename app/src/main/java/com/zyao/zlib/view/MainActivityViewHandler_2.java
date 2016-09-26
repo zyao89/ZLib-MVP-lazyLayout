@@ -40,7 +40,7 @@ import butterknife.BindView;
  * Author: Zyao89
  * Time: 2016/9/13 16:06
  */
-public class MainActivityViewHandler_2 extends BaseLazyViewPagerComponentActivityViewHandler<CoordinatorLayout> implements MainContract.IViewHandler
+public class MainActivityViewHandler_2 extends BaseLazyCoordinatorComponentActivityViewHandler<CoordinatorLayout> implements MainContract.IViewHandler
 {
 //    @BindView(R.id.drawer)
 //    DrawerLayout mDrawerLayout;
@@ -51,8 +51,8 @@ public class MainActivityViewHandler_2 extends BaseLazyViewPagerComponentActivit
     //    @BindView(R.id.view_search)
     //    MaterialSearchView mSearchView;
 
-//    @BindView(R.id.recyclerView)
-//    RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerView)
+    RecyclerView mRecyclerView;
 
     @Inject
     MainActivityViewHandler_2 (RetrofitHelper retrofitHelper, Activity activity)
@@ -145,13 +145,19 @@ public class MainActivityViewHandler_2 extends BaseLazyViewPagerComponentActivit
     {
 
     }
+//
+//    @Override
+//    protected void initContentViewPager (final CenterViewPagerAdapter viewPagerAdapter)
+//    {
+//        viewPagerAdapter.addFragment(new MainFragment(), "123456");
+//        viewPagerAdapter.addFragment(new MainFragment(), "456789");
+//        viewPagerAdapter.addFragment(new MainFragment(), "987654");
+//        viewPagerAdapter.addFragment(new MainFragment(), "654321");
+//    }
 
     @Override
-    protected void initContentViewPager (final CenterViewPagerAdapter viewPagerAdapter)
+    protected void initContentView ()
     {
-        viewPagerAdapter.addFragment(new MainFragment(), "123456");
-        viewPagerAdapter.addFragment(new MainFragment(), "456789");
-        viewPagerAdapter.addFragment(new MainFragment(), "987654");
-        viewPagerAdapter.addFragment(new MainFragment(), "654321");
+        setContentView(R.layout.recycler_view);
     }
 }

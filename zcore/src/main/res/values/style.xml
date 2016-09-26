@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+           xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Base application theme. -->
     <style name="AppBaseTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -27,19 +28,12 @@
         <item name="android:windowActionBar">false</item>
 
         <!--<item name="android:textSize">@dimen/common_text_size_small_14sp</item>-->
-        <!--<item name="android:textColor">@color/red_text_button_selector</item>-->
+        <!--<item name="android:textColor">@android:color/white</item>-->
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 
-    <style name="AppBaseThemeFix" parent="AppBaseTheme">
-        <!--沉浸状态栏-->
-        <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowTranslucentStatus"
-              tools:targetApi="kitkat">false
-        </item>
-        <item name="android:windowDrawsSystemBarBackgrounds"
-              tools:targetApi="lollipop">false
-        </item>
+    <style name="AppBaseThemeFix" parent="Theme.AppCompat.DayNight.NoActionBar">
+
     </style>
 
     <style name="WindowAnimationFadeInOut">

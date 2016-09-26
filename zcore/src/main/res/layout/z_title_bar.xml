@@ -9,5 +9,4 @@
                                    android:minHeight="?attr/actionBarSize"
                                    android:title="@string/app_name"
                                    app:layout_collapseMode="pin"
-                                   app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                                    app:titleTextColor="@android:color/white"/>
