@@ -31,7 +31,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
     public void init ()
     {
-        isAlreadyInit = true;
         initData();
         initSubPresenter();
         initSubPresenterData();
@@ -39,6 +38,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
         initSubPresenterListener();
         initDefaultData();
         initSubPresenterDefaultData();
+        isAlreadyInit = true;
     }
 
     protected abstract void initSubPresenter ();
