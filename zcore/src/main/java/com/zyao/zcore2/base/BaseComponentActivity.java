@@ -42,13 +42,14 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     private final BasePresenterFactory mSubPresenterBasePresenterFactory = BasePresenterFactory.create();
     protected View mRootView;
     protected Context mContext;
-
     @Inject
     protected ViewHandler mViewHandler;
     @Inject
     protected Presenter mPresenter;
     private BaseComponentActivityViewHandler _mViewHandler;
     private BaseComponentPresenter<ViewHandler> _Presenter;
+    /** 第一次创建启动变量（只会在创建时使用一次） */
+    private boolean mIsFirstRunning;
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
@@ -76,6 +77,8 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
         }
 
         mContext = this;
+
+        mIsFirstRunning = true;
     }
 
     @Override
@@ -155,7 +158,16 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
         onNewPresenter();
         initPresenter(savedInstanceState);
         initListener();
-        initDefaultData();
+    }
+
+    @Override
+    public void onWindowFocusChanged (boolean hasFocus)
+    {
+        if (hasFocus && mIsFirstRunning)
+        {
+            initDefaultData();
+            mIsFirstRunning = false;
+        }
     }
 
     @Override

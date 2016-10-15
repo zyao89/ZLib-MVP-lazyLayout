@@ -53,7 +53,7 @@ public class MainActivityViewHandler extends BaseTitleBarComponentActivityViewHa
     {
         if (savedInstanceState == null)
         {
-//            setRootFragmentContainerId(R.id.fl_main_content);
+            setRootFragmentContainerId(R.id.fl_main_content);
         }
         super.resetDefaultState(savedInstanceState);
     }

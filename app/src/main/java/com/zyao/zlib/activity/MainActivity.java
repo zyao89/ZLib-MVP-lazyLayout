@@ -12,7 +12,7 @@ import com.zyao.zlib.view.MainActivityViewHandler;
 import com.zyao.zlib.view.MainActivityViewHandler_2;
 import com.zyao.zlib.view.MainFragmentViewHandler;
 
-public class MainActivity extends BaseComponentActivity<MainActivityViewHandler_2, MainPresenter>
+public class MainActivity extends BaseComponentActivity<MainActivityViewHandler, MainPresenter>
 {
     @Override
     protected void onCreateRootFragment (Bundle savedInstanceState)

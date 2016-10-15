@@ -14,6 +14,7 @@ import com.zyao.views.zloading.LoadingView;
 import com.zyao.zcore2.base.BaseComponentFragmentViewHandler;
 import com.zyao.zlib.R;
 import com.zyao.zlib.contract.MainContract;
+import com.zyao.zutils.Z;
 
 import javax.inject.Inject;
 
@@ -45,5 +46,13 @@ public class MainFragmentViewHandler extends BaseComponentFragmentViewHandler<Co
     public void getValue ()
     {
 
+    }
+
+    @Override
+    protected void initDefaultData ()
+    {
+        super.initDefaultData();
+
+        Z.log().e(TAG, "Fragment initDefaultData");
     }
 }

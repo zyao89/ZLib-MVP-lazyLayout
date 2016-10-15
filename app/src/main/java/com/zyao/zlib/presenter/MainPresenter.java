@@ -12,6 +12,7 @@ import android.os.Bundle;
 import com.zyao.zcore2.base.BaseComponentPresenter;
 import com.zyao.zlib.contract.MainContract;
 import com.zyao.zlib.serves.RequestServes;
+import com.zyao.zutils.Z;
 
 import java.io.IOException;
 
@@ -82,6 +83,14 @@ public class MainPresenter extends BaseComponentPresenter<MainContract.IViewHand
     protected void initListener ()
     {
 
+    }
+
+    @Override
+    protected void initDefaultData ()
+    {
+        super.initDefaultData();
+
+        Z.log().e(TAG, "MainPresenter initDefaultData");
     }
 
     @Override
