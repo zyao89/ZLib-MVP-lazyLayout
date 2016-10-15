@@ -7,8 +7,12 @@
  */
 package com.zyao.zcore2.base;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -64,6 +68,54 @@ public abstract class BaseComponentActivityViewHandler<RootViewType extends View
         {
             ((BaseComponentActivity) mContext).setToolBarLeftIconShowOrHide(isShowHome);
         }
+    }
+
+    /**
+     * 设置左边按钮图片
+     *
+     * @param resId
+     */
+    protected void setToolBarLeftIcon (@DrawableRes int resId)
+    {
+        if (mContext instanceof BaseComponentActivity)
+        {
+            ActionBar actionBar = ((BaseComponentActivity) mContext).getSupportActionBar();
+            if (actionBar != null)
+            {
+                actionBar.setHomeAsUpIndicator(resId);
+            }
+        }
+    }
+
+    /**
+     * 设置左边按钮图片
+     *
+     * @param indicator
+     */
+    protected void setToolBarLeftIcon (@Nullable Drawable indicator)
+    {
+        if (mContext instanceof BaseComponentActivity)
+        {
+            ActionBar actionBar = ((BaseComponentActivity) mContext).getSupportActionBar();
+            if (actionBar != null)
+            {
+                actionBar.setHomeAsUpIndicator(indicator);
+            }
+        }
+    }
+
+    /**
+     * 获取标题栏
+     *
+     * @return ActionBar
+     */
+    protected ActionBar getSupportActionBar ()
+    {
+        if (mContext instanceof BaseComponentActivity)
+        {
+            return ((BaseComponentActivity) mContext).getSupportActionBar();
+        }
+        throw new RuntimeException("getSupportActionBar is null... error!! ");
     }
 
     /**
