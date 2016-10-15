@@ -8,6 +8,7 @@
 package com.zyao.zcore2.base.extra;
 
 import android.support.annotation.StringRes;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,7 +28,7 @@ import java.util.List;
  * Author: Zyao89
  * Time: 2016/9/23 18:47
  */
-public abstract class BaseLazyViewPagerComponentActivityViewHandler<RootViewType extends View> extends BaseTitleBarComponentActivityViewHandler<RootViewType>
+public abstract class BaseLazyViewPagerComponentActivityViewHandler extends BaseTitleBarComponentActivityViewHandler<CoordinatorLayout>
 {
     private FrameLayout mContentsFrameLayout;
     private ViewPager mContentsViewPager;

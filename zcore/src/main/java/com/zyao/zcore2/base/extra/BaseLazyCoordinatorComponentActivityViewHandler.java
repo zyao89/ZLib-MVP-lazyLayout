@@ -8,6 +8,7 @@
 package com.zyao.zcore2.base.extra;
 
 import android.support.annotation.LayoutRes;
+import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -20,12 +21,12 @@ import com.zyao.zcore.R;
  * Author: Zyao89
  * Time: 2016/9/23 18:47
  */
-public abstract class BaseLazyCoordinatorComponentActivityViewHandler<RootViewType extends View> extends BaseTitleBarComponentActivityViewHandler<RootViewType>
+public abstract class BaseLazyCoordinatorComponentActivityViewHandler extends BaseTitleBarComponentActivityViewHandler<CoordinatorLayout>
 {
     private FrameLayout mContentsFrameLayout;
 
     @Override
-    public int getResourceId ()
+    public final int getResourceId ()
     {
         return R.layout.z_lazy_design_coordinator_layout;
     }

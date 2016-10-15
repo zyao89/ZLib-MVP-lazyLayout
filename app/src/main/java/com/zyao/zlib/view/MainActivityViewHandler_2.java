@@ -41,7 +41,7 @@ import butterknife.BindView;
  * Author: Zyao89
  * Time: 2016/9/13 16:06
  */
-public class MainActivityViewHandler_2 extends BaseDrawerLayoutComponentActivityViewHandler<CoordinatorLayout> implements MainContract.IViewHandler
+public class MainActivityViewHandler_2 extends BaseDrawerLayoutComponentActivityViewHandler implements MainContract.IViewHandler
 {
 //    @BindView(R.id.drawer)
 //    DrawerLayout mDrawerLayout;

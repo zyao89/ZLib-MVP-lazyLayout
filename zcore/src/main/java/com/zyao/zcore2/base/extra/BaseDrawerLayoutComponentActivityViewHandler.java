@@ -14,10 +14,11 @@ import com.zyao.zcore.R;
  * Author: Zyao89
  * Time: 2016/9/23 18:47
  */
-public abstract class BaseDrawerLayoutComponentActivityViewHandler<RootViewType extends View> extends BaseLazyCoordinatorComponentActivityViewHandler<RootViewType>
+public abstract class BaseDrawerLayoutComponentActivityViewHandler extends BaseTitleBarComponentActivityViewHandler<DrawerLayout>
 {
     private DrawerLayout mDrawerLayout;
     private FrameLayout mLeftNavigation;
+    private FrameLayout mContentsFrameLayout;
 
     @Override
     public final int getResourceId()
@@ -33,6 +34,7 @@ public abstract class BaseDrawerLayoutComponentActivityViewHandler<RootViewType 
     {
         super.initViews();
         initDesignDrawerLayout();
+        initDesignContentsLayout();
         initDesignNavigation();
     }
 
@@ -102,6 +104,56 @@ public abstract class BaseDrawerLayoutComponentActivityViewHandler<RootViewType 
         {
             mLeftNavigation.removeAllViews();
             mLeftNavigation.addView(view, params);
+        }
+    }
+
+    private void initDesignContentsLayout ()
+    {
+        View view = findViewById(R.id.z_lazy_design_contents_layout);
+        if (view == null)
+        {
+            return;
+        }
+        if (view instanceof FrameLayout)
+        {
+            mContentsFrameLayout = (FrameLayout) view;
+        }
+        if (mContentsFrameLayout == null)
+        {
+            throw new RuntimeException("mContentsFrameLayout is null...");
+        }
+        initContentView();
+    }
+
+    private boolean isContentsFrameLayoutExist ()
+    {
+        return mContentsFrameLayout != null;
+    }
+
+    protected void setContentView (@LayoutRes int layoutResID)
+    {
+        if (isContentsFrameLayoutExist())
+        {
+            mContentsFrameLayout.removeAllViews();
+            View.inflate(mContext, layoutResID, mContentsFrameLayout);
+        }
+    }
+
+    protected void setContentView (View view)
+    {
+        if (isContentsFrameLayoutExist())
+        {
+            mContentsFrameLayout.removeAllViews();
+            mContentsFrameLayout.addView(view);
+        }
+    }
+
+    protected void setContentView (View view, ViewGroup.LayoutParams params)
+    {
+        if (isContentsFrameLayoutExist())
+        {
+            mContentsFrameLayout.removeAllViews();
+            mContentsFrameLayout.addView(view, params);
         }
     }
 }
