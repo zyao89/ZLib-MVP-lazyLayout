@@ -12,6 +12,7 @@ import com.zyao.zutils.common.CommonUtilsManagerImpl;
 import com.zyao.zutils.image.ImageManagerImpl;
 import com.zyao.zutils.log.LoggerManagerImpl;
 import com.zyao.zutils.task.TaskControllerImpl;
+import com.zyao.zutils.toast.ToastUtilsImpl;
 
 import java.lang.reflect.Method;
 
@@ -121,6 +122,15 @@ public final class Z
         return Ext.circularAnimUtils;
     }
 
+    public static ToastUtils toastUtils ()
+    {
+        if (Ext.toastUtils == null)
+        {
+            ToastUtilsImpl.registerInstance(Z.app());
+        }
+        return Ext.toastUtils;
+    }
+
     public static class Ext
     {
         private static boolean debug;
@@ -133,6 +143,7 @@ public final class Z
         private static ActivityManager activityManager;
         private static CommonUtilsManager commonUtilsManager;
         private static CircularAnimUtils circularAnimUtils;
+        private static ToastUtils toastUtils;
 
         static
         {
@@ -203,6 +214,11 @@ public final class Z
         public static void setCircularAnimUtils (CircularAnimUtils circularAnimUtils)
         {
             Ext.circularAnimUtils = circularAnimUtils;
+        }
+
+        public static void setToastUtils (ToastUtils toastUtils)
+        {
+            Ext.toastUtils = toastUtils;
         }
     }
 
