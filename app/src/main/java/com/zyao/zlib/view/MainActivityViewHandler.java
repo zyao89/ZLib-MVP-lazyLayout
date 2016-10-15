@@ -45,7 +45,7 @@ public class MainActivityViewHandler extends BaseTitleBarComponentActivityViewHa
     @Override
     public int getResourceId ()
     {
-        return R.layout.fragment_main;
+        return R.layout.activity_main;
     }
 
     @Override

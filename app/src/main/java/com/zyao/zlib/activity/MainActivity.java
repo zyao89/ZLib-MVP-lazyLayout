@@ -8,7 +8,9 @@ import com.zyao.zcore2.di.module.ActivityModule;
 import com.zyao.zlib.component.DaggerMainActivityComponent;
 import com.zyao.zlib.fragment.MainFragment;
 import com.zyao.zlib.presenter.MainPresenter;
+import com.zyao.zlib.view.MainActivityViewHandler;
 import com.zyao.zlib.view.MainActivityViewHandler_2;
+import com.zyao.zlib.view.MainFragmentViewHandler;
 
 public class MainActivity extends BaseComponentActivity<MainActivityViewHandler_2, MainPresenter>
 {

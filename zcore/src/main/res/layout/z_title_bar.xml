@@ -7,6 +7,18 @@
                                    android:background="?attr/colorPrimaryDark"
                                    android:fitsSystemWindows="true"
                                    android:minHeight="?attr/actionBarSize"
-                                   android:title="@string/app_name"
                                    app:layout_collapseMode="pin"
-                                   app:titleTextColor="@android:color/white"/>
+                                   app:titleTextColor="@android:color/white">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/z_title_text"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+        android:textColor="@color/z_title_text"
+        android:maxLines="1"/>
+
+</android.support.v7.widget.Toolbar>

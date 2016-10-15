@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zyao.zcore2.base.extra.BaseDrawerLayoutComponentActivityViewHandler;
 import com.zyao.zcore2.base.extra.BaseLazyCoordinatorComponentActivityViewHandler;
 import com.zyao.zcore2.base.extra.BaseLazyViewPagerComponentActivityViewHandler;
 import com.zyao.zcore2.helper.RetrofitHelper;
@@ -40,7 +41,7 @@ import butterknife.BindView;
  * Author: Zyao89
  * Time: 2016/9/13 16:06
  */
-public class MainActivityViewHandler_2 extends BaseLazyCoordinatorComponentActivityViewHandler<CoordinatorLayout> implements MainContract.IViewHandler
+public class MainActivityViewHandler_2 extends BaseDrawerLayoutComponentActivityViewHandler<CoordinatorLayout> implements MainContract.IViewHandler
 {
 //    @BindView(R.id.drawer)
 //    DrawerLayout mDrawerLayout;
@@ -138,6 +139,8 @@ public class MainActivityViewHandler_2 extends BaseLazyCoordinatorComponentActiv
                 return strings.size();
             }
         });
+
+        setToolBarLeftIconShowOrHide(true);
     }
 
     @Override
@@ -158,6 +161,6 @@ public class MainActivityViewHandler_2 extends BaseLazyCoordinatorComponentActiv
     @Override
     protected void initContentView ()
     {
-        setContentView(R.layout.recycler_view);
+        setContentView(R.layout.recycler_view1);
     }
 }

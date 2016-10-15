@@ -25,7 +25,7 @@ public abstract class BaseLazyCoordinatorComponentActivityViewHandler<RootViewTy
     private FrameLayout mContentsFrameLayout;
 
     @Override
-    public final int getResourceId ()
+    public int getResourceId ()
     {
         return R.layout.z_lazy_design_coordinator_layout;
     }

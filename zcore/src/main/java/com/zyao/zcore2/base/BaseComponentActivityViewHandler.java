@@ -7,9 +7,15 @@
  */
 package com.zyao.zcore2.base;
 
+import android.os.Build;
+import android.support.annotation.ColorRes;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.zyao.zcore2.statusbar.SystemBarTintManager;
 
 /**
  * Class: BaseComponentActivityViewHandler
@@ -43,8 +49,48 @@ public abstract class BaseComponentActivityViewHandler<RootViewType extends View
     {
         if (mContext instanceof BaseComponentActivity)
         {
-            ((BaseComponentActivity) mContext).setToolBar(toolbar, null, isShowHome);
+            ((BaseComponentActivity) mContext).setToolBar(toolbar, "", isShowHome);
         }
+    }
+
+    /**
+     * 设置返回键是否隐藏
+     *
+     * @param isShowHome
+     */
+    protected void setToolBarLeftIconShowOrHide (boolean isShowHome)
+    {
+        if (mContext instanceof BaseComponentActivity)
+        {
+            ((BaseComponentActivity) mContext).setToolBarLeftIconShowOrHide(isShowHome);
+        }
+    }
+
+    /**
+     * 设置状态栏颜色 (这个功能暂时先不用)
+     *
+     * @param res 颜色值
+     */
+    protected void setTranslucentStatus (@ColorRes int res)
+    {
+        //        this.mResID = res;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        {
+            Window win = getWindow();
+            if (win == null)
+            {
+                return;
+            }
+            WindowManager.LayoutParams winParams = win.getAttributes();
+            final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            winParams.flags |= bits;
+            win.setAttributes(winParams);
+        }
+        SystemBarTintManager tintManager = new SystemBarTintManager((BaseComponentActivity) mContext);
+        tintManager.setStatusBarTintEnabled(true);
+
+        //		tintManager.setStatusBarTintColor(Color.TRANSPARENT);//状态栏颜色
+        tintManager.setStatusBarTintResource(res);//状态栏颜色
     }
 
     /**

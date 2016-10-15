@@ -18,6 +18,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -41,6 +42,8 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
     private ImageView mAppBarBannerImageView;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private FloatingActionButton mFloatingActionButton;
+    //标题栏文字
+    private AppCompatTextView mTitleTextView;
 
     @Override
     protected void initViews ()
@@ -63,7 +66,7 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
         {
             return;
         }
-        setToolbar(mTitleBar, true);
+        setToolbar(mTitleBar, false);
     }
 
     private void initAppBarLayout ()
@@ -166,6 +169,7 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
     @Override
     protected void setToolbar (@Nullable Toolbar titleBar, boolean isShowHome)
     {
+        initTitleBarTextView(titleBar, "");
         super.setToolbar(titleBar, isShowHome);
         initAppBarLayout();
         initAppBarBannerLayout();
@@ -174,9 +178,28 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
         initAppBarFloatingActionButton();
     }
 
+    private void initTitleBarTextView (Toolbar titleBar, String title)
+    {
+        if (titleBar == null)
+        {
+            return;
+        }
+        View titleTextView = titleBar.findViewById(R.id.z_title_text);
+        if (titleTextView == null)
+        {
+            return;
+        }
+        if (titleTextView instanceof AppCompatTextView)
+        {
+            mTitleTextView = (AppCompatTextView)titleTextView;
+        }
+        mTitleTextView.setText(title);
+    }
+
     @Override
     protected void setToolbar (Toolbar titleBar, String title, boolean isShowHome)
     {
+        initTitleBarTextView(titleBar,title);
         super.setToolbar(titleBar, title, isShowHome);
         initAppBarLayout();
         initAppBarBannerLayout();
@@ -238,6 +261,10 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
         {
             mCollapsingToolbarLayout.setTitle(titleBarText);
         }
+        else if (mTitleTextView != null)
+        {
+            mTitleTextView.setText(titleBarText);
+        }
         else if (mTitleBar != null)
         {
             mTitleBar.setTitle(titleBarText);
@@ -250,6 +277,10 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
         {
             String string = mContext.getString(resId);
             mCollapsingToolbarLayout.setTitle(string);
+        }
+        else if (mTitleTextView != null)
+        {
+            mTitleTextView.setText(resId);
         }
         else if (mTitleBar != null)
         {
@@ -308,5 +339,14 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
         mFloatingActionButton.setImageResource(imageResId);//图片
         mFloatingActionButton.setBackgroundResource(backgroundResId);//背景色
         mFloatingActionButton.setRippleColor(rippleColor);//点击颜色
+    }
+
+    /**
+     * 获取标题栏View
+     * @return titleTextView
+     */
+    protected AppCompatTextView getTitleTextView ()
+    {
+        return mTitleTextView;
     }
 }
