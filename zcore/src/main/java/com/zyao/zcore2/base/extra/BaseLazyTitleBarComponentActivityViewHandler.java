@@ -1,10 +1,10 @@
 package com.zyao.zcore2.base.extra;
 
 import android.support.annotation.LayoutRes;
-import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.zyao.zcore.R;
 
@@ -14,7 +14,7 @@ import com.zyao.zcore.R;
  * Author: Zyao89
  * Time: 2016/9/23 18:47
  */
-public abstract class BaseLazyTitleBarComponentActivityViewHandler extends BaseTitleBarComponentActivityViewHandler<CoordinatorLayout>
+public abstract class BaseLazyTitleBarComponentActivityViewHandler extends BaseTitleBarComponentActivityViewHandler<LinearLayout>
 {
     private FrameLayout mContentsFrameLayout;
 

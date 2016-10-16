@@ -12,14 +12,14 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/z_title_text"
-        android:gravity="center"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
+        style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:maxLines="1"
         android:textColor="@color/z_title_text"
-        android:textSize="@dimen/common_text_size_small_18sp"
-        android:maxLines="1"/>
+        android:textSize="@dimen/common_text_size_small_18sp"/>
 
 </android.support.v7.widget.Toolbar>
