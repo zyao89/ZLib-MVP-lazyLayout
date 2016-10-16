@@ -1,0 +1,8 @@
+<resources>
+
+    <declare-styleable name="ZWaveView">
+        <attr name="maxCount" format="integer"/>
+        <attr name="waveColor" format="color"/>
+    </declare-styleable>
+
+</resources>

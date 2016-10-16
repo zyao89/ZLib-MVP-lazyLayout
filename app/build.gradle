@@ -41,4 +41,5 @@ dependencies {
     //butterknife
     apt 'com.google.dagger:dagger-compiler:2.6.1'
     compile project(':views:zloading')
+    compile project(':views:waveview')
 }

@@ -7,9 +7,14 @@
  */
 package com.zyao.zlib.view;
 
+import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 
+import com.zyao.views.waveview.WaveHelper;
+import com.zyao.views.waveview.WaveView;
+import com.zyao.views.waveview.ZWaveView;
 import com.zyao.views.zloading.LoadingView;
 import com.zyao.zcore2.base.BaseComponentFragmentViewHandler;
 import com.zyao.zlib.R;
@@ -30,6 +35,9 @@ public class MainFragmentViewHandler extends BaseComponentFragmentViewHandler<Co
 {
 //    @BindView(R.id.loading)
 //    LoadingView mZLoadingView;
+
+    @BindView(R.id.waveView)
+    ZWaveView mWaveView;
 
     @Inject
     MainFragmentViewHandler ()

@@ -24,6 +24,24 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <View
+                android:layout_width="match_parent"
+                android:background="#fe9708"
+                android:layout_height="300dp"/>
+
+            <com.zyao.views.waveview.ZWaveView
+                android:id="@+id/waveView"
+                android:layout_width="match_parent"
+                android:background="#fe9708"
+                app:maxCount="1"
+                app:waveColor="@android:color/white"
+                android:layout_height="60dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:background="@android:color/white"
+                android:layout_height="700dp"/>
+
             <com.zyao.views.zloading.LoadingView
                 android:id="@+id/loading"
                 android:layout_width="match_parent"

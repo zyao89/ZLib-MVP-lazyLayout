@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/extras/extras.iml" filepath="$PROJECT_DIR$/extras/extras.iml" />
       <module fileurl="file://$PROJECT_DIR$/extras/fresco lite/fresco lite.iml" filepath="$PROJECT_DIR$/extras/fresco lite/fresco lite.iml" />
       <module fileurl="file://$PROJECT_DIR$/views/views.iml" filepath="$PROJECT_DIR$/views/views.iml" />
+      <module fileurl="file://$PROJECT_DIR$/views/waveview/waveview.iml" filepath="$PROJECT_DIR$/views/waveview/waveview.iml" />
       <module fileurl="file://$PROJECT_DIR$/zcore/zcore.iml" filepath="$PROJECT_DIR$/zcore/zcore.iml" />
       <module fileurl="file://$PROJECT_DIR$/views/zloading/zloading.iml" filepath="$PROJECT_DIR$/views/zloading/zloading.iml" />
     </modules>

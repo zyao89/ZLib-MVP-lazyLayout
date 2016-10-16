@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/extras" />
             <option value="$PROJECT_DIR$/extras/fresco lite" />
             <option value="$PROJECT_DIR$/views" />
+            <option value="$PROJECT_DIR$/views/waveview" />
             <option value="$PROJECT_DIR$/views/zloading" />
             <option value="$PROJECT_DIR$/zcore" />
           </set>
