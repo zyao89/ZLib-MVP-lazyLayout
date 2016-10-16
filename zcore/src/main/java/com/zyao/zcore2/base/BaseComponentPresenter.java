@@ -7,7 +7,10 @@
  */
 package com.zyao.zcore2.base;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.zyao.zcore2.base.inter.IBasePresenter;
 import com.zyao.zcore2.base.inter.IBaseViewHandler;
@@ -26,7 +29,7 @@ import rx.subscriptions.CompositeSubscription;
  * Author: Zyao89
  * Time: 2016/9/17 2:22
  */
-public abstract class BaseComponentPresenter<ViewHandler extends IBaseViewHandler> implements IRxCompositeSubscription
+public abstract class BaseComponentPresenter<ViewHandler extends IBaseViewHandler> implements IRxCompositeSubscription, ICommonMethod
 {
     protected final String TAG = this.getClass().getSimpleName();
     private final BasePresenterFactory mSubPresenterBasePresenterFactory = BasePresenterFactory.create();
@@ -35,6 +38,8 @@ public abstract class BaseComponentPresenter<ViewHandler extends IBaseViewHandle
     protected TaskController mHandler;
     protected ViewHandler mViewHandler;
     protected RxBus mRxBus;
+    /** 特殊方法代理 */
+    private ICommonMethod mCommonMethodProxy;
 
     /* package */ void attachView (ViewHandler viewHandler)
     {
@@ -51,7 +56,22 @@ public abstract class BaseComponentPresenter<ViewHandler extends IBaseViewHandle
     }
 
     /**
+     * 绑定代理
+     *
+     * @param commonMethod
+     */
+    /* package */ void attachCommonMethod (ICommonMethod commonMethod)
+    {
+        if (commonMethod == null)
+        {
+            throw new RuntimeException("commonMethod is null... error!! ");
+        }
+        this.mCommonMethodProxy = commonMethod;
+    }
+
+    /**
      * 初始化操作
+     *
      * @param savedInstanceState
      */
     /* package */  void initDataAndSubPresenterData (Bundle savedInstanceState)
@@ -142,5 +162,242 @@ public abstract class BaseComponentPresenter<ViewHandler extends IBaseViewHandle
     public boolean hasSubscriptions ()
     {
         return mCompositeSubscription.hasSubscriptions();
+    }
+
+
+    //*********************** ICommonMethod ****************************
+
+    @Override
+    public void gotoNewActivityAndFinish (@NonNull Class<?> cls)
+    {
+        mCommonMethodProxy.gotoNewActivityAndFinish(cls);
+    }
+
+    @Override
+    public void gotoNewActivityAndFinish (@NonNull Class<?> cls, Bundle bundle)
+    {
+        mCommonMethodProxy.gotoNewActivityAndFinish(cls, bundle);
+    }
+
+    @Override
+    public void gotoNewActivityAndFinish (@NonNull Class<?> cls, Intent intent)
+    {
+        mCommonMethodProxy.gotoNewActivityAndFinish(cls, intent);
+    }
+
+    @Override
+    public void gotoNewActivity (@NonNull Class<?> cls)
+    {
+        mCommonMethodProxy.gotoNewActivity(cls);
+    }
+
+    @Override
+    public void gotoNewActivity (@NonNull Class<?> cls, Intent intent)
+    {
+        mCommonMethodProxy.gotoNewActivity(cls, intent);
+    }
+
+    @Override
+    public void gotoNewActivityForResult (@NonNull Class<?> cls, Intent intent, int requestCode)
+    {
+        mCommonMethodProxy.gotoNewActivityForResult(cls, intent, requestCode);
+    }
+
+    @Override
+    public void gotoNewActivityForResult (@NonNull Class<?> cls, Intent intent, Bundle bundle, int requestCode)
+    {
+        mCommonMethodProxy.gotoNewActivityForResult(cls, intent, bundle, requestCode);
+    }
+
+    @Override
+    public void gotoNewActivity (@NonNull Class<?> cls, Bundle bundle)
+    {
+        mCommonMethodProxy.gotoNewActivity(cls, bundle);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Intent intent)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnim(triggerView, intent);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Intent intent)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnimAndFinish(triggerView, intent);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnim(triggerView, targetClass);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnimAndFinish(triggerView, targetClass);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, int colorOrImageRes)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnim(triggerView, targetClass, colorOrImageRes);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, int colorOrImageRes)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnimAndFinish(triggerView, targetClass, colorOrImageRes);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, int colorOrImageRes, long durationMills)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnim(triggerView, targetClass, colorOrImageRes, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, int colorOrImageRes, long durationMills)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnimAndFinish(triggerView, targetClass, colorOrImageRes, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, long durationMills)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnim(triggerView, targetClass, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, long durationMills)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnimAndFinish(triggerView, targetClass, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnim(triggerView, targetClass, intent);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, Intent intent)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnimAndFinish(triggerView, targetClass, intent);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, int colorOrImageRes)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnim(triggerView, targetClass, intent, colorOrImageRes);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, Intent intent, int colorOrImageRes)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnimAndFinish(triggerView, targetClass, intent, colorOrImageRes);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, long durationMills)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnim(triggerView, targetClass, intent, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, Intent intent, long durationMills)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnimAndFinish(triggerView, targetClass, intent, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, int colorOrImageRes, long durationMills)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnim(triggerView, targetClass, intent, colorOrImageRes, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityByAnimAndFinish (View triggerView, @NonNull Class<?> targetClass, Intent intent, int colorOrImageRes, long durationMills)
+    {
+        mCommonMethodProxy.gotoNewActivityByAnimAndFinish(triggerView, targetClass, intent, colorOrImageRes, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull Class<?> targetClass, int requestCode)
+    {
+        mCommonMethodProxy.gotoNewActivityForResultByAnim(triggerView, targetClass, requestCode);
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, int requestCode)
+    {
+        mCommonMethodProxy.gotoNewActivityForResultByAnim(triggerView, targetClass, intent, requestCode);
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, int requestCode, int colorOrImageRes)
+    {
+        mCommonMethodProxy.gotoNewActivityForResultByAnim(triggerView, targetClass, intent, requestCode, colorOrImageRes);
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, int requestCode, long durationMills)
+    {
+        mCommonMethodProxy.gotoNewActivityForResultByAnim(triggerView, targetClass, intent, requestCode, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, int requestCode, int colorOrImageRes, long durationMills)
+    {
+        mCommonMethodProxy.gotoNewActivityForResultByAnim(triggerView, targetClass, intent, requestCode, colorOrImageRes, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull Class<?> targetClass, Bundle bundle, int requestCode)
+    {
+        mCommonMethodProxy.gotoNewActivityForResultByAnim(triggerView, targetClass, bundle, requestCode);
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, Bundle bundle, int requestCode)
+    {
+        mCommonMethodProxy.gotoNewActivityForResultByAnim(triggerView, targetClass, intent, bundle, requestCode);
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, Bundle bundle, int requestCode, int colorOrImageRes)
+    {
+        mCommonMethodProxy.gotoNewActivityForResultByAnim(triggerView, targetClass, intent, bundle, requestCode, colorOrImageRes);
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, Bundle bundle, int requestCode, long durationMills)
+    {
+        mCommonMethodProxy.gotoNewActivityForResultByAnim(triggerView, targetClass, intent, bundle, requestCode, requestCode, durationMills);
+    }
+
+    @Override
+    public void gotoNewActivityForResultByAnim (View triggerView, @NonNull Class<?> targetClass, Intent intent, Bundle bundle, int requestCode, int colorOrImageRes, long durationMills)
+    {
+        mCommonMethodProxy.gotoNewActivityForResultByAnim(triggerView, targetClass, intent, bundle, requestCode, colorOrImageRes, durationMills);
+    }
+
+    @Override
+    public void loadRootFragment (BaseComponentFragment toFragment)
+    {
+        mCommonMethodProxy.loadRootFragment(toFragment);
+    }
+
+    @Override
+    public void replaceLoadRootFragment (BaseComponentFragment toFragment, boolean addToBack)
+    {
+        mCommonMethodProxy.replaceLoadRootFragment(toFragment, addToBack);
+    }
+
+    @Override
+    public void loadMultipleRootFragment (int showPosition, BaseComponentFragment... toFragments)
+    {
+        mCommonMethodProxy.loadMultipleRootFragment(showPosition, toFragments);
     }
 }

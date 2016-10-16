@@ -18,6 +18,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.zyao.zcore.R;
+import com.zyao.zcore2.base.BaseComponentActivity;
 import com.zyao.zcore2.base.BaseComponentActivityViewHandler;
 import com.zyao.zutils.Z;
 
@@ -348,5 +350,52 @@ public abstract class BaseTitleBarComponentActivityViewHandler<RootViewType exte
     protected AppCompatTextView getTitleTextView ()
     {
         return mTitleTextView;
+    }
+
+
+
+    /**
+     * 设置左边按钮图片
+     *
+     * @param resId
+     */
+    @Override
+    protected void setToolBarLeftIcon (@DrawableRes int resId)
+    {
+        super.setToolBarLeftIcon(resId);
+        if (mTitleBar != null)
+        {
+            mTitleBar.setNavigationIcon(resId);
+        }
+    }
+
+    /**
+     * 设置左边按钮图片
+     *
+     * @param indicator
+     */
+    @Override
+    protected void setToolBarLeftIcon (@Nullable Drawable indicator)
+    {
+        super.setToolBarLeftIcon(indicator);
+        if (mTitleBar != null)
+        {
+            mTitleBar.setNavigationIcon(indicator);
+        }
+    }
+
+    /**
+     * 设置返回键是否隐藏
+     *
+     * @param isShowHome
+     */
+    @Override
+    protected void setToolBarLeftIconShowOrHide (boolean isShowHome)
+    {
+        super.setToolBarLeftIconShowOrHide(isShowHome);
+        if (mTitleBar != null && !isShowHome)
+        {
+            mTitleBar.setNavigationIcon(null);
+        }
     }
 }

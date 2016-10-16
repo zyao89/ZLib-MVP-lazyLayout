@@ -23,7 +23,7 @@ import javax.inject.Inject;
 public class MainFragmentPresenter extends BaseComponentPresenter<MainContract.IFragmentViewHandler> implements MainContract.IFragmentPresenter
 {
     @Inject
-    public MainFragmentPresenter ()
+    MainFragmentPresenter ()
     {
     }
 

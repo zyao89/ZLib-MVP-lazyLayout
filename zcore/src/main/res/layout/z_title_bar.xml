@@ -19,6 +19,7 @@
         android:layout_height="match_parent"
         style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
         android:textColor="@color/z_title_text"
+        android:textSize="@dimen/common_text_size_small_18sp"
         android:maxLines="1"/>
 
 </android.support.v7.widget.Toolbar>

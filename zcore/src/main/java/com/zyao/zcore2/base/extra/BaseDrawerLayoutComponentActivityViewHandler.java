@@ -156,4 +156,9 @@ public abstract class BaseDrawerLayoutComponentActivityViewHandler extends BaseT
             mContentsFrameLayout.addView(view, params);
         }
     }
+
+    protected final DrawerLayout getDrawerLayout()
+    {
+        return mDrawerLayout;
+    }
 }

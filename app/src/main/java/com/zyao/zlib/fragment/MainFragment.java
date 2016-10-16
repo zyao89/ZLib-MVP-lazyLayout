@@ -7,9 +7,6 @@
  */
 package com.zyao.zlib.fragment;
 
-import android.os.Build;
-import android.os.Bundle;
-
 import com.zyao.zcore2.base.BaseComponentFragment;
 import com.zyao.zcore2.di.component.ApplicationComponent;
 import com.zyao.zcore2.di.module.FragmentModule;

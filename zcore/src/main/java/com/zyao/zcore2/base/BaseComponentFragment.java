@@ -83,6 +83,7 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
     {
         super.onActivityCreated(savedInstanceState);
         onNewPresenter();
+        this.onCreateRootFragment(savedInstanceState);
         initPresenter(savedInstanceState);
         initListener();
         initDefaultData();
@@ -168,7 +169,6 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
 
             _mViewHandler.resetDefaultState(savedInstanceState);//恢复
 
-            this.onCreateRootFragment(savedInstanceState);
         }
         else
         {
@@ -250,6 +250,7 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
     {
         if (isExistPresenter())
         {
+            _Presenter.attachCommonMethod(this);
             _Presenter.attachView(mViewHandler);
         }
         else

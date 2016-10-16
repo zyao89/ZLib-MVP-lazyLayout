@@ -69,8 +69,6 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
 
         _mViewHandler.resetDefaultState(savedInstanceState);//恢复
 
-        this.onCreateRootFragment(savedInstanceState);
-
         if (!Z.activityCtrl().containsActivity(this))
         {
             Z.activityCtrl().addActivity(this);
@@ -156,6 +154,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
             throw new IllegalStateException("mViewHandler is null...");
         }
         onNewPresenter();
+        this.onCreateRootFragment(savedInstanceState);
         initPresenter(savedInstanceState);
         initListener();
     }
@@ -663,6 +662,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     {
         if (isExistPresenter())
         {
+            _Presenter.attachCommonMethod(this);
             _Presenter.attachView(mViewHandler);
         }
         else

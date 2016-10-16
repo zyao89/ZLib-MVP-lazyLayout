@@ -23,7 +23,7 @@ import java.util.List;
 public class ZWaveView extends View
 {
     //最高透明度值
-    private static final int ALPHA_MAX_NUM = 180;
+    private static final int ALPHA_MAX_NUM = 160;
     //最小透明度值
     private static final int ALPHA_MIN_NUM = 60;
     //默认颜色
