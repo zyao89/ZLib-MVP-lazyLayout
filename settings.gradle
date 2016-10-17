@@ -1,1 +1,1 @@
-include ':app', ':zcore', ':extras:fresco lite', ':views:zloading', ':views:waveview'
+include ':app', ':zcore', ':extras:fresco lite', ':views:zloading', ':views:waveview', ':views:creditsesameringview'

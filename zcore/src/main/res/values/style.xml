@@ -19,7 +19,7 @@
         <!--ActionBarDrawerToggle设置颜色-->
         <item name="colorControlNormal">@android:color/white</item>
 
-        <item name="android:windowAnimationStyle">@style/WindowAnimationFadeInOut</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
         <!-- Custom -->

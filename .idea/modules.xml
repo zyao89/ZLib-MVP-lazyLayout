@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ZLib.iml" filepath="$PROJECT_DIR$/ZLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/views/creditsesameringview/creditsesameringview.iml" filepath="$PROJECT_DIR$/views/creditsesameringview/creditsesameringview.iml" />
       <module fileurl="file://$PROJECT_DIR$/extras/extras.iml" filepath="$PROJECT_DIR$/extras/extras.iml" />
       <module fileurl="file://$PROJECT_DIR$/extras/fresco lite/fresco lite.iml" filepath="$PROJECT_DIR$/extras/fresco lite/fresco lite.iml" />
       <module fileurl="file://$PROJECT_DIR$/views/views.iml" filepath="$PROJECT_DIR$/views/views.iml" />
