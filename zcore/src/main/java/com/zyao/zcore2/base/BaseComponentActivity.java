@@ -55,6 +55,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     protected void onCreate (Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        onPrepareCreateComponent(savedInstanceState);
         initComponent(getApplicationComponent(), getActivityModule());
         if (mViewHandler instanceof BaseComponentActivityViewHandler)
         {
@@ -77,6 +78,15 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
         mContext = this;
 
         mIsFirstRunning = true;
+    }
+
+    /**
+     * 构造前调用
+     * @param savedInstanceState
+     */
+    protected void onPrepareCreateComponent (Bundle savedInstanceState)
+    {
+        //do something
     }
 
     @Override

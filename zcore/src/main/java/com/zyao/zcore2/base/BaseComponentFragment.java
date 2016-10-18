@@ -65,7 +65,7 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
     public void onCreate (Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
+        onPrepareCreateComponent(savedInstanceState);
         initComponent(getApplicationComponent(), getFragmentModule());
 
         if (mViewHandler instanceof BaseComponentFragmentViewHandler)
@@ -76,6 +76,15 @@ public abstract class BaseComponentFragment<ViewHandler extends IBaseViewHandler
         {
             _Presenter = (BaseComponentPresenter<ViewHandler>) mPresenter;
         }
+    }
+
+    /**
+     * 构造前调用
+     * @param savedInstanceState
+     */
+    protected void onPrepareCreateComponent (Bundle savedInstanceState)
+    {
+        //do something
     }
 
     @Override
