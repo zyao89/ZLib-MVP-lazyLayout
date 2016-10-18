@@ -207,7 +207,7 @@ public class ZCreditSesameView extends View
 
     private Bitmap getCirclePoint()
     {
-        int size = dp2px(16);
+        int size = dp2px(8);
         int center = size / 2;
         Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
@@ -234,18 +234,18 @@ public class ZCreditSesameView extends View
         height = h;
         radius = width / 2;
 
-        mMiddleRect = new RectF(defaultPadding, defaultPadding, width - defaultPadding, height - defaultPadding);
+        mMiddleRect = new RectF(defaultPadding + getPaddingLeft(), defaultPadding + getPaddingTop(), width - defaultPadding - getPaddingRight(), height - defaultPadding - getPaddingBottom());
 
-        mInnerRect = new RectF(defaultPadding + arcDistance, defaultPadding + arcDistance, width - defaultPadding - arcDistance, height - defaultPadding - arcDistance);
+        mInnerRect = new RectF(defaultPadding + arcDistance + getPaddingLeft(), defaultPadding + arcDistance + getPaddingTop(), width - defaultPadding - arcDistance - getPaddingRight(), height - defaultPadding - arcDistance - getPaddingBottom());
 
-        mMiddleProgressRect = new RectF(defaultPadding, defaultPadding, width - defaultPadding, height - defaultPadding);
+        mMiddleProgressRect = new RectF(defaultPadding + getPaddingLeft(), defaultPadding + getPaddingTop(), width - defaultPadding - getPaddingRight(), height - defaultPadding - getPaddingBottom());
 
 
         //外层圆环画笔
         mMiddleArcPaint.setStrokeWidth(width / 94);
 
         //内层圆环画笔
-        mInnerArcPaint.setStrokeWidth(width / 14);
+        mInnerArcPaint.setStrokeWidth(width / 20);
 
         //圆环刻度文本画笔
         mCalibrationTextPaint.setTextSize(width / 25);
@@ -279,7 +279,7 @@ public class ZCreditSesameView extends View
         canvas.save();
         canvas.rotate(-105, radius, radius);
         //计算刻度线的起点结束点
-        int startDst = (int) (defaultPadding + arcDistance - mInnerArcPaint.getStrokeWidth() / 2 - 1);
+        int startDst = (int) (defaultPadding + arcDistance + getPaddingLeft() - mInnerArcPaint.getStrokeWidth() / 2 - 1);
         int endDst = (int) (startDst + mInnerArcPaint.getStrokeWidth());
         for (int i = 0; i <= 35; i++)
         {
@@ -323,19 +323,29 @@ public class ZCreditSesameView extends View
     {
         //绘制Logo
         mTextPaint.setTextSize(width / 25);
+        mTextPaint.setAlpha(127);
         canvas.drawText(mLogo, radius, radius - width / 5, mTextPaint);
 
         //绘制信用分数
-        mTextPaint.setTextSize(width / 4);
+        mTextPaint.setTextSize(width / 3.3f);
         mTextPaint.setStyle(Paint.Style.STROKE);
+        mTextPaint.setAlpha(255);
         canvas.drawText(String.valueOf(mMinNum), radius, radius + width / 13, mTextPaint);
+
+        //绘制%百分号
+        float offsetSizeX = mTextPaint.measureText(String.valueOf(mMinNum)) / 2 + 5;//x偏移量
+        mTextPaint.setTextSize(width / 24);
+        mTextPaint.setAlpha(255);
+        canvas.drawText("%", radius + offsetSizeX, radius + width / 13, mTextPaint);
 
         //绘制信用级别
         mTextPaint.setTextSize(width / 14);
+        mTextPaint.setAlpha(255);
         canvas.drawText(mSesameLevel, radius, radius + width / 5.8f, mTextPaint);
 
         //绘制评估时间
         mTextPaint.setTextSize(width / 25);
+        mTextPaint.setAlpha(127);
         canvas.drawText(mEvaluationTime, radius, radius + width / 4, mTextPaint);
     }
 
@@ -350,7 +360,7 @@ public class ZCreditSesameView extends View
         canvas.save();
         canvas.rotate(-105, radius, radius);
         //计算刻度线的起点结束点
-        int startDst = (int) (defaultPadding + arcDistance - mInnerArcPaint.getStrokeWidth() / 2 - 1);
+        int startDst = (int) (defaultPadding + arcDistance + getPaddingLeft() - mInnerArcPaint.getStrokeWidth() / 2 - 1);
         int endDst = (int) (startDst + mInnerArcPaint.getStrokeWidth());
         //刻度旋转的角度
         int rotateAngle = (int) (MAX_ANGLE / (mSesameStr.length - 1));
@@ -446,7 +456,7 @@ public class ZCreditSesameView extends View
     public void setSesameMaxValues (int minValues, int maxValues)
     {
         int count = 6;
-        int i = maxValues / (count - 1);
+        int i = (maxValues - minValues) / (count - 1);
         String[] strings = new String[count];
         for (int j = 0; j < strings.length; j++)
         {
@@ -457,8 +467,8 @@ public class ZCreditSesameView extends View
 
     public void setSesameValues (int currentValues, int maxValues)
     {
-        mMaxNum = currentValues;
         float per = (float)currentValues / (float)maxValues;
+        mMaxNum = (int) (per * 100);
         mTotalAngle = per * MAX_ANGLE;
         mEvaluationTime = "统计时间:" + getCurrentTime();
         startAnim();
