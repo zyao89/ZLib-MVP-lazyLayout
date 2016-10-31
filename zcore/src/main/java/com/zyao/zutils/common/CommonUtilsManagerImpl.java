@@ -95,4 +95,30 @@ public class CommonUtilsManagerImpl implements CommonUtilsManager
     {
         return SdCardUtils.with(mContext);
     }
+
+    @Override
+    public MultipleClicksUtil mulClick ()
+    {
+        return MultipleClicksUtil.with(mContext);
+    }
+
+    @Override
+    public ReflectUtils reflect ()
+    {
+        return ReflectUtils.with(mContext);
+    }
+
+    @Override
+    public CharacterParserUtil characterParse ()
+    {
+        return CharacterParserUtil.with(mContext);
+    }
+
+    @Override
+    public UTForGBKUtil utfOrGbk ()
+    {
+        return UTForGBKUtil.with(mContext);
+    }
+
+
 }

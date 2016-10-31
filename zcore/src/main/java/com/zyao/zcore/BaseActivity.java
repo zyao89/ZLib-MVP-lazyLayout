@@ -38,13 +38,7 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
 
         if (onNewViewHandler(savedInstanceState))
         {
-            if (isExistViewHandler() && savedInstanceState == null)
-            {
-                mViewHandler.onDestroy();
-                mViewHandler = newViewHandler();
-                createRootView();
-            }
-            else if (isExistViewHandler())
+            if (isExistViewHandler())
             {
                 if (mRootView == null)
                 {
@@ -54,13 +48,6 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
                 {
                     mViewHandler.onCreate(mRootView);
                 }
-                mViewHandler.resetDefaultState(savedInstanceState);
-            }
-            else if (savedInstanceState != null)
-            {
-                mViewHandler = newViewHandler();
-                createRootView();
-                mViewHandler.resetDefaultState(savedInstanceState);
             }
             else
             {
@@ -72,8 +59,9 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
         {
             mViewHandler = newViewHandler();
             createRootView();
-            mViewHandler.resetDefaultState(savedInstanceState);//恢复
         }
+
+        mViewHandler.resetDefaultState(savedInstanceState);//恢复
 
         if (!Z.activityCtrl().containsActivity(this))
         {

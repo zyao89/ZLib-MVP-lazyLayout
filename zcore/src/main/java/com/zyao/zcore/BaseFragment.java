@@ -144,6 +144,7 @@ public abstract class BaseFragment<ViewHandler extends IBaseFragmentViewHandler>
         if (isExistViewHandler())
         {
             mViewHandler.onDestroy();
+            mViewHandler = null;
         }
     }
 

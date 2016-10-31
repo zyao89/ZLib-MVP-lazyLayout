@@ -41,9 +41,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
         isAlreadyInit = true;
     }
 
+    /**
+     * 初始化操作
+     */
+    protected abstract void initData ();
+
     protected abstract void initSubPresenter ();
 
-    private void initSubPresenterDefaultData ()
+    private void initSubPresenterData ()
     {
         if (isAlreadyInit)
         {
@@ -57,6 +62,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
             }
         }
     }
+
+    protected abstract void initListener ();
 
     private void initSubPresenterListener ()
     {
@@ -73,7 +80,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
         }
     }
 
-    private void initSubPresenterData ()
+    /**
+     * 子类重写此方法
+     */
+    protected void initDefaultData ()
+    {
+
+    }
+
+    private void initSubPresenterDefaultData ()
     {
         if (isAlreadyInit)
         {
@@ -86,21 +101,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
                 subPresenter.initDefaultData();
             }
         }
-    }
-
-    /**
-     * 初始化操作
-     */
-    protected abstract void initData ();
-
-    protected abstract void initListener ();
-
-    /**
-     * 子类重写此方法
-     */
-    protected void initDefaultData ()
-    {
-
     }
 
     protected <T extends BasePresenter<V>, V extends IBaseUIViewHandler> T createSubPresenter (Class<T> clazz, V rootViewHandler)

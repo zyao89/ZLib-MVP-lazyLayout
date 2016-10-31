@@ -1,14 +1,18 @@
 package com.zyao.zutils;
 
 import com.zyao.zutils.common.ByteArrayUtil;
+import com.zyao.zutils.common.CharacterParserUtil;
 import com.zyao.zutils.common.CrashUtil;
 import com.zyao.zutils.common.DensityUtil;
 import com.zyao.zutils.common.LocalFileUtil;
+import com.zyao.zutils.common.MultipleClicksUtil;
 import com.zyao.zutils.common.NetworkUtil;
+import com.zyao.zutils.common.ReflectUtils;
 import com.zyao.zutils.common.ScreenLockUtil;
 import com.zyao.zutils.common.SdCardUtils;
 import com.zyao.zutils.common.StringEncryptUtil;
 import com.zyao.zutils.common.StringUtil;
+import com.zyao.zutils.common.UTForGBKUtil;
 import com.zyao.zutils.common.VibratorUtil;
 
 /**
@@ -91,4 +95,32 @@ public interface CommonUtilsManager
      * @return
      */
     SdCardUtils sdCard ();
+
+    /**
+     * 多次点击判断工具类
+     *
+     * @return
+     */
+    MultipleClicksUtil mulClick ();
+
+    /**
+     * 反射工具类
+     *
+     * @return
+     */
+    ReflectUtils reflect ();
+
+    /**
+     * 拼音转字母
+     *
+     * @return
+     */
+    CharacterParserUtil characterParse ();
+
+    /**
+     * UTF或GBK转换
+     *
+     * @return
+     */
+    UTForGBKUtil utfOrGbk ();
 }
