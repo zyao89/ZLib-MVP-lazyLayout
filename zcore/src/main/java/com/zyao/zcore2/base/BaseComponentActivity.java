@@ -76,8 +76,26 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
         }
 
         mContext = this;
+        onCreated(savedInstanceState);
+    }
+
+    private void onCreated (Bundle savedInstanceState)
+    {
+        if (isExistViewHandler())
+        {
+            _mViewHandler.onViewCreated();
+        }
+        else
+        {
+            throw new IllegalStateException("mViewHandler is null...");
+        }
 
         mIsFirstRunning = true;
+
+        onNewPresenter();
+        this.onCreateRootFragment(savedInstanceState);
+        initPresenter(savedInstanceState);
+        initListener();
     }
 
     /**
@@ -154,19 +172,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     protected void onPostCreate (Bundle savedInstanceState)
     {
         super.onPostCreate(savedInstanceState);
-
-        if (isExistViewHandler())
-        {
-            _mViewHandler.onViewCreated();
-        }
-        else
-        {
-            throw new IllegalStateException("mViewHandler is null...");
-        }
-        onNewPresenter();
-        this.onCreateRootFragment(savedInstanceState);
-        initPresenter(savedInstanceState);
-        initListener();
+        initDefaultData();
     }
 
     @Override
@@ -174,9 +180,17 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     {
         if (hasFocus && mIsFirstRunning)
         {
-            initDefaultData();
+            onFirstRunning();
             mIsFirstRunning = false;
         }
+    }
+
+    /**
+     * 首次运行回调
+     */
+    protected void onFirstRunning ()
+    {
+        //do nothing
     }
 
     @Override

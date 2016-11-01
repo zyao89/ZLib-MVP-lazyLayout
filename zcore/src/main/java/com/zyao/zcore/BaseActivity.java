@@ -29,6 +29,7 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
     protected View mRootView;
     protected Context mContext;
     private ConcurrentLinkedQueue<BasePresenter> mSubPresenterLinkedQueue;
+    private boolean mIsFirstRunning = false;
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
@@ -69,6 +70,46 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
         }
 
         mContext = this;
+        onCreated(savedInstanceState);
+    }
+
+    private void onCreated (Bundle savedInstanceState)
+    {
+        if (isExistViewHandler())
+        {
+            mViewHandler.onViewCreated();
+        }
+        else
+        {
+            throw new IllegalStateException("mViewHandler is null...");
+        }
+
+        mIsFirstRunning = true;
+
+        onNewPresenter(savedInstanceState);
+        initPresenter(savedInstanceState);
+        if (mSubPresenterLinkedQueue != null)
+        {
+            for (BasePresenter subPresenter : mSubPresenterLinkedQueue)
+            {
+                subPresenter.initData();
+            }
+        }
+        if (mSubPresenterLinkedQueue != null)
+        {
+            for (BasePresenter subPresenter : mSubPresenterLinkedQueue)
+            {
+                subPresenter.initSubPresenter();
+            }
+        }
+        initListener();
+        if (mSubPresenterLinkedQueue != null)
+        {
+            for (BasePresenter subPresenter : mSubPresenterLinkedQueue)
+            {
+                subPresenter.initListener();
+            }
+        }
     }
 
     @Override
@@ -100,39 +141,6 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
     protected void onPostCreate (Bundle savedInstanceState)
     {
         super.onPostCreate(savedInstanceState);
-
-        if (isExistViewHandler())
-        {
-            mViewHandler.onViewCreated();
-        }
-        else
-        {
-            throw new IllegalStateException("mViewHandler is null...");
-        }
-        onNewPresenter(savedInstanceState);
-        initPresenter(savedInstanceState);
-        if (mSubPresenterLinkedQueue != null)
-        {
-            for (BasePresenter subPresenter : mSubPresenterLinkedQueue)
-            {
-                subPresenter.initData();
-            }
-        }
-        if (mSubPresenterLinkedQueue != null)
-        {
-            for (BasePresenter subPresenter : mSubPresenterLinkedQueue)
-            {
-                subPresenter.initSubPresenter();
-            }
-        }
-        initListener();
-        if (mSubPresenterLinkedQueue != null)
-        {
-            for (BasePresenter subPresenter : mSubPresenterLinkedQueue)
-            {
-                subPresenter.initListener();
-            }
-        }
         initDefaultData();
         if (mSubPresenterLinkedQueue != null)
         {
@@ -141,6 +149,24 @@ public abstract class BaseActivity<ViewHandler extends IBaseActivityViewHandler>
                 subPresenter.initDefaultData();
             }
         }
+    }
+
+    @Override
+    public void onWindowFocusChanged (boolean hasFocus)
+    {
+        if (hasFocus && mIsFirstRunning)
+        {
+            onFirstRunning();
+            mIsFirstRunning = false;
+        }
+    }
+
+    /**
+     * 首次运行回调
+     */
+    protected void onFirstRunning ()
+    {
+        //do nothing
     }
 
     @Override
