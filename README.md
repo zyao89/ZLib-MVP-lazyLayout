@@ -23,4 +23,26 @@
 
 ## Extra扩展实现类，可直接继承使用：
 
+> 1、带有标题栏的ActivityViewHandler
+```java
+public class MainActivityViewHandler extends BaseTitleBarComponentActivityViewHandler<CoordinatorLayout> implements MainContract.IViewHandler
+{}
+```
 
+> 2、带标题的侧滑菜单
+```java
+public class MainActivityViewHandler_2 extends BaseDrawerLayoutComponentActivityViewHandler implements MainContract.IViewHandler
+{}
+```
+
+> 3、带标题的懒人模式
+```java
+public class MainActivityViewHandler extends BaseLazyCoordinatorComponentActivityViewHandler implements MainContract.IViewHandler
+{}
+```
+
+> 4、带标题和ViewPager的懒人模式
+```java
+public class MainActivityViewHandler extends BaseLazyViewPagerComponentActivityViewHandler implements MainContract.IViewHandler
+{}
+```
