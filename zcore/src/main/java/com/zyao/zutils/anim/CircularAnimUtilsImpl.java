@@ -31,6 +31,7 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     public static final long PERFECT_MILLS = 618;
     public static final int MINI_RADIUS = 0;
     private static volatile CircularAnimUtils instance;
+    private volatile FullActivityBuilder mFullActivityBuilder;
 
     private CircularAnimUtilsImpl ()
     {
@@ -132,7 +133,12 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGoAndFinish (final Activity activity, View triggerView, final Class<?> targetClass)
     {
-        new FullActivityBuilder(activity, triggerView).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
@@ -140,6 +146,7 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
                 Intent intent = new Intent(activity, targetClass);
                 activity.startActivity(intent);
                 activity.finish();
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -147,13 +154,19 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGoAndFinish (final Activity activity, View triggerView, final Intent intent)
     {
-        new FullActivityBuilder(activity, triggerView).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
             {
                 activity.startActivity(intent);
                 activity.finish();
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -161,7 +174,12 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGoAndFinish (final Activity activity, View triggerView, final Class<?> targetClass, final Intent intent)
     {
-        new FullActivityBuilder(activity, triggerView).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
@@ -169,6 +187,7 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
                 intent.setClass(activity, targetClass);
                 activity.startActivity(intent);
                 activity.finish();
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -176,7 +195,12 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGoAndFinish (final Activity activity, View triggerView, final Class<?> targetClass, long durationMills)
     {
-        new FullActivityBuilder(activity, triggerView).duration(durationMills).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.duration(durationMills).go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
@@ -184,6 +208,7 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
                 Intent intent = new Intent(activity, targetClass);
                 activity.startActivity(intent);
                 activity.finish();
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -191,7 +216,12 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGoAndFinish (final Activity activity, View triggerView, final Class<?> targetClass, final Intent intent, long durationMills)
     {
-        new FullActivityBuilder(activity, triggerView).duration(durationMills).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.duration(durationMills).go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
@@ -199,6 +229,7 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
                 intent.setClass(activity, targetClass);
                 activity.startActivity(intent);
                 activity.finish();
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -212,7 +243,12 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGoAndFinish (final Activity activity, View triggerView, int colorOrImageRes, final Class<?> targetClass)
     {
-        new FullActivityBuilder(activity, triggerView).colorOrImageRes(colorOrImageRes).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.colorOrImageRes(colorOrImageRes).go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
@@ -220,6 +256,7 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
                 Intent intent = new Intent(activity, targetClass);
                 activity.startActivity(intent);
                 activity.finish();
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -227,7 +264,12 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGoAndFinish (final Activity activity, View triggerView, int colorOrImageRes, final Class<?> targetClass, final Intent intent)
     {
-        new FullActivityBuilder(activity, triggerView).colorOrImageRes(colorOrImageRes).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.colorOrImageRes(colorOrImageRes).go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
@@ -235,6 +277,7 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
                 intent.setClass(activity, targetClass);
                 activity.startActivity(intent);
                 activity.finish();
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -242,7 +285,12 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGoAndFinish (final Activity activity, View triggerView, int colorOrImageRes, final Class<?> targetClass, final Intent intent, long durationMills)
     {
-        new FullActivityBuilder(activity, triggerView).colorOrImageRes(colorOrImageRes).duration(durationMills).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.colorOrImageRes(colorOrImageRes).duration(durationMills).go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
@@ -250,6 +298,7 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
                 intent.setClass(activity, targetClass);
                 activity.startActivity(intent);
                 activity.finish();
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -257,7 +306,12 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGoAndFinish (final Activity activity, View triggerView, int colorOrImageRes, final Class<?> targetClass, long durationMills)
     {
-        new FullActivityBuilder(activity, triggerView).colorOrImageRes(colorOrImageRes).duration(durationMills).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.colorOrImageRes(colorOrImageRes).duration(durationMills).go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
@@ -265,6 +319,7 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
                 Intent intent = new Intent(activity, targetClass);
                 activity.startActivity(intent);
                 activity.finish();
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -296,13 +351,19 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGo (final Activity activity, View triggerView, final Class<?> targetClass)
     {
-        new FullActivityBuilder(activity, triggerView).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
             {
                 Intent intent = new Intent(activity, targetClass);
                 activity.startActivity(intent);
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -310,12 +371,18 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGo (final Activity activity, View triggerView, final Intent intent)
     {
-        new FullActivityBuilder(activity, triggerView).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
             {
                 activity.startActivity(intent);
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -323,13 +390,19 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGo (final Activity activity, View triggerView, final Class<?> targetClass, final Intent intent)
     {
-        new FullActivityBuilder(activity, triggerView).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
             {
                 intent.setClass(activity, targetClass);
                 activity.startActivity(intent);
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -337,13 +410,19 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGo (final Activity activity, View triggerView, final Class<?> targetClass, long durationMills)
     {
-        new FullActivityBuilder(activity, triggerView).duration(durationMills).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.duration(durationMills).go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
             {
                 Intent intent = new Intent(activity, targetClass);
                 activity.startActivity(intent);
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -351,13 +430,19 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGo (final Activity activity, View triggerView, final Class<?> targetClass, final Intent intent, long durationMills)
     {
-        new FullActivityBuilder(activity, triggerView).duration(durationMills).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.duration(durationMills).go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
             {
                 intent.setClass(activity, targetClass);
                 activity.startActivity(intent);
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -365,13 +450,19 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGo (final Activity activity, View triggerView, int colorOrImageRes, final Class<?> targetClass)
     {
-        new FullActivityBuilder(activity, triggerView).colorOrImageRes(colorOrImageRes).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.colorOrImageRes(colorOrImageRes).go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
             {
                 Intent intent = new Intent(activity, targetClass);
                 activity.startActivity(intent);
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -379,13 +470,19 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGo (final Activity activity, View triggerView, int colorOrImageRes, final Class<?> targetClass, long durationMills)
     {
-        new FullActivityBuilder(activity, triggerView).colorOrImageRes(colorOrImageRes).duration(durationMills).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.colorOrImageRes(colorOrImageRes).duration(durationMills).go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
             {
                 Intent intent = new Intent(activity, targetClass);
                 activity.startActivity(intent);
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -393,13 +490,19 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGo (final Activity activity, View triggerView, int colorOrImageRes, final Class<?> targetClass, final Intent intent)
     {
-        new FullActivityBuilder(activity, triggerView).colorOrImageRes(colorOrImageRes).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.colorOrImageRes(colorOrImageRes).go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
             {
                 intent.setClass(activity, targetClass);
                 activity.startActivity(intent);
+                mFullActivityBuilder = null;
             }
         });
     }
@@ -407,13 +510,19 @@ public class CircularAnimUtilsImpl implements CircularAnimUtils
     @Override
     public void fullActivityGo (final Activity activity, View triggerView, int colorOrImageRes, final Class<?> targetClass, final Intent intent, long durationMills)
     {
-        new FullActivityBuilder(activity, triggerView).colorOrImageRes(colorOrImageRes).duration(durationMills).go(new OnAnimationEndListener()
+        if (mFullActivityBuilder != null)
+        {
+            return;
+        }
+        mFullActivityBuilder = new FullActivityBuilder(activity, triggerView);
+        mFullActivityBuilder.colorOrImageRes(colorOrImageRes).duration(durationMills).go(new OnAnimationEndListener()
         {
             @Override
             public void onAnimationEnd ()
             {
                 intent.setClass(activity, targetClass);
                 activity.startActivity(intent);
+                mFullActivityBuilder = null;
             }
         });
     }

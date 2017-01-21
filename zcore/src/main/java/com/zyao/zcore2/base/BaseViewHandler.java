@@ -1,5 +1,6 @@
 package com.zyao.zcore2.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -9,6 +10,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.Window;
@@ -24,12 +26,12 @@ import butterknife.ButterKnife;
  * Author: Zyao89
  * Time: 2016/7/19 17:36
  */
-/* package */ abstract class BaseViewHandler<ViewType extends View> implements IBaseRootLifeViewHandler
+/* package */ abstract class BaseViewHandler<ViewType extends View> implements IBaseRootLifeViewHandler<ViewType>
 {
     protected final String TAG = this.getClass().getSimpleName();
-    protected ViewType mRootView;
+    protected volatile ViewType mRootView;
     protected Context mContext;
-    protected Handler mHandler;
+    protected static Handler mHandler;
     /* package */ BaseViewHandlerFactory mBaseViewHandlerFactory = BaseViewHandlerFactory.create();
     private Handler.Callback mHandlerCallback = null;
     private boolean isAlreadyInitViewHandler = false;
@@ -37,18 +39,21 @@ import butterknife.ButterKnife;
     private int mRootFragmentContainerId = -1;
 
     @Override
-    public void onCreate (@NonNull View rootView)
+    public void onCreate (@NonNull ViewType rootView)
     {
-        mRootView = (ViewType) rootView;
+        mRootView = rootView;
         mContext = mRootView.getContext();
-        mHandler = new Handler(Looper.getMainLooper(), new Handler.Callback()
+        if (mHandler == null)
         {
-            @Override
-            public boolean handleMessage (Message msg)
+            mHandler = new Handler(Looper.getMainLooper(), new Handler.Callback()
             {
-                return mHandlerCallback != null && mHandlerCallback.handleMessage(msg);
-            }
-        });
+                @Override
+                public boolean handleMessage (Message msg)
+                {
+                    return mHandlerCallback != null && mHandlerCallback.handleMessage(msg);
+                }
+            });
+        }
     }
 
     @Override
@@ -107,8 +112,9 @@ import butterknife.ButterKnife;
         mBaseViewHandlerFactory.resetDefaultState(savedInstanceState);
     }
 
-    /* package */ void initViewHandler (ViewType rootView)
+    private void initViewHandler (ViewType rootView)
     {
+        if (isAlreadyInitViewHandler)return;
         initViews();
         ButterKnife.bind(this, rootView);
         initSubViewHandler();
@@ -145,6 +151,11 @@ import butterknife.ButterKnife;
         return mRootView.isShown();
     }
 
+    public boolean isActive()
+    {
+        return true;
+    }
+
     protected final ViewType getRootView ()
     {
         return mRootView;
@@ -166,25 +177,25 @@ import butterknife.ButterKnife;
 
     protected final FragmentManager getFragmentManager ()
     {
-        if (getContext() instanceof SupportActivity)
+        if (getContext() instanceof FragmentActivity)
         {
-            return ((SupportActivity) getContext()).getSupportFragmentManager();
+            return ((FragmentActivity) getContext()).getSupportFragmentManager();
         }
         return null;
     }
 
     protected final Window getWindow ()
     {
-        if (getContext() instanceof SupportActivity)
+        if (getContext() instanceof Activity)
         {
-            return ((SupportActivity) getContext()).getWindow();
+            return ((Activity) getContext()).getWindow();
         }
         return null;
     }
 
     protected final Resources getResources ()
     {
-        if (getContext() instanceof SupportActivity)
+        if (getContext() instanceof Activity)
         {
             return getContext().getResources();
         }

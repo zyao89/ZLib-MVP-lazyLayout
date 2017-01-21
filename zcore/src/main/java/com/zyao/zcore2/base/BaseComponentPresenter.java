@@ -113,6 +113,15 @@ public abstract class BaseComponentPresenter<ViewHandler extends IBaseViewHandle
         mSubPresenterBasePresenterFactory.onDestroyPresenter();
     }
 
+    /**
+     * 返回键操作
+     * @return true-中断
+     */
+    protected boolean onBackPressed ()
+    {
+        return mSubPresenterBasePresenterFactory.onBackPressed();
+    }
+
     protected void doExit ()
     {
 

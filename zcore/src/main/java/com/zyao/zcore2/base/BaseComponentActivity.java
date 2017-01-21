@@ -10,7 +10,6 @@ package com.zyao.zcore2.base;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.zyao.zcore.R;
+import com.zyao.zcore.anim.DefaultNoAnimator;
 import com.zyao.zcore.anim.FragmentAnimator;
 import com.zyao.zcore.support.SupportActivity;
 import com.zyao.zcore2.base.inter.IBasePresenter;
@@ -38,18 +38,18 @@ import javax.inject.Inject;
  */
 public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler, Presenter extends IBasePresenter> extends SupportActivity implements ICommonMethod
 {
-    protected final String TAG = this.getClass().getSimpleName();
-    private final BasePresenterFactory mSubPresenterBasePresenterFactory = BasePresenterFactory.create();
-    protected View mRootView;
-    protected Context mContext;
+    protected final String               TAG                               = this.getClass().getSimpleName();
+    private final   BasePresenterFactory mSubPresenterBasePresenterFactory = BasePresenterFactory.create();
+    protected View                                mRootView;
+    protected Context                             mContext;
     @Inject
-    protected ViewHandler mViewHandler;
+    protected ViewHandler                         mViewHandler;
     @Inject
-    protected Presenter mPresenter;
-    private BaseComponentActivityViewHandler _mViewHandler;
-    private BaseComponentPresenter<ViewHandler> _Presenter;
+    protected Presenter                           mPresenter;
+    private   BaseComponentActivityViewHandler    _mViewHandler;
+    private   BaseComponentPresenter<ViewHandler> _mPresenter;
     /** 第一次创建启动变量（只会在创建时使用一次） */
-    private boolean mIsFirstRunning;
+    private   boolean                             mIsFirstRunning;
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
@@ -63,7 +63,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
         }
         if (mPresenter instanceof BaseComponentPresenter)
         {
-            _Presenter = (BaseComponentPresenter<ViewHandler>) mPresenter;
+            _mPresenter = (BaseComponentPresenter<ViewHandler>) mPresenter;
         }
 
         this.createRootView();
@@ -100,6 +100,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
 
     /**
      * 构造前调用
+     *
      * @param savedInstanceState
      */
     protected void onPrepareCreateComponent (Bundle savedInstanceState)
@@ -110,12 +111,13 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     @Override
     public FragmentAnimator onCreateFragmentAnimator ()
     {
+        //        return new DefaultNoAnimator();
         // 设置默认Fragment动画  默认竖向(和安卓5.0以上的动画相同)
         return super.onCreateFragmentAnimator();
         // 设置横向(和安卓4.x动画相同)
         //        return new DefaultHorizontalAnimator();
         // 设置自定义动画
-        //        return new FragmentAnimator(enter,exit,popEnter,popExit);
+        //        return new FragmentAnimator(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override
@@ -124,6 +126,13 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
         if (isExistViewHandler())
         {
             if (_mViewHandler.onBackPressed())
+            {
+                return;
+            }
+        }
+        if (isExistPresenter())
+        {
+            if (_mPresenter.onBackPressed())
             {
                 return;
             }
@@ -206,12 +215,12 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     @Override
     protected void onDestroy ()
     {
-        super.onDestroy();
         onDestroyPresenter();
         if (isExistViewHandler())
         {
             _mViewHandler.onDestroy();
         }
+        super.onDestroy();
         Z.activityCtrl().removeActivity(this);
     }
 
@@ -542,7 +551,9 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
                 {
                     startActivityForResult(intent, requestCode, bundle);
-                }else {
+                }
+                else
+                {
                     intent.putExtras(bundle);
                     startActivityForResult(intent, requestCode);
                 }
@@ -562,7 +573,9 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
                 {
                     startActivityForResult(intent, requestCode, bundle);
-                }else {
+                }
+                else
+                {
                     intent.putExtras(bundle);
                     startActivityForResult(intent, requestCode);
                 }
@@ -582,7 +595,9 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
                 {
                     startActivityForResult(intent, requestCode, bundle);
-                }else {
+                }
+                else
+                {
                     intent.putExtras(bundle);
                     startActivityForResult(intent, requestCode);
                 }
@@ -602,7 +617,9 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
                 {
                     startActivityForResult(intent, requestCode, bundle);
-                }else {
+                }
+                else
+                {
                     intent.putExtras(bundle);
                     startActivityForResult(intent, requestCode);
                 }
@@ -622,7 +639,9 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
                 {
                     startActivityForResult(intent, requestCode, bundle);
-                }else {
+                }
+                else
+                {
                     intent.putExtras(bundle);
                     startActivityForResult(intent, requestCode);
                 }
@@ -686,8 +705,8 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     {
         if (isExistPresenter())
         {
-            _Presenter.attachCommonMethod(this);
-            _Presenter.attachView(mViewHandler);
+            _mPresenter.attachCommonMethod(this);
+            _mPresenter.attachView(mViewHandler);
         }
         else
         {
@@ -699,7 +718,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     {
         if (isExistPresenter())
         {
-            _Presenter.detachView();
+            _mPresenter.detachView();
         }
         mSubPresenterBasePresenterFactory.onDestroyPresenter();
     }
@@ -708,7 +727,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     {
         if (isExistPresenter())
         {
-            _Presenter.initDataAndSubPresenterData(savedInstanceState);
+            _mPresenter.initDataAndSubPresenterData(savedInstanceState);
         }
         mSubPresenterBasePresenterFactory.initPresenter(savedInstanceState);
     }
@@ -717,7 +736,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     {
         if (isExistPresenter())
         {
-            _Presenter.initListenerAndSubPresenterListener();
+            _mPresenter.initListenerAndSubPresenterListener();
         }
         mSubPresenterBasePresenterFactory.initListener();
     }
@@ -726,7 +745,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
     {
         if (isExistPresenter())
         {
-            _Presenter.initDefaultDataAndSubPresenterDefaultData();
+            _mPresenter.initDefaultDataAndSubPresenterDefaultData();
         }
         mSubPresenterBasePresenterFactory.initDefaultData();
     }
@@ -743,7 +762,7 @@ public abstract class BaseComponentActivity<ViewHandler extends IBaseViewHandler
 
     protected boolean isExistPresenter ()
     {
-        return mPresenter != null && _Presenter != null;
+        return mPresenter != null && _mPresenter != null;
     }
 
     protected ApplicationComponent getApplicationComponent ()

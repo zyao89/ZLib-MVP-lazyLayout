@@ -93,6 +93,24 @@ final class BasePresenterFactory
         mSubPresenterLinkedQueue = null;
     }
 
+    public synchronized boolean onBackPressed ()
+    {
+        if (mSubPresenterLinkedQueue != null)
+        {
+            for (IBasePresenter subPresenter : mSubPresenterLinkedQueue)
+            {
+                if (subPresenter instanceof BaseComponentPresenter)
+                {
+                    if (((BaseComponentPresenter) subPresenter).onBackPressed())
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public synchronized <T extends IBasePresenter, V extends IBaseViewHandler> T createSubPresenter (Class<T> clazz, V rootViewHandler)
     {
         try

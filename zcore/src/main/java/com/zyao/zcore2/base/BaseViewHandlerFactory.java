@@ -186,7 +186,7 @@ final class BaseViewHandlerFactory
             constructor.setAccessible(true);
             T t = constructor.newInstance();
             addSubViewHandler(t);
-            onCreate(rootView);
+            onCreate(t, rootView);
             return t;
         }
         catch (Exception e)
@@ -197,7 +197,7 @@ final class BaseViewHandlerFactory
                 constructor.setAccessible(true);
                 T t = constructor.newInstance();
                 addSubViewHandler(t);
-                onCreate(rootView);
+                onCreate(t, rootView);
                 return t;
             }
             catch (Exception e1)
@@ -238,17 +238,11 @@ final class BaseViewHandlerFactory
         }
     }
 
-    private <V extends View> void onCreate (V view)
+    private <T extends IBaseViewHandler, V extends View> void onCreate (T subViewHandler, V view)
     {
-        if (mSubViewHandlerLinkedQueue != null)
+        if (subViewHandler instanceof IBaseRootLifeViewHandler)
         {
-            for (IBaseViewHandler subViewHandler : mSubViewHandlerLinkedQueue)
-            {
-                if (subViewHandler instanceof IBaseRootLifeViewHandler)
-                {
-                    ((IBaseRootLifeViewHandler) subViewHandler).onCreate(view);
-                }
-            }
+            ((IBaseRootLifeViewHandler) subViewHandler).onCreate(view);
         }
     }
 

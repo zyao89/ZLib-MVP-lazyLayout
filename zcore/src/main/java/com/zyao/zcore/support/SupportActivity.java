@@ -129,7 +129,7 @@ public abstract class SupportActivity extends AppCompatActivity implements ISupp
         }
         else
         {
-            finish();
+            supportFinishAfterTransition();
         }
     }
 

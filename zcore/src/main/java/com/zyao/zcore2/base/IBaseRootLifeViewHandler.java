@@ -11,14 +11,14 @@ import android.view.View;
  * Author: Zyao89
  * Time: 2016/7/20 19:34
  */
-interface IBaseRootLifeViewHandler
+interface IBaseRootLifeViewHandler<ViewType extends View>
 {
     /**
      * 初始化，系统自动调用
      *
      * @param rootView
      */
-    void onCreate (@NonNull View rootView);
+    void onCreate (@NonNull ViewType rootView);
 
     /**
      * View创建完

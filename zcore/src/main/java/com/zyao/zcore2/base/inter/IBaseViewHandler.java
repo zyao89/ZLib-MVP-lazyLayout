@@ -15,5 +15,11 @@ package com.zyao.zcore2.base.inter;
  */
 public interface IBaseViewHandler
 {
+    void show();
 
+    void dismiss();
+
+    boolean isShown();
+
+    boolean isActive();
 }
